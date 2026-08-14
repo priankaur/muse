@@ -29,6 +29,7 @@ The current build deliberately postpones animation, AI, camera, printer, audio, 
 | 15 | `14-codex-task-playbook.md` | Ready-to-use Codex task prompts and task sizing rules. |
 | 16 | `15-deferred-integrations.md` | Later animation, AI, camera, printer, sound and physical control integration seams. |
 | 17 | `16-definition-of-done.md` | Global and per-screen completion checklist. |
+| 18 | `17-preflight-audit.md` | Mandatory repository/visual-source audit before implementation begins. |
 
 ## Reference files
 
@@ -48,5 +49,7 @@ Use one worktree/branch for the static experience foundation and then keep tasks
 Suggested planning branch/worktree name:
 
 `codex/muse-static-experience`
+
+Before writing code, Codex should run the process defined in `17-preflight-audit.md` and create a root `PRE_FLIGHT_REPORT.md`.
 
 Do not merge partial visual experiments into the main branch. The approved design should land as a coherent system, not as unrelated per-screen implementations.
