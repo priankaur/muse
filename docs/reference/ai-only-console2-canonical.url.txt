@@ -1,0 +1,3 @@
+Canonical source image: user-supplied attachment from the MUSE design conversation on 2026-08-15.
+Expected production path: docs/reference/ai-only-console2-canonical.jpg
+Do not use this text file as a visual reference.
