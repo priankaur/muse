@@ -2,13 +2,16 @@
 
 This document is the primary product/design contract for Console 2. It overrides the earlier `09-arcade-2-ai-only-screens.md` where that older file conflicts.
 
-## Canonical visual reference
+## Canonical visual references and precedence
 
-`docs/reference/ai-only-console2-canonical.jpg`
+Console 2 now uses **two complementary references**:
 
-The reference is canonical, not merely moodboard inspiration.
+1. `docs/reference/ai-only-console2-canonical.jpg` — canonical source for the four-screen content composition and flow.
+2. `docs/reference/ai-only-console2-system-refinement-v2.jpg` — **latest visual-system refinement** and higher authority for typography character, color emphasis, rules/separators, micro-accent markers, and the lower physical-control deck.
 
-The montage contains four screen compositions. Production removes the tiny screen numbers visible in the montage; all other intentional visual relationships should be reproduced closely.
+If the two images conflict visually, the refinement-v2 image wins for visual system/chrome while the original four-screen montage remains authoritative for screen-specific content composition.
+
+Production removes any screen numbers or irrelevant reference-only metadata. Do not copy literal IDs, the phrase `DIGITAL LOVE LETTER`, or other reference copy unless a screen content file explicitly contains it.
 
 ## Product role
 
@@ -16,10 +19,12 @@ Console 2 is the **AI Only** path. It follows Console 1 — Human + AI — and i
 
 The contrast is intentional:
 
-- Console 1 feels tactile, expressive, colourful and arcade-like.
-- Console 2 feels restrained, sparse, neutral and computational.
+- Console 1 feels tactile, expressive, colourful and pixel-arcade-like.
+- Console 2 feels restrained, sparse, editorial, technical and computational.
 
-Console 2 should still be usable and polished. It must not be written or styled as a parody of AI.
+Console 2 is still a physical arcade console, so the latest refinement intentionally reintroduces a **minimal physical-control representation** without importing Console 1's visual language.
+
+Console 2 must not become a parody of AI. It should be competent, calm, precise and less emotionally expressive than the Human + AI path.
 
 ## Stage
 
@@ -39,12 +44,54 @@ Persistent top-left lockup on every AI-only screen:
 
 Do not include a screen number.
 
+`MUSE` must use the latest reference's **heavy condensed neo-grotesk weight/character**: visually as bold and assertive as the `DIGITAL LOVE LETTER` display type in the refinement reference, while remaining in the identity's top-left location unless a screen plan explicitly introduces a separate hero title.
+
+Do **not** copy the bottom-center `MUSE` wordmark visible in the refinement reference. The lower control deck has no centered MUSE label.
+
+## Current visual character
+
+The current dominant palette is:
+
+- black / near-black
+- neutral grey
+- warm off-white
+- restrained signal red
+
+Blue is no longer part of the primary Console 2 visual language and must not be used as the default accent.
+
+Use **small red square markers** as micro-accent anchors. Red is a signal color, not a large surface color.
+
+Use precise horizontal rules and separators to structure the interface. The screen should feel designed through typography, alignment, whitespace and linework rather than cards or decoration.
+
+## Console 2 physical-control representation
+
+The latest refinement adds a persistent lower control deck separated from the main content by a strong thin rule.
+
+The deck contains:
+
+- left: outlined circular `BACK` arcade button
+- left/center: outlined circular `NEXT` arcade button
+- right: large outlined rotary dial / knob with a restrained red indicator
+- dial label: `INTENSITY DIAL` where that is the current hardware role
+
+These controls are **not** Console 1 controls.
+
+Do not render:
+
+- glossy red pixel buttons
+- gold pixel rotary dial
+- 3D pixel extrusion
+- navy arcade control housing
+- Console 1 hardware strip labels or styling
+
+Console 2 controls are monochrome/industrial/technical: black outlines, off-white faces, neutral grey linework and minimal red signal detail.
+
 ## Explicitly prohibited Console 1 carry-over
 
 Console 2 must not render:
 
 - navy grid background
-- MuseWindow / desktop window frame
+- `MuseWindow` / desktop window frame
 - purple title bar
 - yellow menu square
 - white X square
@@ -52,10 +99,10 @@ Console 2 must not render:
 - pixel love-letter sprites
 - magenta CTA buttons
 - pixel-display typography
-- 3D red-button / gold-dial / red-button on-screen strip
-- decorative arcade chrome
+- Console 1 red/gold/red pixel hardware strip
+- decorative love-letter arcade chrome
 
-These are not optional theme choices. They belong to Console 1 only.
+These belong to Console 1 only.
 
 ## AI-only first four screens
 
@@ -69,7 +116,7 @@ Ask what the visitor wants AI to focus on. Keep input short and direct.
 
 ### `A2_02` — Interpretation + controls
 
-AI proposes an interpretation from combined context. Display:
+AI proposes an interpretation from combined context.
 
 Read-only analysis:
 
@@ -85,7 +132,7 @@ Editable AI-proposed tone controls:
 - playfulness
 - nostalgia
 
-User may adjust tone controls before generation.
+The user may adjust tone controls before generation.
 
 ### `A2_03` — Generated letter + insights
 
@@ -112,7 +159,7 @@ The AI-only interpretation is based on a combination of:
 2. recipient and relationship context,
 3. the visitor's short Console 2 prompt.
 
-In the static build this must be represented by deterministic fixtures. Do not fabricate an API or require network access.
+In the static build this is represented by deterministic fixtures. Do not fabricate a production API or require network access.
 
 ## Inherited context
 
@@ -145,38 +192,31 @@ Avoid:
 - villainous machine language
 - fake scientific certainty
 
-Examples of appropriate register:
+The refinement reference may inspire system-status microcopy and metadata typography, but do not copy unrelated literal reference phrases into the experience.
 
-- `welcome back, kristian`
-- `your context from the first experience has been loaded.`
-- `what would you like AI to focus on?`
-- `here’s what I understand.`
+## Regenerate behaviour
 
-## Regenerate behaviour — current recommendation and implementation rule
+Regeneration happens **in place** on `A2_03`.
 
-Regeneration should happen **in place**.
+Preserve:
 
-Why:
+- inherited context
+- short prompt
+- all user-adjusted tone-control values
+- read-only interpretation input state
 
-- it preserves the minimal one-direction flow,
-- it avoids forcing the visitor to redo interpretation controls,
-- it makes regeneration feel like a machine operation rather than a new emotional decision,
-- the user still has `back` if they want to change settings.
+Change:
 
-Behaviour:
+- generated letter variant
+- result-specific insights
 
-- preserve inherited context
-- preserve the short prompt
-- preserve all user-adjusted tone-control values
-- select/generate a new letter variant
-- update insights associated with the new variant
-- remain on `A2_03`
+Remain on `A2_03`.
 
 Static prototype: cycle deterministic fixture variants.
 
 ## Decoration of the letter
 
-Handwriting, stamps, doodles, colour or other letter-personalisation may be explored later. They are explicitly out of scope for the current implementation. The initial result uses a restrained typed-document presentation from the reference.
+Handwriting, stamps, doodles, colour or other letter-personalisation may be explored later. They are out of scope for the current implementation. The initial result uses a restrained typed-document presentation.
 
 ## Motion
 
@@ -185,12 +225,10 @@ No animation in the current build.
 No:
 
 - entry motion
-- loaders as visual spectacle
+- animated loaders as visual spectacle
 - pulsing analysis
 - animated sliders
-- transitions
-
-State may change immediately for static prototyping.
+- page transitions
 
 ## Handoff
 
@@ -198,10 +236,12 @@ After `A2_03` `continue`, route into the shared comparison/reflection flow. Do n
 
 ## Ambiguity rule
 
-When a Console 2 implementation detail is not specified:
+When a Console 2 detail is not specified:
 
-1. inspect the canonical reference,
-2. choose the smallest neutral implementation consistent with it,
-3. do not borrow a Console 1 pattern,
-4. do not add a generic SaaS convention merely because it is common,
-5. if visual/product behaviour remains ambiguous, report it and stop rather than inventing.
+1. inspect both canonical references,
+2. use refinement-v2 for system/chrome decisions,
+3. use the original four-screen reference for screen content composition,
+4. choose the smallest implementation consistent with both,
+5. do not borrow a Console 1 pattern,
+6. do not add a generic SaaS convention,
+7. report remaining ambiguity instead of inventing a new design.
