@@ -1,6 +1,6 @@
 # 07 — Canonical Screen Inventory
 
-This is the working complete screen map for the static build. Copy labels may change; screen responsibilities should remain stable unless the product flow changes explicitly.
+This is the working complete screen map for the static build. Copy labels may change; screen responsibilities remain stable unless the product flow explicitly changes.
 
 ## Registration / entry
 
@@ -26,7 +26,7 @@ Next: `A1_00`.
 
 Purpose: idle/start state for Arcade 1.
 
-Visual: hero title treatment in locked shell.
+Visual: hero title treatment in locked pixel-arcade shell.
 
 ### `A1_01` — Welcome / Hello [User Name]
 
@@ -58,15 +58,15 @@ Purpose: choose `USE THIS ONE` or `RETAKE`. Third attempt removes retake.
 
 ### `A1_07` — Notes for AI
 
-Purpose: optional short machine note (legacy cap was 120 characters).
+Purpose: optional short machine note.
 
 ### `A1_08` — Tune the enhancement
 
-Purpose: Human + AI tuning controls. Same physical-dial interaction grammar that can later be reused in Arcade 2.
+Purpose: Human + AI tuning controls.
 
 ### `A1_09` — Processing
 
-Purpose: static generating/processing state using fixture delay or immediate continue in development.
+Purpose: static generating/processing state using fixture state.
 
 ### `A1_10` — Human + AI letter result
 
@@ -78,37 +78,62 @@ Purpose: conclude first experience and direct visitor to the AI-only console whi
 
 ---
 
-# Arcade 2 — AI-only
+# Arcade 2 — AI Only
 
-### `A2_00` — Welcome back
+Console 2 uses its own minimal visual system. See `18`–`24` AI-only plans.
 
-Purpose: identify the visitor from the inherited session. Do not repeat registration/recipient questions.
+### `A2_00` — Welcome back / context loaded
+
+Purpose: recognize visitor from inherited session and confirm that context from the first experience has been loaded.
+
+No repeated registration, recipient or relationship questions.
 
 ### `A2_01` — Short prompt
 
-Purpose: collect the short prompt the visitor wants the AI-only system to use.
+Purpose: collect one short prompt describing what the visitor wants AI to focus on.
 
-### `A2_02` — Machine analysis
+Current cap: 120 characters.
 
-Purpose: show sentiment, emotion and romantic-intent detection as part of the AI-only experience.
+### `A2_02` — AI interpretation + tone controls
 
-Static build: fixture analysis only.
+Purpose: show machine interpretation and allow visitor adjustment before generation.
 
-### `A2_03` — Intensity controls
+Read-only analysis:
 
-Purpose: adjust the AI-only generation parameters using the rotary-dial grammar.
+- sentiment
+- emotion
+- romance / romantic intent
 
-Exact copy/labels remain content-configurable and must not be hard-coded into component styling.
+Editable AI-proposed tone controls:
 
-### `A2_04` — AI-only generating
+- warmth
+- intimacy
+- emotional depth
+- playfulness
+- nostalgia
 
-Purpose: machine-led generation state.
+Analysis uses inherited Arcade 1 context + recipient/relationship context + short prompt.
 
-### `A2_05` — AI-only letter result
+### `A2_03` — AI-only letter + insights
 
-Purpose: show the AI-only letter for later comparison.
+Purpose: display the generated typed AI-only letter plus a right-side insight rail.
 
-The tone should not be cartoonishly robotic. The intended experience is competent but noticeably less human/soulful than the Human + AI result.
+Insights:
+
+- sentiment
+- emotion
+- romance
+- tone profile
+
+Actions:
+
+- back
+- regenerate in place
+- continue to shared reflection
+
+Regenerate preserves prompt, inherited context and tone-control values.
+
+There is no separate required analysis-only page and no standalone generating page in the current static canonical flow.
 
 ---
 
@@ -156,4 +181,4 @@ No printer integration yet.
 
 ## Implementation note
 
-This inventory intentionally separates conceptual screen responsibilities from copy. If the user later combines two screens or splits one into multiple screens, update this file and the registry together rather than patching navigation ad hoc.
+This inventory separates conceptual screen responsibilities from copy. If a screen is later combined/split by explicit product decision, update this inventory and screen registry together rather than patching navigation ad hoc.
