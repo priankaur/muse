@@ -2,152 +2,195 @@
 
 Use this file to keep implementation incremental and reviewable. Do not ask Codex to build all four screens in one uncontrolled pass.
 
-## Global rule
+## Global read order
 
 Every Console 2 task must begin by reading:
 
 1. `AGENTS.md`
 2. `docs/implementation/18-ai-only-source-of-truth.md`
 3. `docs/implementation/19-ai-only-visual-system.md`
-4. the relevant plan for the task
-5. `docs/reference/ai-only-console2-canonical.jpg`
+4. `docs/implementation/20-ai-only-component-architecture.md`
+5. `docs/implementation/22-ai-only-screen-specifications.md`
+6. `docs/implementation/23-ai-only-testing-acceptance.md`
+7. the relevant task section below
+8. `docs/reference/ai-only-console2-canonical.jpg`
+9. `docs/reference/ai-only-console2-system-refinement-v2.jpg`
+
+Use the original four-screen image for content composition and the refinement-v2 image for current typography/chrome/control-deck language.
 
 Do not use Console 1 screenshots as visual references for Console 2.
 
 ---
 
-# Task A — Audit existing code before changing it
+# Task A — Audit existing Console 2 code
 
-Goal: understand the current build and prevent accidental coupling to Console 1.
+Goal: understand the current build and avoid accidental coupling to Console 1 or obsolete blue/text-nav rules.
 
 Codex should:
 
 1. inspect existing stage/session/navigation architecture,
-2. list which shared pieces can safely be reused,
+2. identify the current Console 2 shell/tokens/components,
 3. identify any current assumption that all consoles use the pixel shell,
-4. identify current `A2_*` routes/components,
-5. identify existing state shape for Arcade 2,
-6. report likely refactor points,
-7. make no visual changes yet.
+4. identify any existing periwinkle/blue Console 2 accent tokens,
+5. identify existing floating `← back` / `continue →` navigation,
+6. identify current A2 routes/state shape,
+7. identify screenshot/test infrastructure,
+8. report exactly which files require visual-system migration.
 
-Output a concise implementation note before proceeding.
+Before changing code, state what will be **reused**, **replaced**, and **added**.
 
 Acceptance:
 
-- no code invented from assumptions,
-- no duplicate stage scaler if one already exists,
-- no plan to make Console 2 a `MuseWindow` theme.
+- no duplicate stage scaler,
+- no plan to theme `MuseWindow`,
+- no accidental deletion of shared session/navigation logic,
+- recognizes that the latest refinement supersedes earlier blue/floating-navigation styling.
 
 ---
 
-# Task B — Build the Console 2 visual foundation only
+# Task B — Refine the Console 2 foundation only
 
-Create/implement:
+This is the next task if the earlier minimal shell already exists.
+
+Implement/refactor only the shared Console 2 foundation:
 
 - `aiOnly.tokens.css`
 - `AiOnlyShell`
 - `AiOnlyIdentity`
-- perimeter frame
-- typography setup
-- `AiNavigation`
+- display/content/system typography roles
+- `SignalMarker`
+- `SystemRule`
+- `AiControlDeck`
+- `AiArcadeButton`
+- `AiRotaryDial`
 
-Do not implement screen-specific content yet except a temporary blank calibration route.
+Required visual changes:
 
-Render at 1440×1080.
+- dominant black / grey / warm off-white / red system
+- remove blue as default accent
+- `MUSE` identity line becomes heavier/condensed
+- no large outer rounded app-card treatment
+- persistent grey lower deck
+- 2px near-black deck separator
+- outlined BACK and NEXT arcade buttons
+- outlined right-side intensity dial with red pointer
+- small red square markers
+- **no bottom-center MUSE wordmark**
 
-Take screenshot.
+Do not implement screen-specific body content yet beyond a temporary calibration route if necessary.
 
-STOP for visual review.
+Render at exactly `1440 × 1080`.
+
+Capture stage-only screenshot.
+
+Run typecheck/tests.
+
+**STOP for visual review.**
 
 Acceptance:
 
-- warm off-white calibrated background,
-- correct identity position,
-- no screen number,
-- thin frame,
-- no Console 1 chrome,
-- correct font character,
-- bottom nav anchors if visible in calibration state.
+- no host/browser/preview UI in screenshot,
+- deck begins at shared canonical y coordinate,
+- hardware geometry matches shared tokens,
+- identity is correctly positioned and heavier,
+- red remains sparse,
+- no Console 1 pixel hardware appears,
+- no blue/periwinkle dominates,
+- no bottom-center MUSE appears.
 
 ---
 
-# Task C — Implement A2_00 only
+# Task C — Implement/refine `A2_00` only
 
 Implement:
 
-- personalized title,
+- personalized welcome title,
 - context-loaded subtitle,
-- static `ContextSignal`,
-- begin indicator/action.
+- static `ContextSignal` updated to neutral + tiny red signal,
+- optional technical status/microcopy using red marker,
+- begin action mapped to deck `NEXT`.
 
-Do not build A2_01–A2_03 yet.
+Deck state:
 
-Capture 1440×1080 screenshot and compare with canonical reference.
+- BACK visible but disabled
+- NEXT enabled
+- dial visible but inactive
 
-STOP.
+Do not build A2_01–A2_03 in this task.
+
+Capture 1440×1080 screenshot and stop.
 
 ---
 
-# Task D — Implement A2_01 prompt screen
+# Task D — Implement/refine `A2_01` prompt
 
 Implement:
 
-- canonical title/subtitle,
-- `AiPromptField`,
-- 120-char counter,
-- validation,
-- back/continue navigation.
+- title/subtitle
+- `AiPromptField`
+- 120-char counter
+- validation
+- deck BACK/NEXT behavior
+
+Do not render duplicate floating back/continue arrows if deck navigation is present.
 
 Tests:
 
-- empty invalid,
-- typed prompt preserved,
-- 120-char cap,
-- correct routes.
+- BACK route
+- empty prompt disables NEXT
+- prompt persists
+- 120-char cap
 
-Capture screenshot.
-
-STOP if layout/token changes would affect A2_00 and re-run its screenshot.
+Capture screenshot and stop if shared-token changes affect A2_00.
 
 ---
 
-# Task E — Implement A2_02 interpretation screen
+# Task E — Implement/refine `A2_02` interpretation + controls
 
 Implement:
 
-- exactly 3 read-only `AnalysisCard`s,
-- exactly 5 editable `ToneControl`s,
-- default fixture data,
-- back/continue state behaviour.
+- exactly 3 read-only analysis blocks
+- exactly 5 editable tone controls
+- default deterministic fixture values
+- monochrome/grey slider treatment with red active/focus signal only
+- deck BACK/NEXT
+- dial enabled for the currently active/focused tone control according to the interaction contract
 
 No API.
-No loading page.
+No loading screen.
 No chart library.
-No icon library.
+No icon package.
+No semantic multicolor analysis.
 
 Tests:
 
-- analysis not editable,
-- 5 controls editable,
-- values persist through navigation.
+- analysis is not editable
+- exactly 5 tone controls editable
+- values persist
+- dial changes only active tone control
+- dial does nothing if no tone control is active
 
 Capture screenshot.
 
 ---
 
-# Task F — Implement A2_03 result screen
+# Task F — Implement/refine `A2_03` result
 
 Implement:
 
-- `AiLetterDocument`,
-- layered sheet outlines,
-- `LetterInsights`,
-- exactly 4 insight categories,
-- back/regenerate/continue.
+- `AiLetterDocument`
+- layered sheet outlines
+- exactly 4 `LetterInsights` categories
+- `AiRegenerateAction`
+- deck BACK/NEXT
 
 Implement at least 3 deterministic result fixtures.
 
-Regenerate must preserve prompt and tone controls.
+Regenerate must preserve prompt + tone controls.
+
+The deck dial remains visible but neutral/inactive unless explicitly mapped later.
+
+Do not create a fourth physical button for regenerate.
 
 Capture initial and regenerated screenshots.
 
@@ -155,14 +198,14 @@ Capture initial and regenerated screenshots.
 
 # Task G — Connect shared reflection handoff
 
-Guard that:
+Guard:
 
-- Console 1 Human + AI result exists,
-- Console 2 active result exists.
+- Console 1 Human + AI result exists
+- Console 2 active result exists
 
-Then wire `continue` from `A2_03` to the existing first shared reflection screen.
+Then wire deck `NEXT` from `A2_03` to the existing first shared reflection screen.
 
-Do not redesign reflection as part of this task.
+Do not redesign reflection in this task.
 
 ---
 
@@ -173,86 +216,108 @@ Run:
 - typecheck
 - unit/component tests if configured
 - Playwright flow tests
-- all four canonical screenshot tests
-- Console 1 smoke/visual tests to ensure no regression
+- four canonical AI-only screenshots
+- Console 1 smoke/visual tests
 
 Verify:
 
-- `A2_00 -> A2_01 -> A2_02 -> A2_03 -> reflection`
-- all back paths
+```text
+A2_00 -> A2_01 -> A2_02 -> A2_03 -> reflection
+```
+
+Also verify:
+
+- all BACK paths
 - regenerate state preservation
 - no recipient/relationship repetition
-- no Console 1 chrome mounted in Console 2
+- no Console 1 visual chrome
+- stable control-deck geometry across all screens
+- no bottom-center MUSE
+- no dominant blue
+- red markers remain sparse
 
 ---
 
-# Codex behaviour rules during implementation
+# Codex behavior rules
 
 Codex must NOT:
 
-- redesign a screen because content feels sparse,
-- add explanatory copy not present in content config,
-- create a generic header bar,
-- add a progress indicator,
-- add AI sparkle decoration,
-- add gradient/glow effects,
-- use multiple semantic colors,
-- install a component library,
-- change the 1440×1080 rendering model,
-- reuse Console 1 visual components,
-- invent a new AI-only screen,
-- merge analysis and result responsibilities differently from the plan,
-- animate anything in the first build.
+- redesign screens because whitespace feels empty
+- copy `DIGITAL LOVE LETTER` as product copy
+- copy reference-only system IDs
+- copy the bottom-center MUSE wordmark
+- restore blue as dominant accent
+- use red as a large decorative fill
+- create a generic header/navigation bar
+- add progress UI
+- add AI sparkle decoration
+- add gradient/glow effects
+- install a component library
+- change 1440×1080 rendering model
+- reuse Console 1 pixel visual components
+- use Console 1 glossy red button/gold dial assets
+- invent new AI-only screens
+- animate anything in the first build
+- duplicate BACK/NEXT as both floating links and hardware deck controls
 
-## What Codex should do when blocked
+## When blocked
 
-If a visual reference or product behaviour is ambiguous:
+If a visual/product requirement is ambiguous:
 
 1. state the ambiguity,
-2. point to the conflicting/missing source,
-3. identify the smallest implementation that is definitely safe,
-4. stop before making irreversible visual decisions.
+2. identify which reference/document conflicts,
+3. explain the smallest definitely-safe implementation,
+4. stop before making an irreversible design choice.
 
-Never solve ambiguity by choosing a fashionable default.
+Never choose a fashionable default simply to keep coding.
 
 ---
 
-# Commit/task sizing recommendation
+# Commit sizing recommendation
 
-Prefer small commits such as:
+Prefer small commits:
 
 ```text
-feat(console2): add AI-only shell and tokens
-feat(console2): implement welcome screen
-feat(console2): implement prompt screen
-feat(console2): implement analysis and tone controls
-feat(console2): implement letter result and insights
-test(console2): add AI-only visual regressions
+refactor(console2): apply refined AI-only tokens and typography
+feat(console2): add system control deck
+feat(console2): refine welcome screen
+feat(console2): refine prompt screen
+feat(console2): refine analysis and tone controls
+feat(console2): refine letter result and insights
+test(console2): update refined visual regressions
 ```
 
-Do not combine Console 1 visual refactors with Console 2 implementation unless a genuinely shared stage/session bug requires it.
+Do not combine Console 1 visual refactors with Console 2 work unless a genuinely shared infrastructure issue requires it.
 
-# Pull request summary requirements
+---
 
-When Console 2 implementation is ready for review, PR/body should state:
+# PR summary requirements
 
-- which AI-only plan files were followed,
-- screenshots generated,
-- any measured deviations from canonical reference,
-- font actually used,
-- state fixtures used,
-- whether Console 1 regression tests still pass,
-- any intentionally deferred items.
+When ready for review, report:
 
-# Deferred items — do not pull into current tasks
+- AI-only plan files followed
+- screenshots generated
+- measured deviations from both references
+- actual bundled fonts used
+- current color tokens
+- current deck geometry tokens
+- fixture data used
+- Console 1 regression status
+- intentionally deferred items
 
-- production AI calls
+---
+
+# Deferred items
+
+Do not pull these into the current visual implementation:
+
+- production AI model calls
 - API prompt engineering
-- hardware controls
+- **physical serial/MIDI/Arduino hardware integration**
 - animations
 - sound
 - printer
 - handwriting/stamps/doodles/personal letter decoration
 - production analytics/error handling
 
-Those are separate future workstreams.
+The **on-screen representation** of Console 2 BACK/NEXT buttons and intensity dial is part of the current build. Only real physical hardware wiring is deferred.
