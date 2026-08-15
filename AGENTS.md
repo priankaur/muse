@@ -41,8 +41,14 @@ For Console 2 also read, in order:
 - `docs/implementation/25-ai-only-a2-00-display-title-refinement.md`
 - `docs/implementation/26-ai-only-a2-00-visual-calibration.md`
 - `docs/implementation/27-ai-only-a2-01-copy-refinement.md`
+- `docs/implementation/31-ai-only-a2-01-visual-calibration.md`
+- `docs/implementation/32-ai-only-a2-01-contextual-placeholder.md`
+- `docs/implementation/33-ai-only-a2-01-contextual-hint-calibration.md`
+- **`docs/implementation/34-ai-only-post-generation-analysis-flow.md`**
 - `docs/reference/ai-only-console2-canonical.jpg`
 - `docs/reference/ai-only-console2-system-refinement-v2.jpg`
+
+**Important:** file `34` is the latest product-flow authority for `A2_02` and `A2_03`. It supersedes conflicting analysis timing in files `18`, `21`, `22`, `23`, and `24`. Do not render sentiment/emotion/romance analysis before the AI-only letter has been generated.
 
 The legacy flow at `docs/reference/muse-experience-flow-legacy.md` is reference material only.
 
@@ -204,7 +210,65 @@ Supporting line:
 give it one short direction. it will generate the rest.
 ```
 
+The prompt hint must follow files `32` and `33`: use one or two short exact sentences from the visitor/session's Arcade 1 letter context when available, while keeping prompt state empty until the visitor types.
+
 Do not restore the old generic AI-focus question unless explicitly requested.
+
+## Console 2 analysis timing — latest approved flow
+
+File `34` supersedes the older pre-generation analysis model.
+
+The current Console 2 flow is:
+
+```text
+A2_00 welcome / inherited context
+-> A2_01 short contextual prompt
+-> A2_02 AI-proposed tone controls ONLY
+-> generate AI-only letter
+-> A2_03 generated letter + post-generation analysis
+-> shared comparison/reflection
+```
+
+### A2_02
+
+Do **not** render:
+
+- sentiment analysis;
+- emotion detection;
+- romance detection;
+- analysis cards or analysis heading.
+
+A2_02 shows exactly five editable AI-proposed tone controls:
+
+- warmth
+- intimacy
+- emotional depth
+- playfulness
+- nostalgia
+
+The AI may interpret inherited context + prompt internally to propose these five values, but that machine interpretation is not exposed as analysis before generation.
+
+Preferred current A2_02 copy:
+
+```text
+here’s how AI will shape it.
+adjust the tone before it writes.
+```
+
+### A2_03
+
+A2_03 is the first place Console 2 displays machine analysis.
+
+The generated letter must remain the visual hero, with secondary post-generation analysis for the **active generated letter variant**:
+
+1. sentiment;
+2. emotion;
+3. romance / romantic intent;
+4. tone profile.
+
+Regenerate must update the letter and all matching analysis together while preserving prompt and current tone-control values.
+
+Do not show stale pre-generation analysis as if it described every generated variant.
 
 ## Console 2 red marker language
 
@@ -233,22 +297,7 @@ It is not Console 1's hardware strip.
 
 Console 2 inherits context and must not repeat registration, recipient name or relationship selection.
 
-The four responsibilities are:
-
-1. Welcome back / inherited context acknowledged.
-2. Short prompt framed as continuation from Human + AI to AI-only generation.
-3. AI interpretation + read-only sentiment/emotion/romance + editable tone controls.
-4. Generated AI letter + insights.
-
 After result, continue to shared comparison/reflection.
-
-Tone controls:
-
-- warmth
-- intimacy
-- emotional depth
-- playfulness
-- nostalgia
 
 The visible intensity dial may control only the currently active tone control. It must not create a sixth hidden value.
 
