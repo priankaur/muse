@@ -12,11 +12,14 @@ Every Console 2 task must begin by reading:
 4. `docs/implementation/20-ai-only-component-architecture.md`
 5. `docs/implementation/22-ai-only-screen-specifications.md`
 6. `docs/implementation/23-ai-only-testing-acceptance.md`
-7. the relevant task section below
-8. `docs/reference/ai-only-console2-canonical.jpg`
-9. `docs/reference/ai-only-console2-system-refinement-v2.jpg`
+7. `docs/implementation/25-ai-only-a2-00-display-title-refinement.md`
+8. the relevant task section below
+9. `docs/reference/ai-only-console2-canonical.jpg`
+10. `docs/reference/ai-only-console2-system-refinement-v2.jpg`
 
 Use the original four-screen image for content composition and the refinement-v2 image for current typography/chrome/control-deck language.
+
+For `A2_00`, file `25` is the latest reviewed override and wins where it conflicts with the earlier A2_00 composition in file `22`.
 
 Do not use Console 1 screenshots as visual references for Console 2.
 
@@ -102,13 +105,41 @@ Acceptance:
 
 # Task C — Implement/refine `A2_00` only
 
+This task is governed by both:
+
+- `22-ai-only-screen-specifications.md`
+- `25-ai-only-a2-00-display-title-refinement.md`
+
+If they conflict on A2_00 visual hierarchy, **file 25 wins**.
+
 Implement:
 
-- personalized welcome title,
+- persistent small top-left identity,
+- a **separate oversized editorial `MUSE` display title** in the main content field,
+- personalized welcome title/content,
 - context-loaded subtitle,
 - static `ContextSignal` updated to neutral + tiny red signal,
-- optional technical status/microcopy using red marker,
-- begin action mapped to deck `NEXT`.
+- restrained technical status/microcopy using red marker,
+- begin action mapped to deck `NEXT`,
+- a small amount of secondary structural linework if useful for editorial hierarchy.
+
+Critical title rule:
+
+- the giant `MUSE` title is distinct from the persistent top-left identity,
+- do not satisfy the requirement by merely enlarging the small identity,
+- do not put the giant title in the deck,
+- do not make it red,
+- do not copy `DIGITAL LOVE LETTER`,
+- use the heavy condensed display role at approximately 118–150px, starting around 132px,
+- it must be the primary visual anchor of A2_00.
+
+Recommended starting title region:
+
+```text
+x: 76–90
+y: 170–210
+width: 560–720
+```
 
 Deck state:
 
@@ -118,7 +149,19 @@ Deck state:
 
 Do not build A2_01–A2_03 in this task.
 
-Capture 1440×1080 screenshot and stop.
+Capture a clean `1440 × 1080` screenshot and stop.
+
+Acceptance:
+
+- persistent identity remains in its shared anchor,
+- separate giant `MUSE` display title exists,
+- the giant title dominates the main field,
+- welcome/context content remains present and secondary,
+- red markers remain sparse,
+- no bottom-center MUSE,
+- deck geometry unchanged unless explicit calibration is required.
+
+**STOP for visual review.**
 
 ---
 
@@ -235,6 +278,7 @@ Also verify:
 - no bottom-center MUSE
 - no dominant blue
 - red markers remain sparse
+- A2_00 has both the small persistent identity and the separate oversized `MUSE` display title
 
 ---
 
@@ -259,6 +303,7 @@ Codex must NOT:
 - invent new AI-only screens
 - animate anything in the first build
 - duplicate BACK/NEXT as both floating links and hardware deck controls
+- omit the A2_00 giant MUSE display title because the small identity already exists
 
 ## When blocked
 
@@ -280,6 +325,7 @@ Prefer small commits:
 ```text
 refactor(console2): apply refined AI-only tokens and typography
 feat(console2): add system control deck
+feat(console2): add giant A2_00 MUSE display title
 feat(console2): refine welcome screen
 feat(console2): refine prompt screen
 feat(console2): refine analysis and tone controls
