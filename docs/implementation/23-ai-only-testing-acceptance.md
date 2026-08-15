@@ -169,7 +169,7 @@ Before screenshot:
 
 ## 11. Visual comparison priorities
 
-When calibrating against `docs/reference/ai-only-console2-canonical.png`, compare in this order:
+When calibrating against `docs/reference/ai-only-console2-canonical.jpg`, compare in this order:
 
 1. overall warm-background tone
 2. outer frame inset
