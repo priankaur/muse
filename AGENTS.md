@@ -1,55 +1,161 @@
 # MUSE — Codex Project Instructions
 
-This repository implements the MUSE physical arcade experience. Treat the visual design as **approved and frozen** unless the user explicitly asks for a design change.
+This repository implements the MUSE physical two-console experience. Treat all approved visual design as **frozen** unless the user explicitly requests a change.
+
+MUSE now has **two intentionally different visual systems**. Do not average them together and do not try to create one shared visual skin.
+
+- **Arcade Console 1 — Human + AI:** retro pixel-love-letter arcade / early-desktop visual language.
+- **Arcade Console 2 — AI Only:** minimal warm-white / black / neutral-grey Swiss-editorial interface with restrained periwinkle-blue functional accents.
+
+The conceptual contrast between the two consoles is part of the exhibit. Visual convergence is a bug.
 
 ## Read this first
 
-Before editing production code, read these files in order:
+Before editing production code, read:
 
 1. `docs/implementation/README.md`
 2. `docs/implementation/00-source-of-truth.md`
-3. `docs/reference/muse-ui-style-system-v2.md`
-4. `docs/implementation/01-static-build-scope.md`
-5. `docs/implementation/02-technical-architecture.md`
-6. The screen-plan file relevant to the task.
+3. The implementation plan for the console being changed.
 
-The legacy experience file at `docs/reference/muse-experience-flow-legacy.md` is **reference material only**. The newer Human + AI → AI-only experience structure documented in this implementation bundle overrides older Ex-Love / Next Love ordering and naming.
+For Console 1 also read:
 
-## Non-negotiable design rules
+- `docs/reference/muse-ui-style-system-v2.md`
+- `docs/implementation/03-design-system-implementation.md`
+- `docs/implementation/08-arcade-1-human-ai-screens.md`
 
-- Do not redesign the interface.
-- Do not introduce a new visual language because a screen has different content.
-- The same background, HUD, window chrome, typography system, spacing logic, and hardware strip must be reused across screens.
-- The main desktop-style content window is rectangular with **sharp 90-degree pixel corners**. Never round the main window.
-- The purple title bar is visually blank. Do not add `MUSE SYSTEM` or a page title into the title bar.
-- The title bar keeps the yellow menu square on the left and white close square on the right.
-- The outer top-left lockup remains `MUSE SYSTEM v1.0 / LOVE LETTERS, REWIRED.` with the pixel heart.
-- The outer top-right label remains the console label when specified by the screen plan.
-- The window interior uses the same pale, warm, paper-lavender surface across the experience unless a plan explicitly defines a state change.
-- The hardware strip is always: **red 3D arcade button — gold 3D rotary dial — red 3D arcade button**.
-- Do not restore old footer labels such as `BUTTON`, `KNOB`, `HOLD BOTH`, `SYSTEM MENU`, `CONFIRM / SELECT`, or `BROWSE / ADJUST`.
-- Do not restore `Hold Both` as an interaction.
-- Use the approved stationery sprite language. Do not add random game motifs.
-- Do not add gradients, blur shadows, glassmorphism, soft modern cards, rounded SaaS controls, or generic component-library styling unless a reference explicitly contains it.
-- Keep decorative density low. The content window is the hero.
+For Console 2 also read, in order:
+
+- `docs/implementation/18-ai-only-source-of-truth.md`
+- `docs/implementation/19-ai-only-visual-system.md`
+- `docs/implementation/20-ai-only-component-architecture.md`
+- `docs/implementation/21-ai-only-data-state-interactions.md`
+- `docs/implementation/22-ai-only-screen-specifications.md`
+- `docs/implementation/23-ai-only-testing-acceptance.md`
+- `docs/implementation/24-ai-only-codex-build-playbook.md`
+- `docs/reference/ai-only-console2-canonical.png`
+
+The legacy flow at `docs/reference/muse-experience-flow-legacy.md` is reference material only.
+
+## Global rendering model
+
+Both consoles use the same exhibition-stage geometry:
+
+- internal design canvas: `1440 × 1080`
+- aspect ratio: `4:3`
+- scale the complete stage proportionally to the viewport
+- do not independently reflow or reorder major regions at responsive breakpoints
+- preserve deterministic geometry for visual regression
+
+The shared stage geometry does **not** imply shared visual chrome.
+
+# Console 1 — Human + AI: non-negotiable visual rules
+
+Console 1 uses the approved pixel arcade system only.
+
+- deep navy grid world
+- love-letter pixel sprites
+- top-left `MUSE SYSTEM v1.0 / LOVE LETTERS, REWIRED.` lockup
+- top-right Console 1 label when specified
+- large sharp-cornered desktop window
+- blank purple title bar
+- yellow menu square left, white X square right
+- pale textured lavender interior
+- stepped pixel depth
+- pixel-display + pixel-mono typography
+- magenta primary CTAs
+- separate bottom hardware strip: red 3D button — gold 3D dial — red 3D button
+- never restore the old labelled footer (`BUTTON`, `KNOB`, `HOLD BOTH`, `SYSTEM MENU`, etc.)
+
+Do not use Console 2 minimal cards, Swiss typography, thin grey UI or blue text links inside Console 1 unless a future user instruction explicitly changes the design.
+
+# Console 2 — AI Only: non-negotiable visual rules
+
+Console 2 is governed by the attached canonical four-screen reference and the AI-only implementation bundle.
+
+Console 2 must contain **none of the Console 1 arcade chrome**:
+
+- no navy grid
+- no purple desktop window
+- no pixel sprites
+- no magenta extrusion
+- no rendered red/gold/red hardware strip
+- no pixel typography
+- no arcade CTA buttons
+- no decorative love-letter environment
+
+Console 2 visual language:
+
+- warm off-white / bone stage, not bright pure white
+- near-black primary text
+- light neutral-grey rules and card borders
+- restrained periwinkle / muted electric blue as the only functional accent
+- Swiss / neo-grotesk typographic character
+- generous whitespace
+- thin outlines
+- minimal navigation text (`← back`, `continue →`, `↻ regenerate`)
+- no decorative UI added merely to make the screen feel richer
+
+Persistent Console 2 identity appears top-left on every screen:
+
+`MUSE`
+`AI ONLY`
+`ARCADE CONSOLE 2`
+
+Do **not** render a tiny screen number. The screen numbers visible in the source montage are removed from production.
+
+## Console 2 experience rules
+
+Console 2 inherits context and must not repeat registration, recipient name or relationship selection.
+
+The first four production responsibilities are:
+
+1. Welcome back / inherited context acknowledged.
+2. Short user prompt.
+3. AI interpretation + analysis-only sentiment/emotion/romance + editable tone controls.
+4. Generated AI letter + insights.
+
+After the AI-only result, continue into the shared MUSE comparison/reflection flow.
+
+Analysis combines:
+
+- inherited Arcade 1 context,
+- recipient + relationship context,
+- the Console 2 short prompt.
+
+Sentiment, emotion and romance are read-only analysis. Tone controls are AI-proposed and user-adjustable.
+
+Current tone controls:
+
+- warmth
+- intimacy
+- emotional depth
+- playfulness
+- nostalgia
+
+The AI voice should be competent and neutral/computational, never villainous or parody-robotic.
+
+## Regeneration rule
+
+On the AI-only result screen, `regenerate` must regenerate **in place** while preserving the short prompt, inherited context and the visitor's current tone-control values. Do not force the visitor back to the analysis screen.
+
+The visitor may explicitly use `back` to return and retune controls. In the static build, regeneration swaps deterministic fixture variants while preserving state.
 
 ## Current implementation scope
 
-The first build is a **complete static/prototype experience** with all screens and navigation, using stubbed data where later integrations will exist.
+Build the complete static/prototype experience with navigation and deterministic fixtures.
 
-For this phase, do not implement:
+Do not implement in this phase:
 
-- AI model calls
-- vision/OCR
-- camera APIs
+- production AI model calls
+- camera / OCR / vision
 - printer integration
-- hardware serial/MIDI input
+- serial/MIDI/Arduino hardware input
 - sound
-- animation or sprite floating loops
+- animation
 - analytics
 - backend persistence
 
-Build the correct screens and state transitions first. Future integration seams are documented, but they should remain interfaces/stubs only.
+Future interfaces/stubs may exist, but the visible experience must be complete without those integrations.
 
 ## Technology constraints
 
@@ -58,8 +164,8 @@ Use:
 - React
 - Vite
 - TypeScript
-- plain CSS, CSS Modules, or a small global CSS token layer
-- Playwright for visual and flow regression tests
+- plain CSS / CSS Modules / a small token layer
+- Playwright for flow and screenshot regression
 
 Do not introduce without explicit approval:
 
@@ -71,66 +177,46 @@ Do not introduce without explicit approval:
 - shadcn
 - Framer Motion
 - Redux
-- a general-purpose design-system package
+- generic design-system libraries
 
-The interface is custom and reference-driven. Generic UI libraries are likely to create visual drift.
+## Architecture rule
 
-## Rendering model
+Share logic where it is genuinely shared; **do not share visual shells across the two consoles**.
 
-- The experience is a fixed 4:3 arcade composition.
-- Use an internal stage of `1440 × 1080` unless the physical display specification changes.
-- Scale the complete stage proportionally to fit the viewport.
-- Do not independently reflow/reorder major UI regions for responsive breakpoints.
-- Use integer/pixel-aligned positioning wherever possible.
-- Pixel-art assets use `image-rendering: pixelated` / nearest-neighbour scaling.
+Recommended split:
 
-## Implementation rule: shell first
+- shared: stage scaler, session state, route/state machine, keyboard abstraction, testing utilities
+- Console 1: `ArcadeOneShell` and pixel components
+- Console 2: `AiOnlyShell` and minimal components
+- reflection: shared reflection shell/components as documented by its own plan
 
-All screens must be compositions of reusable primitives. Never recreate the shell per screen.
-
-Required shared components include:
-
-- `ArcadeStage`
-- `ArcadeBackground`
-- `OuterHud`
-- `FloatingSpriteLayer`
-- `MuseWindow`
-- `WindowTitleBar`
-- `HardwareControlStrip`
-- `ArcadeButton3D`
-- `RotaryDial3D`
-- `PixelDivider`
-- `PrimaryCta`
-- `PixelTextField`
-- `ChoiceTag`
-- typography primitives
-
-If a task asks for a new screen, build it inside the existing shell. Do not fork the window or hardware implementation.
+Never make Console 2 a theme prop on `MuseWindow`. It is a distinct visual composition, not a reskin of the pixel desktop window.
 
 ## Copy rule
 
-Copy is editable. Layout and component styling are not.
+Copy is editable. Visual geometry and component styling are not.
 
-Screen copy, labels, relationship options, prompts, and placeholders must live in configuration/content files rather than being buried in visual components. Components should accept content as props.
+Keep screen copy and fixture data in content/config files. Components consume data through props.
 
 ## Visual acceptance
 
-When a visual reference exists, use it as a regression target. Before calling a screen complete:
+When a visual reference exists:
 
-1. Render at the canonical 1440 × 1080 stage.
-2. Capture a Playwright screenshot.
-3. Compare against the approved reference at the same crop/scale.
-4. Fix geometry, type scale, spacing, border thickness, and asset placement rather than compensating with new styling.
-5. Confirm no unrelated shared component changed.
+1. render at exactly `1440 × 1080`,
+2. capture a deterministic Playwright screenshot,
+3. compare against the approved reference,
+4. correct geometry/type/spacing/color rather than inventing compensating decoration,
+5. confirm no unrelated console visual system changed.
 
 ## Change discipline
 
 For every task:
 
-1. State which implementation-plan file governs the change.
-2. Inspect existing shared components before creating new ones.
-3. Make the smallest change that satisfies the screen spec.
-4. Run `typecheck`, tests, and relevant visual snapshots.
-5. Report changed files and any unresolved reference mismatch.
+1. state which implementation-plan file governs the work,
+2. identify which console visual system is active,
+3. inspect existing console-specific shared components before creating new ones,
+4. make the smallest reversible change,
+5. run typecheck/tests/relevant visual snapshots,
+6. report changed files and unresolved reference mismatches.
 
-If a requirement is ambiguous, preserve the locked design and make the smallest reversible implementation. Do not invent new product behaviour to fill gaps.
+If something is ambiguous, **stop and report the ambiguity instead of designing through it**.
