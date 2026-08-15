@@ -2,12 +2,12 @@
 
 This repository implements the MUSE physical two-console experience. Treat all approved visual design as **frozen** unless the user explicitly requests a change.
 
-MUSE now has **two intentionally different visual systems**. Do not average them together and do not try to create one shared visual skin.
+MUSE has **two intentionally different visual systems**. Do not average them together and do not create one shared visual skin.
 
 - **Arcade Console 1 — Human + AI:** retro pixel-love-letter arcade / early-desktop visual language.
-- **Arcade Console 2 — AI Only:** minimal warm-white / black / neutral-grey Swiss-editorial interface with restrained periwinkle-blue functional accents.
+- **Arcade Console 2 — AI Only:** minimal editorial/technical system UI using black, grey, warm off-white and restrained signal red, with its own monochrome physical-control deck.
 
-The conceptual contrast between the two consoles is part of the exhibit. Visual convergence is a bug.
+The conceptual contrast is part of the exhibit. Visual convergence is a bug.
 
 ## Read this first
 
@@ -15,7 +15,7 @@ Before editing production code, read:
 
 1. `docs/implementation/README.md`
 2. `docs/implementation/00-source-of-truth.md`
-3. The implementation plan for the console being changed.
+3. the implementation plan for the console being changed.
 
 For Console 1 also read:
 
@@ -33,6 +33,9 @@ For Console 2 also read, in order:
 - `docs/implementation/23-ai-only-testing-acceptance.md`
 - `docs/implementation/24-ai-only-codex-build-playbook.md`
 - `docs/reference/ai-only-console2-canonical.jpg`
+- `docs/reference/ai-only-console2-system-refinement-v2.jpg`
+
+For Console 2, the original four-screen image is authoritative for screen-specific content composition. The refinement-v2 image is the higher visual authority for typography character, color emphasis, separators, red markers and lower physical controls.
 
 The legacy flow at `docs/reference/muse-experience-flow-legacy.md` is reference material only.
 
@@ -42,11 +45,11 @@ Both consoles use the same exhibition-stage geometry:
 
 - internal design canvas: `1440 × 1080`
 - aspect ratio: `4:3`
-- scale the complete stage proportionally to the viewport
-- do not independently reflow or reorder major regions at responsive breakpoints
+- scale the complete stage proportionally to viewport
+- do not independently reflow/reorder major regions at responsive breakpoints
 - preserve deterministic geometry for visual regression
 
-The shared stage geometry does **not** imply shared visual chrome.
+Shared stage geometry does **not** imply shared visual chrome.
 
 # Console 1 — Human + AI: non-negotiable visual rules
 
@@ -64,44 +67,98 @@ Console 1 uses the approved pixel arcade system only.
 - pixel-display + pixel-mono typography
 - magenta primary CTAs
 - separate bottom hardware strip: red 3D button — gold 3D dial — red 3D button
-- never restore the old labelled footer (`BUTTON`, `KNOB`, `HOLD BOTH`, `SYSTEM MENU`, etc.)
+- never restore old labelled footer (`BUTTON`, `KNOB`, `HOLD BOTH`, `SYSTEM MENU`, etc.)
 
-Do not use Console 2 minimal cards, Swiss typography, thin grey UI or blue text links inside Console 1 unless a future user instruction explicitly changes the design.
+Do not import Console 2 editorial/technical components into Console 1 unless explicitly instructed.
 
 # Console 2 — AI Only: non-negotiable visual rules
 
-Console 2 is governed by the attached canonical four-screen reference and the AI-only implementation bundle.
-
-Console 2 must contain **none of the Console 1 arcade chrome**:
+Console 2 must contain **none of the Console 1 pixel chrome**:
 
 - no navy grid
 - no purple desktop window
-- no pixel sprites
+- no pixel love-letter sprites
 - no magenta extrusion
-- no rendered red/gold/red hardware strip
+- no Console 1 glossy red/gold/red hardware strip
 - no pixel typography
 - no arcade CTA buttons
 - no decorative love-letter environment
 
-Console 2 visual language:
+Console 2 current visual language:
 
-- warm off-white / bone stage, not bright pure white
+- warm off-white main field
+- light neutral-grey lower control deck
 - near-black primary text
-- light neutral-grey rules and card borders
-- restrained periwinkle / muted electric blue as the only functional accent
-- Swiss / neo-grotesk typographic character
+- muted grey secondary/system text
+- restrained signal red as micro-accent
+- heavy condensed neo-grotesk character for the `MUSE` identity/display role
+- neutral Swiss/neo-grotesk content typography
+- mono/semi-mono system/control labels
+- precise black/grey rules and separators
 - generous whitespace
-- thin outlines
-- minimal navigation text (`← back`, `continue →`, `↻ regenerate`)
-- no decorative UI added merely to make the screen feel richer
+- minimal physical controls rendered in a clean industrial/technical style
 
-Persistent Console 2 identity appears top-left on every screen:
+**Blue/periwinkle is superseded as the dominant Console 2 accent.** Do not restore it as the default action/slider/icon color.
 
-`MUSE`
-`AI ONLY`
-`ARCADE CONSOLE 2`
+## Console 2 identity
 
-Do **not** render a tiny screen number. The screen numbers visible in the source montage are removed from production.
+Persistent top-left identity:
+
+```text
+MUSE
+AI ONLY
+ARCADE CONSOLE 2
+```
+
+Rules:
+
+- no tiny screen number
+- `MUSE` line is heavier/condensed and assertive
+- no icon/heart/badge
+- do not add a second `MUSE` wordmark in the bottom-center control deck
+
+The refinement reference's `DIGITAL LOVE LETTER` headline demonstrates typographic weight/character only. Do not copy that phrase into product UI.
+
+## Console 2 red marker language
+
+Use tiny filled red squares as sparse signal anchors.
+
+Current signal token starts at approximately `#EC5B29`, sampled from the refinement reference.
+
+Do not:
+
+- turn red into a large background/fill color
+- scatter red markers everywhere
+- semantic-color sentiment/emotion/romance
+
+## Console 2 lower control deck
+
+Console 2 now has its own persistent on-screen physical-control representation, visually derived from the refinement reference.
+
+It is **not** Console 1's hardware strip.
+
+Deck:
+
+- persistent light-grey region at bottom
+- separated from main field by strong thin near-black horizontal rule
+- left: outlined circular `BACK` arcade button
+- left/center: outlined circular `NEXT` arcade button
+- right: outlined rotary/intensity dial with restrained red indicator
+- no bottom-center MUSE label
+
+Control construction:
+
+- off-white faces
+- black circular outlines
+- grey inner linework
+- red only as small indicator detail
+- no pixel styling
+- no gold
+- no glossy red button bodies
+
+Back/Next semantics should be represented primarily through the deck controls rather than duplicated floating arrow links.
+
+`REGENERATE` on the result screen remains a restrained software/system text action because there is no fourth approved physical hardware control.
 
 ## Console 2 experience rules
 
@@ -111,7 +168,7 @@ The first four production responsibilities are:
 
 1. Welcome back / inherited context acknowledged.
 2. Short user prompt.
-3. AI interpretation + analysis-only sentiment/emotion/romance + editable tone controls.
+3. AI interpretation + read-only sentiment/emotion/romance + editable tone controls.
 4. Generated AI letter + insights.
 
 After the AI-only result, continue into the shared MUSE comparison/reflection flow.
@@ -120,11 +177,11 @@ Analysis combines:
 
 - inherited Arcade 1 context,
 - recipient + relationship context,
-- the Console 2 short prompt.
+- Console 2 short prompt.
 
-Sentiment, emotion and romance are read-only analysis. Tone controls are AI-proposed and user-adjustable.
+Sentiment, emotion and romance are read-only analysis.
 
-Current tone controls:
+Tone controls are AI-proposed and user-adjustable:
 
 - warmth
 - intimacy
@@ -132,13 +189,20 @@ Current tone controls:
 - playfulness
 - nostalgia
 
-The AI voice should be competent and neutral/computational, never villainous or parody-robotic.
+The visible intensity dial may mirror/control only the currently active tone control according to the documented interaction contract. It must not create a sixth hidden tone value.
+
+AI voice remains competent and neutral/computational, never villainous or parody-robotic.
 
 ## Regeneration rule
 
-On the AI-only result screen, `regenerate` must regenerate **in place** while preserving the short prompt, inherited context and the visitor's current tone-control values. Do not force the visitor back to the analysis screen.
+On `A2_03`, regenerate happens **in place** while preserving:
 
-The visitor may explicitly use `back` to return and retune controls. In the static build, regeneration swaps deterministic fixture variants while preserving state.
+- inherited context
+- short prompt
+- read-only analysis state
+- current user-adjusted tone values
+
+It changes only the active generated-letter variant and matching result insights.
 
 ## Current implementation scope
 
@@ -149,13 +213,13 @@ Do not implement in this phase:
 - production AI model calls
 - camera / OCR / vision
 - printer integration
-- serial/MIDI/Arduino hardware input
+- real serial/MIDI/Arduino hardware input
 - sound
 - animation
 - analytics
 - backend persistence
 
-Future interfaces/stubs may exist, but the visible experience must be complete without those integrations.
+The **on-screen Console 2 button/dial representation is current scope**. Only real physical hardware wiring is deferred.
 
 ## Technology constraints
 
@@ -164,7 +228,7 @@ Use:
 - React
 - Vite
 - TypeScript
-- plain CSS / CSS Modules / a small token layer
+- plain CSS / CSS Modules / small token layer
 - Playwright for flow and screenshot regression
 
 Do not introduce without explicit approval:
@@ -181,32 +245,44 @@ Do not introduce without explicit approval:
 
 ## Architecture rule
 
-Share logic where it is genuinely shared; **do not share visual shells across the two consoles**.
+Share logic where genuinely shared; **do not share visual shells across consoles**.
 
 Recommended split:
 
-- shared: stage scaler, session state, route/state machine, keyboard abstraction, testing utilities
+- shared: stage scaler, session state, route/state machine, keyboard/semantic action abstraction, testing utilities
 - Console 1: `ArcadeOneShell` and pixel components
-- Console 2: `AiOnlyShell` and minimal components
+- Console 2: `AiOnlyShell`, refined editorial components and `AiControlDeck`
 - reflection: shared reflection shell/components as documented by its own plan
 
-Never make Console 2 a theme prop on `MuseWindow`. It is a distinct visual composition, not a reskin of the pixel desktop window.
+Never make Console 2 a theme prop on `MuseWindow`.
 
 ## Copy rule
 
-Copy is editable. Visual geometry and component styling are not.
+Copy is editable. Visual geometry/component styling is not.
 
-Keep screen copy and fixture data in content/config files. Components consume data through props.
+Keep screen copy and fixtures in config/content files. Components consume data via props.
+
+Do not copy reference-only words/IDs unless they are explicitly approved product copy.
 
 ## Visual acceptance
 
 When a visual reference exists:
 
 1. render at exactly `1440 × 1080`,
-2. capture a deterministic Playwright screenshot,
-3. compare against the approved reference,
-4. correct geometry/type/spacing/color rather than inventing compensating decoration,
+2. capture **stage only**,
+3. compare against the relevant approved references,
+4. correct geometry/type/spacing/color via shared tokens/components,
 5. confirm no unrelated console visual system changed.
+
+For Console 2 specifically verify:
+
+- no dominant blue
+- no bottom-center MUSE
+- stable grey deck + black separator
+- outlined BACK/NEXT buttons
+- outlined dial with small red indicator
+- heavy condensed `MUSE` identity
+- sparse red markers
 
 ## Change discipline
 
