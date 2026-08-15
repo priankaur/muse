@@ -4,9 +4,11 @@ This file records the visual review of the updated `A2_00` screenshot at `1440 �
 
 It is the latest calibration authority for `A2_00`. Where it conflicts with earlier A2_00 guidance in files `22` or `25`, this file wins.
 
-## Review status
+## Final review status — APPROVED
 
-The overall A2_00 composition is **approved as the baseline direction**. Do not redesign it.
+The latest submitted `A2_00` screenshot is **visually approved and locked as the Console 2 entry-screen baseline**.
+
+Do not redesign this screen while implementing later AI-only screens.
 
 The following elements are now locked:
 
@@ -15,6 +17,7 @@ The following elements are now locked:
 - 2px near-black deck separator;
 - small persistent top-left identity: `MUSE / AI ONLY / ARCADE CONSOLE 2`;
 - separate oversized editorial `MUSE` display title in the main field;
+- large title left aligned with the editorial column;
 - system-status row with a sparse red square marker;
 - one restrained hairline rule beneath the large title;
 - left-aligned `welcome back,` + visitor name block;
@@ -24,73 +27,72 @@ The following elements are now locked:
 - outlined intensity dial at right with restrained red pointer;
 - no bottom-center `MUSE` wordmark;
 - no dominant blue/periwinkle;
-- no Console 1 pixel styling.
+- no Console 1 pixel styling;
+- strongly left-weighted composition with intentionally large open space to the right.
 
-## Final calibration: large display MUSE
+## Large display MUSE — locked
 
-The large `MUSE` title is now present and must remain.
+The separate giant `MUSE` title is approved in its current scale, hierarchy and placement.
 
-Current hierarchy is correct: small persistent identity first, then status line, then oversized display title.
+It must remain visually dominant over the welcome block.
 
-One final typography requirement remains: **verify that the display title is actually using the approved condensed neo-grotesk face rather than falling back to a broad Arial-style sans.**
+Approved character:
 
-Preferred stack:
+- heavy condensed / narrow neo-grotesk character;
+- uppercase;
+- near-black;
+- stark editorial/system-poster authority;
+- no outline, gradient, shadow, red fill or decorative distortion.
+
+Preferred stack remains:
 
 ```css
 font-family: "Roboto Condensed", "Arial Narrow", "Liberation Sans Narrow", Arial, sans-serif;
 font-weight: 700;
 ```
 
-Target character:
+Codex must document which actual face resolves in the build. If the approved screenshot was produced using an intentional bundled equivalent rather than `Roboto Condensed`, keep that equivalent stable; do not silently change fonts while building later screens.
 
-- heavy;
-- tall;
-- condensed;
-- near-black;
-- editorial/system-poster authority;
-- no shadow, outline, gradient or red fill.
+Do not enlarge or reposition the title simply to occupy open space.
 
-Starting size range remains approximately `132–146px` at 1440×1080. Do not enlarge simply to fill space. Preserve the current overall vertical hierarchy.
+## Persistent top-left identity — locked
 
-If `Roboto Condensed` is intended but not actually bundled/loaded, fix the font loading before approving the screen.
+Keep the current geometry and hierarchy.
 
-## Persistent top-left identity
+```text
+MUSE
+AI ONLY
+ARCADE CONSOLE 2
+```
 
-Keep its current geometry.
+- `MUSE` stays bold/condensed and assertive;
+- `AI ONLY` stays quiet but readable;
+- `ARCADE CONSOLE 2` stays slightly stronger than `AI ONLY`;
+- no icon, heart, screen number or badge;
+- do not move this identity between AI-only screens.
 
-The `MUSE` line should remain bold/condensed, but it must stay visually subordinate to the oversized display title.
+## Status row — locked
 
-`AI ONLY` is intentionally quieter, but it must remain readable. Do not reduce it below practical legibility merely to make it look technical.
-
-Recommended minimum contrast/size at the canonical stage:
-
-- `AI ONLY`: ~11–12px, muted grey but clearly readable;
-- `ARCADE CONSOLE 2`: ~11–12px, near-black/stronger than `AI ONLY`.
-
-## Status row
-
-Current pattern is approved:
+Current pattern:
 
 ```text
 [red square] CONTEXT LINK ACTIVE // AI ONLY
 ```
 
-This is fixture/configurable copy, not immutable product copy.
+This wording remains fixture/configurable copy, but the visual treatment is locked:
 
-Lock the visual treatment:
-
-- one 8px signal-red square;
+- one small signal-red square;
 - mono/system typography;
 - muted grey text;
 - left aligned with the main editorial column;
-- no additional iconography;
+- no iconography beyond the square marker;
 - no animation/blink.
 
 Do not add more status rows to A2_00.
 
-## Main hairline rule
+## Main hairline rule — locked
 
-The single rule beneath the large MUSE title is approved.
+The single rule beneath the large `MUSE` is approved.
 
 Keep it:
 
@@ -99,46 +101,41 @@ Keep it:
 - approximately 600–640px long;
 - visually secondary to the 2px deck separator.
 
-Do not extend it full-width and do not add a decorative grid.
+Do not extend it full width and do not build a decorative grid around it.
 
-## Welcome block
+## Welcome block — locked
 
-Current left-aligned composition is approved.
-
-Hierarchy:
+Current left-aligned composition is approved:
 
 ```text
 welcome back,
 [visitor name]
 ```
 
-Recommended character:
+Hierarchy:
 
 - `welcome back,`: regular neutral sans;
 - visitor name: stronger/bold neutral sans;
-- name may be larger/heavier than the prefix but must remain clearly secondary to the giant `MUSE` title.
+- name remains clearly secondary to the giant `MUSE` display title;
+- inherited-context sentence sits beneath in neutral/secondary styling.
 
-Do not center this block again unless a new approved reference changes the composition.
+Do not recenter or uppercase this content without a new explicit design decision.
 
-Do not uppercase the welcome copy.
+## Context-transfer visual — intentionally omitted
 
-## Context transfer visual
+Do not restore the earlier radial/dotted context graphic.
 
-The earlier four-screen reference included a radial/dotted context-transfer signal. In the current refined A2_00 composition, the combination of:
+The current combination of:
 
 - `CONTEXT LINK ACTIVE // AI ONLY`,
-- inherited-context sentence,
-- and the technical control-deck language
+- the inherited-context sentence,
+- the technical control deck,
 
-already communicates transfer sufficiently.
+is the approved way to communicate continuity from Arcade 1 on this screen.
 
-**Do not reintroduce the radial context signal into A2_00 unless explicitly requested later.**
+## Begin instruction — locked
 
-This omission is now intentional for the refined editorial composition, not a missing component.
-
-## Begin instruction
-
-Current placement/pattern is approved:
+Current pattern:
 
 ```text
 [red square] PRESS [NEXT] TO BEGIN
@@ -149,26 +146,26 @@ Keep:
 - lower-left content region above the deck;
 - mono/system role;
 - near-black text;
-- one small red square marker;
+- one red square marker;
 - no filled CTA;
 - no centered duplicate begin button.
 
-NEXT in the physical deck performs BEGIN.
+The physical `NEXT` deck control performs `BEGIN`.
 
-## Red marker count
+## Red-marker count — locked
 
-A2_00 should use **exactly two primary red square markers** in the current composition:
+A2_00 uses exactly two primary square markers:
 
-1. system/status marker;
-2. begin-instruction marker.
+1. status marker;
+2. begin marker.
 
-The dial pointer is also red but is a control indicator, not a square marker.
+The red dial pointer is a control indicator, not a third square marker.
 
-Do not add more red markers merely to make the screen feel designed.
+Do not add extra markers to fill whitespace.
 
-## Control deck
+## Control deck — global baseline
 
-The current deck composition is approved and should become the shared visual baseline for all A2 screens.
+The current deck is approved and becomes the shared Console 2 deck baseline.
 
 Lock:
 
@@ -176,24 +173,24 @@ Lock:
 - height `192px`;
 - light neutral-grey background;
 - full-width 2px near-black top separator;
-- BACK and NEXT left;
-- intensity dial right;
+- BACK and NEXT on the left;
+- intensity dial on the right;
 - intentional empty center;
 - no bottom-center wordmark.
 
 ### A2_00 states
 
-- BACK: visible, disabled, grey/inactive;
-- NEXT: visible, enabled, black/active;
-- INTENSITY DIAL: visible, inactive; label and outer treatment may be muted while pointer remains the restrained signal detail.
+- `BACK`: visible, disabled / grey;
+- `NEXT`: visible, enabled / black;
+- `INTENSITY DIAL`: visible, inactive / neutral, with restrained red pointer detail.
 
-Do not remove disabled hardware; keep geometry stable.
+Do not remove disabled hardware; geometry must stay fixed across A2 screens.
 
-## Whitespace
+## Whitespace — locked
 
-The large open right/middle area is intentional and approved.
+The large open right/middle region is an intentional part of the approved composition.
 
-Do not add:
+Do not fill it with:
 
 - helper copy;
 - progress indicators;
@@ -202,40 +199,44 @@ Do not add:
 - extra rules;
 - diagrams;
 - AI sparkle motifs;
-- extra status labels
+- extra status labels.
 
-to fill the space.
+Console 2 should remain strongly left-weighted, sparse and editorial.
 
-The screen should remain strongly left-weighted and editorial.
+## A2_00 regression contract
 
-## A2_00 final acceptance checklist
+Any later shared-shell change must preserve this screen.
 
-Before moving to `A2_01`, Codex must verify:
+Before merging a change that touches shared Console 2 tokens/components, re-capture A2_00 at exactly `1440 × 1080` and verify:
 
-- stage is exactly 1440×1080;
-- stage-only screenshot is captured;
-- giant MUSE title remains separate from small identity;
-- display title actually resolves to the approved condensed font or a documented equivalent;
-- no radial context signal is rendered;
-- exactly two red square micro-markers are used in A2_00;
-- single 1px title hairline remains restrained;
-- BACK disabled state is visibly distinct;
-- NEXT is clearly active;
-- dial remains visually present but inactive;
-- deck geometry is unchanged;
+- giant title scale/position unchanged;
+- small identity anchor unchanged;
+- status/begin markers unchanged;
+- title hairline unchanged;
+- welcome hierarchy unchanged;
+- deck split/geometry unchanged;
+- BACK disabled and NEXT enabled styling unchanged;
 - no bottom-center MUSE;
 - no floating duplicate Back/Next actions;
 - no dominant blue;
-- no Console 1 styling.
+- no Console 1 chrome.
 
-## Next implementation gate
+## Next implementation gate — A2_01
 
-Once the above typography verification and A2_00 regression snapshot pass, `A2_00` may be considered visually locked.
+`A2_00` is now complete.
 
-Then proceed to **Task D / A2_01 only** from `24-ai-only-codex-build-playbook.md`.
+Proceed to **Task D / `A2_01` only** from `24-ai-only-codex-build-playbook.md`.
 
-When implementing A2_01:
+When implementing `A2_01`:
 
-- reuse the exact same shell, identity and control deck;
-- do not show the giant `MUSE` display title unless a future screen-specific plan explicitly requests it;
-- only the main content body and hardware enabled/disabled states should change.
+- reuse the exact approved shell;
+- reuse the exact small identity anchor;
+- reuse the exact control-deck geometry;
+- `BACK` becomes enabled;
+- `NEXT` is disabled until the prompt contains non-whitespace content, then becomes enabled;
+- intensity dial remains visible but inactive;
+- do **not** carry the giant `MUSE` display title to A2_01;
+- do not carry A2_00-specific status/begin copy into A2_01;
+- only the main content body and hardware state may change;
+- preserve the black / grey / off-white / restrained-red system;
+- stop after a clean `1440 × 1080` A2_01 screenshot for review before implementing A2_02.
