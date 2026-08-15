@@ -4,7 +4,7 @@ This file translates the canonical AI-only reference into implementation rules. 
 
 Canonical reference:
 
-`docs/reference/ai-only-console2-canonical.png`
+`docs/reference/ai-only-console2-canonical.jpg`
 
 ## 1. Design character
 
