@@ -49,6 +49,9 @@ For **any `A2_*` task**, read these after `AGENTS.md` and `00-source-of-truth.md
 | A2-5 | `22-ai-only-screen-specifications.md` | Detailed 1440×1080 specs for all four screens using the refined shell/deck. |
 | A2-6 | `23-ai-only-testing-acceptance.md` | Screenshot, geometry, control-state, flow/state and visual approval criteria. |
 | A2-7 | `24-ai-only-codex-build-playbook.md` | Exact incremental Codex task sequence. |
+| A2-8 | `25-ai-only-a2-00-display-title-refinement.md` | Latest reviewed override for A2_00: separate giant editorial `MUSE` display title, status-marker hierarchy and screenshot stop gate. |
+
+**Important:** for any work on `A2_00`, file `25` is the latest authority and overrides the earlier A2_00 composition in file `22` where they conflict.
 
 ## Console 2 reference hierarchy
 
@@ -63,6 +66,8 @@ Important exclusions from the refinement reference:
 - do not copy reference-only system IDs,
 - do not add the bottom-center `MUSE` wordmark,
 - do not interpret the reference as permission to use Console 1 pixel styling.
+
+The latest A2_00 review clarified one additional point: the refinement reference's oversized headline is not merely a font sample. `A2_00` requires a **separate oversized `MUSE` display title in the main field**, in addition to the small persistent top-left identity. See file `25`.
 
 ## Other reference files
 
@@ -79,7 +84,7 @@ The 1440×1080 stage, state model, semantic actions and testing utilities can be
 
 Use `codex/muse-static-experience` for the current static implementation and keep tasks small. Before modifying a console, identify the console-specific plan governing the work.
 
-For the current Console 2 refinement, follow `24-ai-only-codex-build-playbook.md` and stop after the shared refined shell/control deck is visually calibrated before multiplying changes across every screen.
+For the current Console 2 refinement, follow `24-ai-only-codex-build-playbook.md`. For `A2_00`, also read and obey `25-ai-only-a2-00-display-title-refinement.md`, then stop for visual review before moving to later screens.
 
 Codex should run `17-preflight-audit.md` when repository visual assets/references may be incomplete.
 
