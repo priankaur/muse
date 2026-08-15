@@ -1,6 +1,6 @@
 # 15 — Deferred Integrations
 
-These systems are intentionally postponed. The static build should prepare interfaces but not implement production integrations.
+This file tracks systems that remain postponed and records explicit exceptions that have now moved into current scope.
 
 # Hardware controls
 
@@ -15,6 +15,8 @@ The UI consumes semantic actions only. A future `HardwareService` converts physi
 
 Do not let hardware key codes leak into screen components.
 
+The on-screen visual press/rotation feedback for Arcade 1 buttons/dial is now current scope under file `28`; **real hardware wiring remains deferred**.
+
 # Camera
 
 Future requirements:
@@ -25,7 +27,7 @@ Future requirements:
 - image review,
 - upload fallback for development.
 
-Static phase uses a fixture image through the same service interface.
+Current build uses a fixture image through the same service interface.
 
 # Vision/handwriting extraction
 
@@ -39,6 +41,8 @@ Prepare states:
 - processing,
 - success,
 - recoverable failure.
+
+Arcade 1 now includes a fixture-driven human-letter analysis screen (`A1_06A`) showing sentiment, emotions recognized, character count and visual meaning. The **UI/data/service seam is current scope**, but production OCR/vision/model analysis remains deferred. See file `29`.
 
 # AI generation
 
@@ -64,13 +68,30 @@ Input eventually includes:
 
 Keep separate request types even if both use the same model provider.
 
+Production generation/model calls remain deferred.
+
 # Sentiment/emotion/romance analysis
 
-Arcade 2 will later perform or derive:
+## Arcade 1
+
+Current scope now includes a **fixture-driven human-letter analysis UI/data model** for:
+
+- sentiment;
+- emotions recognized;
+- recognized character count;
+- visual meaning / visible-cue interpretation.
+
+Production model/vision analysis remains deferred.
+
+## Arcade 2
+
+The AI-only experience renders fixture-driven:
 
 - sentiment,
 - emotion(s),
 - romantic intent.
+
+Production model analysis remains deferred.
 
 The UI should render structured labels, not parse prose model output directly.
 
@@ -88,31 +109,44 @@ Future email sends the chosen full letter if retained in the final product flow.
 
 # Sound
 
-Sound design is deferred until the static experience is visually stable.
+## Arcade 1 exception — current scope
 
-When added, create semantic events:
+Arcade 1 interaction sound is now approved for implementation under `28-arcade1-motion-audio-interactions.md`.
 
-- navigate tick,
-- confirm,
-- text commit,
-- capture countdown,
-- generation,
-- result reveal.
+Current Arcade 1 semantic cues include:
 
-Do not trigger sound from arbitrary component re-renders.
+- CTA confirm;
+- arcade-button press;
+- dial tick;
+- dial confirm where used;
+- page transition;
+- optional processing/result reveal after core review.
+
+Use semantic events and local/WebAudio placeholder cues. No background music.
+
+## Still deferred
+
+- final production sound-design assets/mix;
+- venue speaker calibration;
+- Console 2 sound unless explicitly approved later.
 
 # Animation
 
-Animation is deliberately last.
+## Arcade 1 exception — current scope
 
-Primary later motion:
+Arcade 1 now permits the scoped interaction motion defined in file `28`:
 
-- gentle stepped floating of stationery sprites,
-- button press/depth collapse,
-- dial tick/rotation frames,
-- short window/panel appearance,
-- loading meter increments.
+- CTA press/depth collapse;
+- red arcade-button press;
+- dial tick/rotation frames;
+- short stepped content/page transitions;
+- restrained processing/result reveal;
+- optional gentle stepped sprite bobbing after core feedback is approved.
 
-Avoid smooth modern easing. Preserve low-frame/pixel feel.
+Preserve low-frame/pixel feel and `prefers-reduced-motion` handling.
 
-Add `prefers-reduced-motion` handling when motion is introduced.
+## Still deferred
+
+- cinematic transitions;
+- large decorative motion systems;
+- Console 2 motion unless explicitly approved later.
