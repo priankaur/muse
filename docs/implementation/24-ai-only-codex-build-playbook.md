@@ -10,7 +10,7 @@ Every Console 2 task must begin by reading:
 2. `docs/implementation/18-ai-only-source-of-truth.md`
 3. `docs/implementation/19-ai-only-visual-system.md`
 4. the relevant plan for the task
-5. `docs/reference/ai-only-console2-canonical.png`
+5. `docs/reference/ai-only-console2-canonical.jpg`
 
 Do not use Console 1 screenshots as visual references for Console 2.
 
