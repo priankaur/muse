@@ -21,14 +21,14 @@ The system voice must remain concise, neutral and computational. Do not make the
 ### Primary title
 
 ```text
-you've shaped one together.
-now see what AI makes alone.
+you've shaped a love letter with AI.
+now see what AI creates on its own.
 ```
 
 ### Supporting line
 
 ```text
-give AI one short direction. it will generate the rest.
+give it one short direction. it will generate the rest.
 ```
 
 ### Prompt placeholder
@@ -50,8 +50,8 @@ and express how much she means to me.
 
 - It explicitly connects Console 2 to the completed Human + AI experience.
 - It makes the exhibition contrast legible without explaining the whole project again.
-- `shaped one together` suggests human authorship remained present in the first experience.
-- `what AI makes alone` clearly establishes the new condition.
+- `you've shaped a love letter with AI` acknowledges the visitor's authorship in the first experience.
+- `now see what AI creates on its own` clearly establishes the AI-only condition without framing AI as threatening or deficient.
 - It avoids loaded language such as `AI takes over`, `machine replaces you`, or `now remove yourself`.
 - The supporting line transitions naturally into the short prompt field and keeps the AI-only interaction concise.
 
@@ -86,8 +86,8 @@ The title is now longer than the original question copy.
 Preserve the existing `A2_01` visual system, but allow the title box to accommodate two deliberate lines:
 
 ```text
-you've shaped one together.
-now see what AI makes alone.
+you've shaped a love letter with AI.
+now see what AI creates on its own.
 ```
 
 Do not shrink the title aggressively to make it fit.
@@ -95,7 +95,7 @@ Do not shrink the title aggressively to make it fit.
 Starting constraints at `1440 × 1080`:
 
 - keep the main content centered in the content region;
-- title width approximately `760–860px`;
+- title width approximately `800–900px`;
 - use the existing screen-title role;
 - preserve generous line spacing and whitespace;
 - supporting line sits below as secondary text;
@@ -121,8 +121,8 @@ Recommended shape:
 
 ```ts
 {
-  title: "you've shaped one together.\nnow see what AI makes alone.",
-  subtitle: "give AI one short direction. it will generate the rest.",
+  title: "you've shaped a love letter with AI.\nnow see what AI creates on its own.",
+  subtitle: "give it one short direction. it will generate the rest.",
   placeholder: "example: help me apologize for being distant lately\nand express how much she means to me.",
   maxLength: 120
 }
