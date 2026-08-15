@@ -49,9 +49,10 @@ For **any `A2_*` task**, read these after `AGENTS.md` and `00-source-of-truth.md
 | A2-5 | `22-ai-only-screen-specifications.md` | Detailed 1440×1080 specs for all four screens using the refined shell/deck. |
 | A2-6 | `23-ai-only-testing-acceptance.md` | Screenshot, geometry, control-state, flow/state and visual approval criteria. |
 | A2-7 | `24-ai-only-codex-build-playbook.md` | Exact incremental Codex task sequence. |
-| A2-8 | `25-ai-only-a2-00-display-title-refinement.md` | Latest reviewed override for A2_00: separate giant editorial `MUSE` display title, status-marker hierarchy and screenshot stop gate. |
+| A2-8 | `25-ai-only-a2-00-display-title-refinement.md` | Adds the separate giant editorial `MUSE` display title and A2_00 title hierarchy. |
+| A2-9 | `26-ai-only-a2-00-visual-calibration.md` | **Latest A2_00 visual calibration** after screenshot review; locks current composition, removes the earlier radial context signal, verifies condensed title font, and defines the gate for moving to A2_01. |
 
-**Important:** for any work on `A2_00`, file `25` is the latest authority and overrides the earlier A2_00 composition in file `22` where they conflict.
+**Important:** for any work on `A2_00`, file `26` is the latest authority. Read `25` for the display-title rationale, then use `26` for the current approved/calibrated composition.
 
 ## Console 2 reference hierarchy
 
@@ -67,7 +68,7 @@ Important exclusions from the refinement reference:
 - do not add the bottom-center `MUSE` wordmark,
 - do not interpret the reference as permission to use Console 1 pixel styling.
 
-The latest A2_00 review clarified one additional point: the refinement reference's oversized headline is not merely a font sample. `A2_00` requires a **separate oversized `MUSE` display title in the main field**, in addition to the small persistent top-left identity. See file `25`.
+The latest A2_00 review locks a separate oversized `MUSE` display title in the main field, a left-weighted editorial hierarchy, exactly two primary red square markers, one restrained title hairline, and no radial context-transfer graphic. See files `25` and `26`.
 
 ## Other reference files
 
@@ -84,7 +85,7 @@ The 1440×1080 stage, state model, semantic actions and testing utilities can be
 
 Use `codex/muse-static-experience` for the current static implementation and keep tasks small. Before modifying a console, identify the console-specific plan governing the work.
 
-For the current Console 2 refinement, follow `24-ai-only-codex-build-playbook.md`. For `A2_00`, also read and obey `25-ai-only-a2-00-display-title-refinement.md`, then stop for visual review before moving to later screens.
+For Console 2, follow `24-ai-only-codex-build-playbook.md`. For `A2_00`, read files `25` and `26`; file `26` is the final current visual calibration. Once its checks pass, proceed only to A2_01.
 
 Codex should run `17-preflight-audit.md` when repository visual assets/references may be incomplete.
 
