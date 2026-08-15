@@ -52,12 +52,12 @@ For **any `A2_*` task**, read these after `AGENTS.md` and `00-source-of-truth.md
 
 Canonical Console 2 image:
 
-- `../reference/ai-only-console2-canonical.png`
+- `../reference/ai-only-console2-canonical.jpg`
 
 ## Reference files
 
 - `../reference/muse-ui-style-system-v2.md` — Console 1 canonical pixel visual system.
-- `../reference/ai-only-console2-canonical.png` — Console 2 canonical minimal visual source.
+- `../reference/ai-only-console2-canonical.jpg` — Console 2 canonical minimal visual source.
 - `../reference/muse-experience-flow-legacy.md` — older narrative reference only.
 
 ## Key implementation principle
