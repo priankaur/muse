@@ -11,11 +11,14 @@ The implementation must separate:
 - inherited session context,
 - Console 2 user input,
 - machine interpretation,
-- user-adjustable tone controls,
+- AI-proposed tone controls,
+- visitor-adjusted tone controls,
+- active tone-control focus/selection,
 - generated letter variants,
-- result insights.
+- result insights,
+- semantic control-deck actions.
 
-Do not collapse all of these into one arbitrary screen object.
+Do not collapse these into one arbitrary screen object.
 
 ## 2. Recommended session shape
 
@@ -46,12 +49,15 @@ type MuseSession = {
     analysis: AiOnlyAnalysis | null;
     proposedToneControls: ToneControlValues | null;
     toneControls: ToneControlValues;
+    activeToneControlId: ToneControlId | null;
     generatedVariants: AiLetterVariant[];
     activeVariantIndex: number;
     completed: boolean;
   };
 };
 ```
+
+`activeToneControlId` exists only to identify which tone parameter the visible intensity dial may adjust. It is **not** a sixth tone value.
 
 ## 3. Context passed into Console 2
 
@@ -73,7 +79,7 @@ Current analysis/generation uses all five fields.
 
 Use a curated `contextForArcade2` field derived from visitor-originated material/context from the first experience rather than blindly serializing every Arcade 1 UI value.
 
-The Human + AI result itself remains stored for later comparison. Do not make the implementation depend on copying the entire generated Console 1 letter into Console 2 unless a future product decision explicitly requires that.
+The Human + AI result remains stored for later comparison. Do not make Console 2 depend on copying the entire Console 1 generated letter unless a future product decision explicitly requires it.
 
 ## 4. Read-only analysis model
 
@@ -81,7 +87,7 @@ The Human + AI result itself remains stored for later comparison. Do not make th
 type AiOnlyAnalysis = {
   sentiment: {
     label: string;
-    score?: number;      // 0..100, fixture only if displayed
+    score?: number;
     summary: string;
   };
   emotion: {
@@ -117,15 +123,13 @@ type ToneControlValues = Record<ToneControlId, number>;
 
 Values are normalized 0–100.
 
-Recommended default step for static mouse/keyboard controls:
+Recommended static step:
 
 ```ts
 const TONE_STEP = 1;
 ```
 
-For future physical dial integration, the semantic input layer may map one detent to 1 or 5 percentage points without changing component geometry.
-
-## 6. AI proposal + user edit distinction
+## 6. AI proposal + visitor edit distinction
 
 Store both:
 
@@ -135,16 +139,14 @@ Store both:
 Workflow:
 
 1. machine interpretation fixture returns a proposal,
-2. copy proposal into editable tone controls on first entry,
+2. copy proposal into editable `toneControls` on first entry,
 3. visitor adjusts `toneControls`,
 4. navigating back/forward preserves visitor values,
-5. do not overwrite visitor edits by reapplying proposal unless the short prompt/context actually changes and product logic explicitly recomputes analysis.
+5. do not overwrite edits by reapplying the proposal unless the short prompt/context changes and the product logic intentionally recomputes interpretation.
 
-This distinction will matter later when comparing what AI suggested versus what the visitor controlled.
+This distinction matters later when comparing what AI suggested versus what the visitor controlled.
 
 ## 7. Canonical fixture values
-
-For the first static reference-aligned fixture, use values close to the canonical montage:
 
 ```ts
 const DEFAULT_ANALYSIS: AiOnlyAnalysis = {
@@ -185,12 +187,12 @@ Current cap:
 const AI_ONLY_PROMPT_MAX = 120;
 ```
 
-Recommended validation:
+Validation:
 
-- empty prompt: continue disabled
-- whitespace-only prompt: invalid
-- minimum meaningful content: no artificial word minimum beyond non-empty trimmed string unless research later requires it
-- max 120 characters enforced by input
+- empty prompt: NEXT disabled
+- whitespace-only: invalid
+- no artificial minimum beyond non-empty trimmed content
+- max 120 characters enforced
 
 Preserve prompt when navigating back/forward.
 
@@ -198,14 +200,11 @@ Preserve prompt when navigating back/forward.
 
 Static build:
 
-- on continue from `A2_01`, assign deterministic analysis fixture + proposal if not already present
-- no fake delay required
+- NEXT from `A2_01` assigns deterministic analysis fixture + proposal if required
+- no fake delay
 - no standalone loading page
 
-Later production build:
-
-- same transition may enter a local pending state
-- pending state should not become a new full-screen composition without design approval
+Future production AI may introduce local pending state, but not a new full-screen composition without design approval.
 
 ## 10. Result variant model
 
@@ -226,16 +225,17 @@ Provide at least 3 deterministic fixture variants for regenerate testing.
 
 ## 11. Regenerate behaviour
 
-Current locked recommendation:
+Current locked behaviour:
 
 ```text
 A2_03
   regenerate
+    -> keep inherited context
     -> keep prompt
     -> keep analysis
     -> keep current tone values
     -> increment activeVariantIndex cyclically
-    -> update letter + insights
+    -> update letter + matching insights
     -> remain A2_03
 ```
 
@@ -249,8 +249,6 @@ Do not reset controls.
 Do not navigate to `A2_02`.
 Do not clear prompt.
 
-Back from result goes to `A2_02`, where current editable values remain.
-
 ## 12. Continue behaviour from result
 
 Guard:
@@ -258,27 +256,22 @@ Guard:
 - active AI-only letter exists
 - Arcade 1 comparison result exists
 
-Then:
-
-```text
-A2_03 -> R_01
-```
-
-or the current first route in the shared reflection registry.
+Then route to the first shared reflection screen.
 
 Do not append extra Console 2 completion screens.
 
 ## 13. Semantic actions
 
-Keep visible text navigation decoupled from future hardware input.
+Console 2 now has a visible physical-control deck, but UI actions must still be modeled semantically so future real hardware can dispatch the same actions.
 
 Recommended action names:
 
 ```ts
 type SemanticAction =
   | 'BACK'
-  | 'CONTINUE'
+  | 'NEXT'
   | 'BEGIN'
+  | 'CONTINUE'
   | 'REGENERATE'
   | 'FOCUS_PREVIOUS'
   | 'FOCUS_NEXT'
@@ -287,32 +280,85 @@ type SemanticAction =
   | 'CONFIRM';
 ```
 
-For current build, mouse/keyboard can dispatch these actions.
+Recommended mapping:
 
-Do not render the physical control legend on Console 2.
+```text
+visible BACK deck button -> BACK
+visible NEXT deck button -> BEGIN on A2_00, CONTINUE on A2_01/A2_02/A2_03
+visible intensity dial -> DECREMENT / INCREMENT for active tone control on A2_02
+software regenerate action -> REGENERATE on A2_03
+```
 
-## 14. Keyboard development mapping
+Do not couple the visual button component directly to route names.
+
+## 14. Persistent control-deck state model
+
+The deck remains mounted on every `A2_*` screen.
+
+Suggested derived configuration:
+
+```ts
+type AiDeckState = {
+  backEnabled: boolean;
+  nextEnabled: boolean;
+  dialEnabled: boolean;
+  activeToneControlId: ToneControlId | null;
+};
+```
+
+Screen derivation:
+
+```text
+A2_00: back false, next true,  dial false
+A2_01: back true,  next prompt-valid, dial false
+A2_02: back true,  next true,  dial active only when tone row selected/focused
+A2_03: back true,  next true,  dial false
+```
+
+Do not remove unavailable hardware from the layout; change its enabled state only.
+
+## 15. Dial-to-tone interaction contract
+
+The dial is a **controller for the active tone row**, not an independent model value.
+
+Rules:
+
+1. `activeToneControlId === null` -> dial changes nothing.
+2. Focusing/selecting a tone control sets `activeToneControlId`.
+3. Dial increment/decrement changes only `toneControls[activeToneControlId]`.
+4. Clamp value to 0–100.
+5. Respect `TONE_STEP`.
+6. Dial indicator may mirror that active value visually.
+7. Moving to another tone row changes which value the dial controls.
+8. Leaving `A2_02` may clear `activeToneControlId` without altering tone values.
+
+Example:
+
+```ts
+function adjustActiveTone(delta: number) {
+  if (!activeToneControlId) return;
+  const current = toneControls[activeToneControlId];
+  toneControls[activeToneControlId] = clamp(current + delta, 0, 100);
+}
+```
+
+Do not let the dial change sentiment/emotion/romance analysis.
+
+## 16. Keyboard development mapping
 
 Suggested development-only mapping:
 
-- `ArrowLeft` = context-sensitive decrement/previous
-- `ArrowRight` = increment/next
-- `ArrowUp` / `ArrowDown` = move between tone controls
-- `Enter` = confirm/continue when valid
-- `Escape` or `Backspace` with appropriate guard = back
-- `R` on result screen may trigger regenerate in development if it does not interfere with text input
+- `ArrowUp` / `ArrowDown` = move tone focus on `A2_02`
+- `ArrowLeft` / `ArrowRight` = decrement/increment active tone value when appropriate
+- `Enter` = NEXT/confirm when valid
+- `Escape` or guarded `Backspace` = BACK
+- `R` on `A2_03` may trigger regenerate if focus is not inside text input
 
-Keyboard shortcuts are implementation conveniences, not visible UI copy.
+Keyboard shortcuts are implementation conveniences, not extra visible UI copy.
 
-## 15. Analysis recomputation rule
+## 17. Prompt-change invalidation
 
-If visitor goes back and changes the short prompt:
-
-- static build may deterministically reset analysis/proposed controls to the fixture set appropriate to the prompt fixture strategy
-- preserve architecture so production AI can recompute
-- if prompt changes, current generated variants should be considered stale and reset
-
-Recommended invalidation:
+If visitor changes short prompt after analysis/result state exists:
 
 ```ts
 onShortPromptChanged() {
@@ -320,21 +366,22 @@ onShortPromptChanged() {
   proposedToneControls = null;
   generatedVariants = [];
   activeVariantIndex = 0;
+  activeToneControlId = null;
   completed = false;
 }
 ```
 
 Do not clear inherited Arcade 1 context.
 
-## 16. Tone edit invalidation
+## 18. Tone edit invalidation
 
-Changing tone controls after returning from the result means the previous generated result is stale.
+Changing tone controls after returning from result makes the previous result stale.
 
-On continue from `A2_02`, static build may reselect/generate fixtures based on current controls and set active variant to 0.
+On NEXT from `A2_02`, static build may reselect/generate deterministic fixtures from current controls and set active variant to 0.
 
-Do not silently show the old result as if generated from new values.
+Do not silently show an old result as if it came from new values.
 
-## 17. No persistence/network requirement in static phase
+## 19. No persistence/network requirement in static phase
 
 Use local in-memory/session fixture state.
 
@@ -342,22 +389,39 @@ Do not add:
 
 - API keys
 - OpenAI calls
-- localStorage persistence unless existing project architecture already requires it
 - database schema
 - authentication
+- new persistence unless existing project architecture already requires it
 
-## 18. Testable invariants
+## 20. Real hardware integration is deferred
+
+Current scope includes the **on-screen visual representation and semantic behavior** of BACK/NEXT/dial.
+
+Do not add:
+
+- serial port access
+- MIDI wiring
+- Arduino libraries
+- WebSerial permissions
+- hardware polling loops
+
+Later hardware should dispatch the same semantic actions defined here.
+
+## 21. Testable invariants
 
 Tests must assert:
 
 - Console 2 opens with inherited first name
-- no recipient/relationship form exists in Console 2
-- empty short prompt cannot continue
-- analysis has exactly sentiment/emotion/romance read-only cards
+- no recipient/relationship form exists
+- empty prompt cannot NEXT
+- analysis has exactly sentiment/emotion/romance read-only blocks
 - tone controls have exactly five editable values in canonical order
-- tone edits survive navigation to result and back
+- tone edits survive navigation
+- deck remains mounted with stable geometry
+- dial changes only active tone row
+- dial is inert when no tone row is active
 - regenerate preserves prompt + tone controls
-- regenerate changes active fixture variant
+- regenerate changes active result fixture
 - result insight rail includes emotion
-- continue from result enters shared reflection
+- NEXT from result enters shared reflection
 - no Console 1 visual-shell component mounts on any `A2_*` route.
