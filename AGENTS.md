@@ -34,12 +34,15 @@ For Console 2 also read, in order:
 - `docs/implementation/24-ai-only-codex-build-playbook.md`
 - `docs/implementation/25-ai-only-a2-00-display-title-refinement.md`
 - `docs/implementation/26-ai-only-a2-00-visual-calibration.md`
+- `docs/implementation/27-ai-only-a2-01-copy-refinement.md`
 - `docs/reference/ai-only-console2-canonical.jpg`
 - `docs/reference/ai-only-console2-system-refinement-v2.jpg`
 
 For Console 2, the original four-screen image is authoritative for screen-specific content composition. The refinement-v2 image is the higher visual authority for typography character, color emphasis, separators, red markers and lower physical controls.
 
 For `A2_00`, file `26-ai-only-a2-00-visual-calibration.md` is the latest reviewed authority. File `25` explains the large display-title correction; file `26` locks the current screenshot composition and final calibration details.
+
+For `A2_01`, file `27-ai-only-a2-01-copy-refinement.md` is the latest copy authority. It overrides the old `what would you like AI to focus on?` headline in file `22` while keeping the same A2_01 layout, prompt-field geometry and interaction behavior.
 
 The legacy flow at `docs/reference/muse-experience-flow-legacy.md` is reference material only.
 
@@ -135,6 +138,27 @@ Latest A2_00 calibration from file `26`:
 - keep the small persistent identity visually subordinate to the giant title;
 - keep the current large whitespace field empty rather than adding helper UI.
 
+## Console 2 A2_01 exhibition-continuation copy
+
+The prompt screen should continue the exhibit rather than open with a generic AI-form question.
+
+Current default copy from file `27`:
+
+```text
+you've shaped a love letter with AI.
+now see what AI creates on its own.
+```
+
+Supporting line:
+
+```text
+give it one short direction. it will generate the rest.
+```
+
+Do not restore `what would you like AI to focus on?` unless explicitly requested later.
+
+The copy change does not alter the A2_01 shell, prompt geometry, 120-character limit or hardware states.
+
 ## Console 2 red marker language
 
 Use tiny filled red squares as sparse signal anchors.
@@ -183,7 +207,7 @@ Console 2 inherits context and must not repeat registration, recipient name or r
 The first four production responsibilities are:
 
 1. Welcome back / inherited context acknowledged.
-2. Short user prompt.
+2. Short user prompt framed as a continuation from Human + AI to AI-only generation.
 3. AI interpretation + read-only sentiment/emotion/romance + editable tone controls.
 4. Generated AI letter + insights.
 
@@ -301,6 +325,7 @@ For Console 2 specifically verify:
 - on `A2_00`, separate oversized `MUSE` display title exists and dominates the main field
 - on `A2_00`, no radial context-transfer graphic
 - on `A2_00`, exactly two primary red square markers
+- on `A2_01`, current exhibition-continuation copy from file `27` is used instead of the old generic AI-focus question
 - sparse red markers elsewhere
 
 ## Change discipline
