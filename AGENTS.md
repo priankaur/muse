@@ -32,7 +32,7 @@ For Console 2 also read, in order:
 - `docs/implementation/22-ai-only-screen-specifications.md`
 - `docs/implementation/23-ai-only-testing-acceptance.md`
 - `docs/implementation/24-ai-only-codex-build-playbook.md`
-- `docs/reference/ai-only-console2-canonical.png`
+- `docs/reference/ai-only-console2-canonical.jpg`
 
 The legacy flow at `docs/reference/muse-experience-flow-legacy.md` is reference material only.
 
