@@ -80,16 +80,22 @@ For **any `A2_*` task**, read these after `AGENTS.md` and `00-source-of-truth.md
 | A2-8 | `25-ai-only-a2-00-display-title-refinement.md` | Adds the separate giant editorial `MUSE` display title and A2_00 title hierarchy. |
 | A2-9 | `26-ai-only-a2-00-visual-calibration.md` | Latest A2_00 visual calibration after screenshot review. |
 | A2-10 | `27-ai-only-a2-01-copy-refinement.md` | Latest A2_01 exhibition-continuation copy authority. |
+| A2-11 | `31-ai-only-a2-01-visual-calibration.md` | A2_01 approved composition/readability calibration. |
+| A2-12 | `32-ai-only-a2-01-contextual-placeholder.md` | Requires the prompt hint to use one/two short sentences from Arcade 1 context instead of generic stock copy. |
+| A2-13 | `33-ai-only-a2-01-contextual-hint-calibration.md` | Latest A2_01 contextual-hint screenshot calibration. |
+| **A2-14** | **`34-ai-only-post-generation-analysis-flow.md`** | **LATEST flow override: A2_02 is tone controls only; sentiment/emotion/romance analysis appears only after the AI-only letter is generated on A2_03. This file wins over conflicting analysis timing in files 18/21/22/23/24.** |
 
 For any work on `A2_00`, file `26` is the latest authority. Read `25` for the display-title rationale, then use `26` for the current approved/calibrated composition.
 
-For any work on `A2_01`, file `27` is the latest copy authority.
+For any work on `A2_01`, files `27`, `31`, `32`, and `33` govern the current copy, visual calibration, contextual hint source, and latest hint calibration.
+
+For any work on `A2_02` or `A2_03`, **read file `34` before implementing**. It is the latest authority for analysis timing and screen responsibility. In particular, do not render sentiment/emotion/romance analysis on A2_02.
 
 ## Console 2 reference hierarchy
 
 Use both references:
 
-1. `../reference/ai-only-console2-canonical.jpg` — canonical four-screen content composition and flow.
+1. `../reference/ai-only-console2-canonical.jpg` — canonical four-screen content composition and flow except where later explicit product-flow overrides such as file `34` apply.
 2. `../reference/ai-only-console2-system-refinement-v2.jpg` — latest and higher authority for visual system/chrome.
 
 Important exclusions from the refinement reference:
@@ -115,6 +121,8 @@ The 1440×1080 stage, state model, semantic actions and testing utilities can be
 Use `codex/muse-static-experience` for the current implementation and keep tasks small. Before modifying a console, identify the console-specific plan governing the work.
 
 For the new Arcade 1 enhancement pass, follow `30-arcade1-enhancement-build-playbook.md` and stop after each task gate. Do not implement motion, sound and analysis UI in one uncontrolled commit.
+
+For Console 2, always apply the latest numbered overrides before older generic screen specs. As of this update, `34-ai-only-post-generation-analysis-flow.md` is the latest flow authority for A2_02/A2_03.
 
 Codex should run `17-preflight-audit.md` when repository visual assets/references may be incomplete.
 
