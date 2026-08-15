@@ -1,1 +1,0 @@
-Reference binary is intentionally not stored as base64 in source. Use `docs/reference/ai-only-console2-canonical.jpg` when present. If missing, request the canonical image instead of recreating it.
