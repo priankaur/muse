@@ -4,37 +4,65 @@ This folder breaks the implementation into small, durable plans so Codex can wor
 
 ## Goal
 
-Build the complete MUSE two-console experience as a static, navigable React prototype while preserving two intentionally different approved visual systems:
+Build the complete MUSE two-console experience as a React prototype while preserving two intentionally different approved visual systems:
 
 - **Arcade Console 1 — Human + AI:** retro pixel-love-letter arcade / early-desktop UI.
 - **Arcade Console 2 — AI Only:** restrained editorial/technical system UI using black, grey, warm off-white and sparse signal red, with its own monochrome physical-control deck.
 
 Copy may evolve. Console-specific visual systems are locked.
 
-The current build deliberately postpones animation, production AI calls, camera, printer, audio and **real physical hardware integration**. The on-screen Console 2 BACK/NEXT buttons and intensity dial are part of the current visual build; only their real serial/MIDI/Arduino wiring is deferred.
+The project began as a static-first build. Arcade 1 now has an explicitly approved second phase for scoped motion/sound feedback and a fixture-driven human-letter analysis step. Production AI/vision, camera hardware, printer, real physical control wiring and backend persistence remain deferred unless a later plan explicitly activates them.
 
 ## Core canonical read order
 
 | Order | File | Purpose |
 |---|---|---|
 | 1 | `00-source-of-truth.md` | Resolves old vs new MUSE documents and establishes two distinct console visual systems. |
-| 2 | `01-static-build-scope.md` | Defines what the current static implementation phase includes/excludes. |
+| 2 | `01-static-build-scope.md` | Defines the original static implementation scope and exclusions; later explicit overrides are documented in files `28`–`30`. |
 | 3 | `02-technical-architecture.md` | React architecture, state, stage and build strategy. |
 | 4 | `03-design-system-implementation.md` | Console 1 pixel-arcade design-system implementation. |
 | 5 | `04-assets-and-pixel-rendering.md` | Console 1 asset/pixel rules. |
 | 6 | `05-content-and-data-model.md` | Shared copy/session contracts and stubs. |
 | 7 | `06-navigation-and-input-model.md` | Screen state machine and input abstraction. |
 | 8 | `07-screen-inventory.md` | Canonical screen IDs and current experience order. |
-| 9 | `08-arcade-1-human-ai-screens.md` | Console 1 detailed screens. |
+| 9 | `08-arcade-1-human-ai-screens.md` | Console 1 detailed screens, now including `A1_06A` human-letter analysis. |
 | 10 | `09-arcade-2-ai-only-screens.md` | Superseded pointer to the current AI-only bundle; do not implement from old content. |
 | 11 | `10-reflection-choice-exit-screens.md` | Shared post-console reflection/comparison/choice. |
 | 12 | `11-testing-and-visual-regression.md` | Global visual/flow testing discipline. |
 | 13 | `12-accessibility-and-exhibition-mode.md` | Kiosk/readability/accessibility constraints. |
 | 14 | `13-implementation-phases.md` | Global phased build order. |
 | 15 | `14-codex-task-playbook.md` | General Codex task sizing. |
-| 16 | `15-deferred-integrations.md` | Later AI/hardware/camera/printer/sound/animation seams. |
+| 16 | `15-deferred-integrations.md` | Deferred integration tracking plus explicit Arcade 1 motion/sound and analysis exceptions. |
 | 17 | `16-definition-of-done.md` | Global completion checklist. |
 | 18 | `17-preflight-audit.md` | Repository/visual-source audit before implementation. |
+
+## Arcade 1 — current enhancement bundle
+
+For any new Arcade 1 motion/audio or human-letter analysis work, read these after `AGENTS.md`, `03` and `08`:
+
+| Order | File | Purpose |
+|---|---|---|
+| A1-E1 | `28-arcade1-motion-audio-interactions.md` | Exact CTA/button/dial/page motion, semantic audio architecture, timings, reduced-motion and testing rules. |
+| A1-E2 | `29-arcade1-human-letter-analysis.md` | New `A1_06A` step with sentiment, emotions recognized, human-letter character count and visual meaning. |
+| A1-E3 | `30-arcade1-enhancement-build-playbook.md` | Incremental Codex task sequence and stop gates for implementing the two enhancement tracks safely. |
+
+### Arcade 1 enhancement rule
+
+The shell remains frozen. These files add **behavior and one new content responsibility**, not a redesign.
+
+Recommended flow around capture is now:
+
+```text
+A1_05 capture
+-> A1_06 review
+-> A1_06A human-letter analysis
+-> A1_07 notes/correction
+-> A1_08 tuning
+-> A1_09 processing
+-> A1_10 result
+```
+
+The recognized human-letter character count on `A1_06A` is separate from the 120-character note counter on `A1_07`.
 
 ## Console 2 — AI Only canonical bundle
 
@@ -50,19 +78,19 @@ For **any `A2_*` task**, read these after `AGENTS.md` and `00-source-of-truth.md
 | A2-6 | `23-ai-only-testing-acceptance.md` | Screenshot, geometry, control-state, flow/state and visual approval criteria. |
 | A2-7 | `24-ai-only-codex-build-playbook.md` | Exact incremental Codex task sequence. |
 | A2-8 | `25-ai-only-a2-00-display-title-refinement.md` | Adds the separate giant editorial `MUSE` display title and A2_00 title hierarchy. |
-| A2-9 | `26-ai-only-a2-00-visual-calibration.md` | **Latest A2_00 visual calibration** after screenshot review; locks current composition, removes the earlier radial context signal, verifies condensed title font, and defines the gate for moving to A2_01. |
-| A2-10 | `27-ai-only-a2-01-copy-refinement.md` | **Latest A2_01 copy authority**; replaces the generic prompt-question headline with an exhibition-continuation transition from Human + AI to AI-only generation. |
+| A2-9 | `26-ai-only-a2-00-visual-calibration.md` | Latest A2_00 visual calibration after screenshot review. |
+| A2-10 | `27-ai-only-a2-01-copy-refinement.md` | Latest A2_01 exhibition-continuation copy authority. |
 
-**Important:** for any work on `A2_00`, file `26` is the latest authority. Read `25` for the display-title rationale, then use `26` for the current approved/calibrated composition.
+For any work on `A2_00`, file `26` is the latest authority. Read `25` for the display-title rationale, then use `26` for the current approved/calibrated composition.
 
-For any work on `A2_01`, file `27` is the latest copy authority. It overrides the older `what would you like AI to focus on?` default in file `22`, while leaving the A2_01 geometry and interaction contract unchanged.
+For any work on `A2_01`, file `27` is the latest copy authority.
 
 ## Console 2 reference hierarchy
 
 Use both references:
 
-1. `../reference/ai-only-console2-canonical.jpg` — canonical **four-screen content composition and flow**.
-2. `../reference/ai-only-console2-system-refinement-v2.jpg` — **latest and higher authority for visual system/chrome**: heavy typography, black/grey/off-white/red palette, red square markers, horizontal separators and the lower BACK/NEXT/dial deck.
+1. `../reference/ai-only-console2-canonical.jpg` — canonical four-screen content composition and flow.
+2. `../reference/ai-only-console2-system-refinement-v2.jpg` — latest and higher authority for visual system/chrome.
 
 Important exclusions from the refinement reference:
 
@@ -70,10 +98,6 @@ Important exclusions from the refinement reference:
 - do not copy reference-only system IDs,
 - do not add the bottom-center `MUSE` wordmark,
 - do not interpret the reference as permission to use Console 1 pixel styling.
-
-The latest A2_00 review locks a separate oversized `MUSE` display title in the main field, a left-weighted editorial hierarchy, exactly two primary red square markers, one restrained title hairline, and no radial context-transfer graphic. See files `25` and `26`.
-
-The latest A2_01 copy change reframes the prompt screen as an explicit continuation of the exhibit: the visitor has already shaped a love letter with AI, and now sees what AI creates on its own. See file `27`.
 
 ## Other reference files
 
@@ -88,9 +112,9 @@ The 1440×1080 stage, state model, semantic actions and testing utilities can be
 
 ## Recommended Codex working model
 
-Use `codex/muse-static-experience` for the current static implementation and keep tasks small. Before modifying a console, identify the console-specific plan governing the work.
+Use `codex/muse-static-experience` for the current implementation and keep tasks small. Before modifying a console, identify the console-specific plan governing the work.
 
-For Console 2, follow `24-ai-only-codex-build-playbook.md`. For `A2_00`, read files `25` and `26`; file `26` is the final current visual calibration. For `A2_01`, also read `27-ai-only-a2-01-copy-refinement.md` before implementation.
+For the new Arcade 1 enhancement pass, follow `30-arcade1-enhancement-build-playbook.md` and stop after each task gate. Do not implement motion, sound and analysis UI in one uncontrolled commit.
 
 Codex should run `17-preflight-audit.md` when repository visual assets/references may be incomplete.
 
