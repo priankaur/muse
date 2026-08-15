@@ -7,11 +7,11 @@ This folder breaks the implementation into small, durable plans so Codex can wor
 Build the complete MUSE two-console experience as a static, navigable React prototype while preserving two intentionally different approved visual systems:
 
 - **Arcade Console 1 — Human + AI:** retro pixel-love-letter arcade / early-desktop UI.
-- **Arcade Console 2 — AI Only:** minimal warm-white / black / neutral-grey Swiss-editorial UI with restrained periwinkle accents.
+- **Arcade Console 2 — AI Only:** restrained editorial/technical system UI using black, grey, warm off-white and sparse signal red, with its own monochrome physical-control deck.
 
 Copy may evolve. Console-specific visual systems are locked.
 
-The current build deliberately postpones animation, production AI calls, camera, printer, audio and physical hardware integration. Stable seams may be created now so those systems can be added later without redesigning screens.
+The current build deliberately postpones animation, production AI calls, camera, printer, audio and **real physical hardware integration**. The on-screen Console 2 BACK/NEXT buttons and intensity dial are part of the current visual build; only their real serial/MIDI/Arduino wiring is deferred.
 
 ## Core canonical read order
 
@@ -42,33 +42,44 @@ For **any `A2_*` task**, read these after `AGENTS.md` and `00-source-of-truth.md
 
 | Order | File | Purpose |
 |---|---|---|
-| A2-1 | `18-ai-only-source-of-truth.md` | Current product/flow contract and conflict resolution for Console 2. |
-| A2-2 | `19-ai-only-visual-system.md` | Exact minimal visual language, tokens, typography, geometry and anti-drift rules. |
-| A2-3 | `20-ai-only-component-architecture.md` | Console 2 component boundaries and visual separation from Console 1. |
+| A2-1 | `18-ai-only-source-of-truth.md` | Current product/flow contract and reference precedence for Console 2. |
+| A2-2 | `19-ai-only-visual-system.md` | Current black/grey/off-white/red visual language, typography, rules, deck geometry and anti-drift rules. |
+| A2-3 | `20-ai-only-component-architecture.md` | Console 2 component boundaries, control-deck architecture and visual separation from Console 1. |
 | A2-4 | `21-ai-only-data-state-interactions.md` | Inherited context, analysis, tone state, regenerate behaviour and fixtures. |
-| A2-5 | `22-ai-only-screen-specifications.md` | Detailed 1440×1080 implementation spec for all four canonical screens. |
-| A2-6 | `23-ai-only-testing-acceptance.md` | Console 2 screenshots, flow/state tests and approval checklist. |
+| A2-5 | `22-ai-only-screen-specifications.md` | Detailed 1440×1080 specs for all four screens using the refined shell/deck. |
+| A2-6 | `23-ai-only-testing-acceptance.md` | Screenshot, geometry, control-state, flow/state and visual approval criteria. |
 | A2-7 | `24-ai-only-codex-build-playbook.md` | Exact incremental Codex task sequence. |
 
-Canonical Console 2 image:
+## Console 2 reference hierarchy
 
-- `../reference/ai-only-console2-canonical.jpg`
+Use both references:
 
-## Reference files
+1. `../reference/ai-only-console2-canonical.jpg` — canonical **four-screen content composition and flow**.
+2. `../reference/ai-only-console2-system-refinement-v2.jpg` — **latest and higher authority for visual system/chrome**: heavy typography, black/grey/off-white/red palette, red square markers, horizontal separators and the lower BACK/NEXT/dial deck.
+
+Important exclusions from the refinement reference:
+
+- do not copy `DIGITAL LOVE LETTER` as product copy,
+- do not copy reference-only system IDs,
+- do not add the bottom-center `MUSE` wordmark,
+- do not interpret the reference as permission to use Console 1 pixel styling.
+
+## Other reference files
 
 - `../reference/muse-ui-style-system-v2.md` — Console 1 canonical pixel visual system.
-- `../reference/ai-only-console2-canonical.jpg` — Console 2 canonical minimal visual source.
 - `../reference/muse-experience-flow-legacy.md` — older narrative reference only.
 
 ## Key implementation principle
 
 > **Share the experience infrastructure; do not merge the two visual systems.**
 
-The 1440×1080 stage, state model, semantic navigation and testing utilities can be shared. Console 1 and Console 2 must have distinct visual shells/components.
+The 1440×1080 stage, state model, semantic actions and testing utilities can be shared. Console 1 and Console 2 must have distinct visual shells/components.
 
 ## Recommended Codex working model
 
-Use `codex/muse-static-experience` for the current static implementation and keep tasks small. Before modifying a console, identify the console-specific plan that governs the work.
+Use `codex/muse-static-experience` for the current static implementation and keep tasks small. Before modifying a console, identify the console-specific plan governing the work.
+
+For the current Console 2 refinement, follow `24-ai-only-codex-build-playbook.md` and stop after the shared refined shell/control deck is visually calibrated before multiplying changes across every screen.
 
 Codex should run `17-preflight-audit.md` when repository visual assets/references may be incomplete.
 
