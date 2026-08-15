@@ -1,6 +1,6 @@
 # 07 — Canonical Screen Inventory
 
-This is the working complete screen map for the static build. Copy labels may change; screen responsibilities remain stable unless the product flow explicitly changes.
+This is the working complete screen map for the current build. Copy labels may change; screen responsibilities remain stable unless the product flow explicitly changes.
 
 ## Registration / entry
 
@@ -21,6 +21,8 @@ Next: `A1_00`.
 ---
 
 # Arcade 1 — Human + AI
+
+Arcade 1 now includes approved motion/sound feedback and a human-letter analysis step. See files `28`–`30`.
 
 ### `A1_00` — Attract / Discover Your Muse
 
@@ -56,9 +58,26 @@ Purpose: static camera placeholder; show capture guide and `PHOTO N / 3` state.
 
 Purpose: choose `USE THIS ONE` or `RETAKE`. Third attempt removes retake.
 
+Accepting the photo now continues to `A1_06A`.
+
+### `A1_06A` — Human letter analysis
+
+Purpose: transparently show what the machine recognized from the visitor's human-created letter before AI enhancement begins.
+
+Exactly four primary outputs:
+
+- sentiment analysis
+- emotions recognized
+- character count of recognized human-letter text
+- visual meaning / AI interpretation of visible non-text cues
+
+The screen is read-only. The visitor can add/correct context on the following Notes for AI screen.
+
 ### `A1_07` — Notes for AI
 
-Purpose: optional short machine note.
+Purpose: optional short machine note / correction/addition after seeing the system readback.
+
+Its 120-character counter is separate from the recognized human-letter character count on `A1_06A`.
 
 ### `A1_08` — Tune the enhancement
 
@@ -66,7 +85,7 @@ Purpose: Human + AI tuning controls.
 
 ### `A1_09` — Processing
 
-Purpose: static generating/processing state using fixture state.
+Purpose: deterministic generating/processing state. The current Arcade 1 enhancement plan now permits restrained stepped pixel-processing motion and semantic sound feedback.
 
 ### `A1_10` — Human + AI letter result
 
@@ -80,7 +99,7 @@ Purpose: conclude first experience and direct visitor to the AI-only console whi
 
 # Arcade 2 — AI Only
 
-Console 2 uses its own minimal visual system. See `18`–`24` AI-only plans.
+Console 2 uses its own minimal visual system. See `18`–`27` AI-only plans.
 
 ### `A2_00` — Welcome back / context loaded
 
@@ -88,9 +107,9 @@ Purpose: recognize visitor from inherited session and confirm that context from 
 
 No repeated registration, recipient or relationship questions.
 
-### `A2_01` — Short prompt
+### `A2_01` — Short prompt / exhibition continuation
 
-Purpose: collect one short prompt describing what the visitor wants AI to focus on.
+Purpose: continue the exhibit from Human + AI into AI-only generation and collect one short direction for the AI-only letter.
 
 Current cap: 120 characters.
 
@@ -133,7 +152,7 @@ Actions:
 
 Regenerate preserves prompt, inherited context and tone-control values.
 
-There is no separate required analysis-only page and no standalone generating page in the current static canonical flow.
+There is no separate required analysis-only page and no standalone generating page in the current canonical flow.
 
 ---
 
