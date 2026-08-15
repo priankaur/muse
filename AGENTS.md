@@ -33,12 +33,13 @@ For Console 2 also read, in order:
 - `docs/implementation/23-ai-only-testing-acceptance.md`
 - `docs/implementation/24-ai-only-codex-build-playbook.md`
 - `docs/implementation/25-ai-only-a2-00-display-title-refinement.md`
+- `docs/implementation/26-ai-only-a2-00-visual-calibration.md`
 - `docs/reference/ai-only-console2-canonical.jpg`
 - `docs/reference/ai-only-console2-system-refinement-v2.jpg`
 
 For Console 2, the original four-screen image is authoritative for screen-specific content composition. The refinement-v2 image is the higher visual authority for typography character, color emphasis, separators, red markers and lower physical controls.
 
-For `A2_00`, `25-ai-only-a2-00-display-title-refinement.md` is the latest reviewed override. It requires a **separate oversized editorial `MUSE` display title in the main content field in addition to the small persistent top-left identity**. Do not interpret the small identity as satisfying the display-title requirement.
+For `A2_00`, file `26-ai-only-a2-00-visual-calibration.md` is the latest reviewed authority. File `25` explains the large display-title correction; file `26` locks the current screenshot composition and final calibration details.
 
 The legacy flow at `docs/reference/muse-experience-flow-legacy.md` is reference material only.
 
@@ -122,7 +123,17 @@ Rules:
 
 The refinement reference's `DIGITAL LOVE LETTER` headline demonstrates typographic weight/character only. Do not copy that phrase into product UI.
 
-On `A2_00`, also render a **separate giant `MUSE` display title** in the main field. This is distinct from the small persistent identity and is the primary visual anchor of the entry screen. Follow file `25` for geometry, hierarchy and stop conditions.
+On `A2_00`, also render a **separate giant `MUSE` display title** in the main field. This is distinct from the small persistent identity and is the primary visual anchor of the entry screen.
+
+Latest A2_00 calibration from file `26`:
+
+- keep the current strongly left-weighted editorial composition;
+- keep exactly two primary red square markers: status + begin instruction;
+- keep one restrained 1px hairline beneath the large MUSE title;
+- do not reintroduce the earlier radial/dotted context-transfer graphic;
+- verify the giant MUSE actually resolves to the approved condensed display face and is not a broad fallback font;
+- keep the small persistent identity visually subordinate to the giant title;
+- keep the current large whitespace field empty rather than adding helper UI.
 
 ## Console 2 red marker language
 
@@ -138,7 +149,7 @@ Do not:
 
 ## Console 2 lower control deck
 
-Console 2 now has its own persistent on-screen physical-control representation, visually derived from the refinement reference.
+Console 2 has its own persistent on-screen physical-control representation, visually derived from the refinement reference.
 
 It is **not** Console 1's hardware strip.
 
@@ -288,7 +299,9 @@ For Console 2 specifically verify:
 - outlined dial with small red indicator
 - heavy condensed persistent `MUSE` identity
 - on `A2_00`, separate oversized `MUSE` display title exists and dominates the main field
-- sparse red markers
+- on `A2_00`, no radial context-transfer graphic
+- on `A2_00`, exactly two primary red square markers
+- sparse red markers elsewhere
 
 ## Change discipline
 
