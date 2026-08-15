@@ -1,24 +1,136 @@
 # 22 — Arcade Console 2 / AI Only — Screen Specifications
 
-This document defines the four canonical AI-only screens at 1440×1080. Copy remains configurable, but composition, hierarchy and component placement are locked unless a new approved visual reference changes them.
+This document defines the four canonical AI-only screens at `1440 × 1080` using the current refined Console 2 visual system.
 
-All screens use `AiOnlyShell` and `AiOnlyIdentity`.
+Visual references:
 
-## Shared screen coordinates
+- `docs/reference/ai-only-console2-canonical.jpg` — content composition / four-screen flow.
+- `docs/reference/ai-only-console2-system-refinement-v2.jpg` — current typography, black/grey/off-white/red system language, rules, markers and lower control deck.
 
-Use the 1440×1080 internal stage.
+If these references conflict, use the refinement image for system/chrome and the original four-screen image for screen-specific content layout.
 
-Persistent anchors:
-
-```text
-outer frame inset: 20px
-identity: x 72, y 58
-left nav: x 72, baseline y 990
-center nav: x 720, baseline y 990
-right nav: x 1368, baseline y 990
-```
+All screens use `AiOnlyShell`, `AiOnlyIdentity`, `SystemRule` and `AiControlDeck`.
 
 Do not render tiny screen numbers.
+Do not render a bottom-center `MUSE` label.
+Do not render Console 1 pixel chrome.
+
+---
+
+# Shared 1440×1080 structure
+
+## Stage
+
+```text
+width: 1440
+height: 1080
+```
+
+## Main content region
+
+```text
+y: 0–888
+```
+
+## Lower control deck
+
+```text
+y: 888–1080
+height: 192
+background: #EAEAEA starting token
+```
+
+A 2px near-black horizontal rule separates the content region from the deck.
+
+## Persistent identity
+
+Anchor:
+
+```text
+x: 72
+y: 58
+```
+
+```text
+MUSE
+AI ONLY
+ARCADE CONSOLE 2
+```
+
+`MUSE` uses the heavy condensed display character from the refinement reference. It must be noticeably bolder than the earlier foundation implementation.
+
+Do not copy the reference's bottom `M U S E` treatment.
+
+## Persistent deck controls
+
+### BACK button
+
+Approx center:
+
+```text
+x: 82
+y: 972
+```
+
+### NEXT button
+
+Approx center:
+
+```text
+x: 184
+y: 972
+```
+
+### INTENSITY DIAL
+
+Approx center:
+
+```text
+x: 1324
+y: 966
+```
+
+All three controls remain physically visible across the AI-only flow. Availability changes by state; geometry does not.
+
+Back/Next navigation is expressed primarily through these physical deck controls rather than duplicate floating arrow links.
+
+`regenerate` remains a small software/system action on `A2_03` because there is no dedicated fourth hardware control.
+
+---
+
+# Shared style rules
+
+## Palette
+
+Dominant system:
+
+- warm off-white main field
+- light grey control deck
+- near-black primary typography
+- muted grey system metadata
+- signal red `#EC5B29` for tiny square markers / dial pointer / active technical state
+
+Do not use periwinkle/blue as the default accent.
+
+## Typography
+
+Use three roles:
+
+1. heavy condensed neo-grotesk for `MUSE` identity and strong display titles where specified,
+2. neutral Swiss/neo-grotesk for content,
+3. mono/semi-mono technical face for system labels, control labels and metadata.
+
+Do not make every paragraph condensed/bold.
+
+## Rules / separators
+
+Use shared `SystemRule` components/tokens. Do not invent one-off border thicknesses per screen.
+
+The control-deck separator is the strongest persistent rule. Internal content separators are 1px and used sparingly.
+
+## Red markers
+
+Use small red squares as system anchors only where helpful. Do not place one before every text element.
 
 ---
 
@@ -26,7 +138,7 @@ Do not render tiny screen numbers.
 
 ## Purpose
 
-Acknowledge that Console 2 already knows who the visitor is and has inherited the previous experience context.
+Acknowledge that Console 2 already knows the visitor and has inherited context from Arcade 1.
 
 It must not feel like onboarding again.
 
@@ -38,113 +150,104 @@ Config shape:
 {
   titlePrefix: 'welcome back,',
   contextLine: 'your context from the first experience has been loaded.',
-  beginLabel: 'press to begin'
+  beginInstruction: 'PRESS [NEXT] TO BEGIN'
 }
 ```
 
-Visitor name is dynamic and inserted as the second title line.
+Visitor name is dynamic.
 
-Example:
-
-```text
-welcome back,
-kristian
-```
+Do not copy `SYSTEM INITIALIZED // MUSE OS v.1.0` literally unless later approved as product copy. The refinement reference defines the **style** of system-status microcopy, not the exact words.
 
 ## Composition
 
+### Identity
+
+Persistent top-left identity as defined above.
+
 ### Hero block
 
-Approximate locked box:
+Use the original four-screen reference's central balance, but strengthen typographic character.
+
+Approximate content box:
 
 ```text
-x: 330
-width: 780
-center aligned
-start y: 250
+x: 320
+width: 800
+start y: 230
 ```
 
 Title:
 
-- two lines
-- 64px regular
-- line-height 0.98
+```text
+welcome back,
+[visitor name]
+```
+
+- 62–66px
+- neutral/content display role
 - near-black
 - centered
-- no decorative punctuation added
+- line-height ~0.98
+- no blue name
 
-The user's name uses the same weight/size as the phrase. Do not make it blue or bold.
+Do not automatically make this title uppercase. The heavy condensed uppercase treatment is a system/display option, not a reason to rewrite approved copy.
 
 ### Context line
 
 ```text
-y: ~430
+y: ~410
 width: 520
 ```
 
-- 18px
-- muted ink
+- 17–18px
+- muted grey
 - centered
-- max 2 lines
+- maximum 2 lines
 
 ### Context signal
 
-Centered below copy:
-
 ```text
 center x: 720
-center y: ~610
-diameter: 180px
+center y: ~565
+diameter: 170–185px
 ```
 
-Use `ContextSignal` from the component plan:
-
-- static dotted/radial form
-- neutral-grey structure
-- tiny blue center
-- no labels
+- static neutral dotted/radial structure
+- tiny red central signal marker
+- no blue
 - no animation
 
-### Begin control
+### Begin instruction
 
-Below signal:
+Place as restrained technical microcopy in the lower portion of the main content region, above the deck, aligned intentionally with the system grid.
 
-```text
-y: ~780
-```
-
-A small circular outlined target/press indicator may be shown because it exists in the canonical reference.
-
-Rules:
-
-- 34–40px outer circle
-- 1.5px accent outline
-- tiny accent center dot
-- no 3D arcade representation
-
-Text:
+Recommended:
 
 ```text
-press to begin
+x: 76
+y: 840
 ```
 
-- 16px accent blue
-- centered
-- 12px below indicator
+Structure:
 
-## Interaction
+```text
+[red square]  PRESS [NEXT] TO BEGIN
+```
 
-- click/Enter on begin -> `A2_01`
-- no back link required on first Console 2 screen
+- mono/system role
+- uppercase
+- 13–15px
+- near-black
 
-## Prohibited additions
+The deck NEXT button triggers the action.
 
-- progress meter
-- explanation of AI analysis
-- recipient name
-- relationship name unless copy later explicitly requests it
-- Console 1 handoff instructions
-- colored illustration
+## Deck state
+
+- BACK: visible but disabled/neutral
+- NEXT: enabled, triggers `A2_01`
+- dial: visible, inactive/neutral
+
+No duplicate centered `press to begin` button is required once the deck pattern is implemented.
 
 ---
 
@@ -152,11 +255,9 @@ press to begin
 
 ## Purpose
 
-Ask the visitor for one short direction that guides the AI-generated letter without recreating the human writing task.
+Ask for one short direction that guides the AI-generated letter without recreating the Human + AI writing task.
 
-## Required copy
-
-Reference-aligned default config:
+## Default content
 
 ```ts
 {
@@ -167,96 +268,88 @@ Reference-aligned default config:
 }
 ```
 
-Copy may later change. Geometry must not.
+Copy remains configurable.
 
 ## Composition
 
 ### Title
 
-Centered.
+Centered in main content region:
 
 ```text
 x: 350
 width: 740
-y: 250
+y: 190–215
 ```
 
-- 48px regular
-- line-height 1.02
+- 48–52px neutral/screen title role
 - near-black
+- line-height ~1.0
 - exactly two lines at canonical copy length
+
+A thin structural rule may sit beneath the title/subtitle group if it improves alignment with refinement-v2. Use shared rule token, not a decorative line.
 
 ### Subtitle
 
 ```text
-y: ~385
+y: ~330
 ```
 
 - 16px
-- muted ink
+- muted grey
 - centered
 
-### Prompt textarea
+### Prompt field
 
 ```text
 x: 360
 width: 720
 height: 190
-y: 455
+y: 400–420
 ```
 
-Use `AiPromptField`.
+Treatment:
 
-Character count bottom-right inside field area:
+- off-white / transparent field
+- 1px grey/black line
+- radius 0–4px
+- no blue outline
+- 24px horizontal padding
+- 22px vertical padding
+
+Character count:
 
 ```text
 0 / 120
 ```
 
-- 14px muted ink
+- bottom-right
+- 13–14px muted/system grey
 
-Do not display a label above the textarea unless future copy specifically adds one.
+Focus:
 
-## Navigation
+- border darkens and/or receives a tiny red signal detail
+- no glow
 
-Bottom:
+## Deck state
 
-- left: `← back`
-- right: `continue →`
+- BACK: enabled -> `A2_00`
+- NEXT: enabled only when `prompt.trim().length > 0`
+- dial: visible, inactive
 
-Continue is accent blue when valid.
-When invalid, use muted neutral text and `aria-disabled`/disabled button semantics; do not add opacity animations or tooltip.
-
-## Validation
-
-Valid when:
-
-```ts
-prompt.trim().length > 0
-```
-
-Max 120 characters.
-
-## Interaction
-
-- back -> `A2_00`
-- continue -> create/load deterministic interpretation state -> `A2_02`
-
-No standalone generating/analysis-loading screen in current static flow.
+Do not render additional floating `← back` / `continue →` links.
 
 ---
 
-# `A2_02` — Here’s What I Understand / Analysis + Tone Controls
+# `A2_02` — Interpretation + Tone Controls
 
 ## Purpose
 
-Expose the machine's interpretation and allow the visitor to tune the generation parameters.
-
-This screen deliberately juxtaposes **read-only machine analysis** with **editable tone controls**.
+Expose the machine's read-only interpretation and allow the visitor to tune the AI-proposed generation parameters.
 
 ## Title
 
-Reference-aligned default:
+Default:
 
 ```text
 here’s what I understand.
@@ -267,21 +360,21 @@ Position:
 ```text
 x: 300
 width: 840
-y: 145
+y: 120–145
 ```
 
-- 46px regular
-- centered
+- 44–48px
 - near-black
+- centered
+
+Optional shared horizontal rule can separate title from the analytical grid if visually consistent with refinement-v2.
 
 ## Main grid
 
-Two columns with generous gap.
-
 ```text
-container x: 170
-container width: 1100
-top: 300
+container x: 155–170
+container width: 1110
+top: 250–275
 left column width: 500
 column gap: 140
 right column width: 460
@@ -293,56 +386,45 @@ right column width: 460
 analysis
 ```
 
-- 18px / 600
+- 17–18px semibold
 - near-black
-- left aligned
-- 18–24px above first card
+- may use a small red square marker before the heading
 
 ### Analysis stack
 
-Exactly three cards in this order:
+Exactly three read-only cards:
 
 1. sentiment analysis
 2. emotion detection
 3. romance detection
 
-Each approximately:
+Approximate:
 
 ```text
 width: 500
-height: 112
-gap: 16
+height: 108–112
+gap: 14–16
 ```
 
-Reference-aligned fixture display:
+Current visual treatment:
 
-#### Sentiment
+- no blue
+- thin grey/black outline/rules
+- radius 0–4px
+- no shadow
+- black label
+- muted summary
+- tiny red marker or monochrome icon only
+
+Fixture values can remain:
 
 ```text
-sentiment analysis        62 / 100
-overall sentiment is positive with
-moments of vulnerability.
+sentiment analysis  62 / 100
+emotion detection   71 / 100
+romance detection   68 / 100
 ```
 
-#### Emotion
-
-```text
-emotion detection         71 / 100
-love, longing, and hope are
-the dominant emotions.
-```
-
-#### Romance
-
-```text
-romance detection         68 / 100
-clear romantic intent with a desire
-for closeness and reassurance.
-```
-
-Scores are static design fixtures for now. They must not be positioned as diagnostic truth in copy.
-
-Analysis cards are read-only. No hover edit state.
+These are static fixture readouts, not diagnostic truth.
 
 ### Right heading
 
@@ -350,18 +432,13 @@ Analysis cards are read-only. No hover edit state.
 tone controls
 ```
 
-- 18px / 600
-- left aligned
-
-Optional tiny information icon shown in the reference may appear at the far right of the heading row:
-
-- simple 18px neutral outline `i`
-- no tooltip required in static build
-- do not use a large icon library
+- 17–18px semibold
+- near-black
+- optional red marker
 
 ### Tone controls
 
-Exactly five rows in order:
+Exactly five rows, in order:
 
 ```text
 warmth             72%
@@ -371,260 +448,205 @@ playfulness        40%
 nostalgia          55%
 ```
 
-Use canonical values from fixture only as initial proposal.
+Slider rules:
 
-Visitor can edit all five.
+- grey inactive track
+- black active track by default
+- signal red only for focused/active control if needed
+- off-white outlined thumb
+- no blue
+- no shadow
 
-Tone rows start aligned with first analysis card and should visually form a single vertical rhythm.
+## Dial behaviour in static prototype
 
-## Navigation
+The visible `INTENSITY DIAL` can mirror/drive the currently focused tone control.
 
-- left: `← back`
-- right: `continue →`
+Requirements:
 
-No separate `generate` filled button.
+- do not create a new sixth value
+- dial changes the active/focused tone-control value only
+- keyboard/mouse range controls remain accessible
+- if no tone row is focused/selected, dial does not silently modify an arbitrary control
 
-## Interaction
+## Deck state
 
-Back:
-
-```text
-A2_02 -> A2_01
-```
-
-Prompt value remains.
-
-Continue:
-
-```text
-A2_02 -> A2_03
-```
-
-Static build chooses/generates fixture result from current tone-control state.
-
-## Prohibited
-
-- sliders for sentiment/emotion/romance
-- colorful sentiment labels
-- radar chart
-- pie chart
-- AI confidence visualization beyond the compact reference-style score/readout
-- more than five tone controls
-- explanatory helper panel
+- BACK: enabled -> `A2_01`
+- NEXT: enabled -> `A2_03`
+- dial: enabled for the active tone control
 
 ---
 
-# `A2_03` — Generated AI Letter + Letter Insights
+# `A2_03` — Generated AI Letter + Insights
 
 ## Purpose
 
-Present the AI-only letter as a clean typed document and make the machine interpretation visible alongside it.
+Present the AI-only generated letter as the dominant object and show machine insight alongside it.
 
 This is the final Console 2 screen before shared reflection.
 
-## Overall layout
+## Result composition
 
-The reference is asymmetrical: large document slightly left-of-center with a narrow insight rail on the right.
+Main content region must fit above the control deck.
 
-Recommended result grid:
+Recommended grid:
 
 ```text
-container x: 210
-container y: 235
-container width: 1090
-columns: 780px 240px
-gap: 70px
+container x: 185–205
+container y: 165–190
+container width: 1100
+columns: 770px 250px
+gap: 70–80px
 ```
 
-Do not center the combined result group by making both columns equal.
+The letter must remain visually dominant.
 
 ## Letter document
 
 Main sheet:
 
 ```text
-width: 760px
-height: ~520px
+width: 750–770px
+height: 500–520px
 ```
 
-Layered-sheet offsets behind it establish depth.
+Use:
 
-Letter content starts with a casual neutral salutation fixture such as:
+- warm off-white paper
+- thin grey/black outline
+- 1–2 offset outline layers
+- restrained shadow only if required
 
-```text
-hey kristian,
-```
+Body:
 
-The reference's sample copy is fixture content, not a locked final message. Store all letter copy in fixtures/config.
-
-Typography:
-
-- 17–18px
-- regular
+- 17–18px neutral sans
 - line-height 1.42
 - left aligned
 - near-black
 
-No visible editor controls.
-No textarea chrome.
-No handwriting/personal decoration in first build.
+No handwriting, stamps, doodles or colored decoration in the current build.
 
-## Letter insights rail
+## Letter insights
 
-Heading:
-
-```text
-letter insights
-```
-
-Exactly four cards in order:
+Exactly four categories:
 
 1. sentiment
 2. emotion
 3. romance
 4. tone profile
 
-### Sentiment fixture
+Use:
+
+- black labels
+- muted grey confidence text
+- strong black key values
+- tiny red signal marker / monochrome icon where useful
+- no blue values
+- no semantic green/pink/red category coding
+
+## Regenerate action
+
+Because the deck has no fourth hardware button, display a restrained text/system action above the deck or centered beneath the result content:
 
 ```text
-sentiment
-positive
-confidence: 82%
+[red marker optional] REGENERATE
 ```
 
-### Emotion fixture
+Do not style it as a large CTA.
 
-Example:
+Regenerate:
 
-```text
-emotion
-affection / longing
-confidence: 79%
-```
+- stays on `A2_03`
+- preserves inherited context
+- preserves prompt
+- preserves analysis
+- preserves current tone-control values
+- cycles deterministic result variant + matching insights
 
-### Romance fixture
+## Deck state
 
-```text
-romance
-high
-confidence: 78%
-```
+- BACK: enabled -> `A2_02`
+- NEXT: enabled -> shared reflection first screen
+- dial: visible, inactive/neutral unless later explicitly assigned
 
-### Tone profile
-
-```text
-tone profile
-warm, intimate,
-sincere
-```
-
-Important: emotion must be present even though the original montage right rail showed fewer categories.
-
-Accent blue is used for the key value (`positive`, `high`, tone labels) and icon; labels/confidence remain neutral.
-
-## Navigation
-
-Bottom navigation has all three canonical actions:
-
-```text
-left:   ← back
-center: ↻ regenerate
-right:  continue →
-```
-
-### Back
-
-Returns to `A2_02` with current tone controls intact.
-
-### Regenerate
-
-Stay on `A2_03`.
-Preserve:
-
-- inherited context
-- short prompt
-- analysis
-- current tone-control values
-
-Cycle to the next deterministic letter fixture and its matching insights.
-
-### Continue
-
-Enter shared reflection/comparison flow.
-
-Guard that both Human + AI and AI-only results exist.
-
-## No standalone completion screen
-
-Do not add:
-
-- `AI letter complete`
-- `thank you`
-- `ready to compare?`
-
-unless later explicitly designed.
+No duplicate floating continue link.
 
 ---
 
-# Cross-screen layout rules
+# Cross-screen invariants
 
-## Persistent identity
+## Control deck
 
-`AiOnlyIdentity` must not move between screens.
+The deck is pixel-identical in geometry across all four screens.
 
-## Bottom navigation
+Only control enabled/disabled/indicator state may change.
 
-Use same vertical baseline on screens 2–4.
+## Identity
 
-## Text measure
+Top-left identity never moves.
 
-Avoid very wide body paragraphs. Most body/helper text should remain under ~60–70 characters per line where practical.
+## No bottom MUSE
+
+Never render the bottom-center `MUSE` from the refinement reference.
+
+## Accent
+
+Signal red is sparse. If red becomes visually dominant, the implementation has drifted.
+
+## Lines
+
+Rules should align to shared system coordinates. Do not create random decorative linework per screen.
 
 ## Whitespace
 
-If implementing a missing copy state creates open space, preserve the open space. Do not fill it with UI.
+The refined system adds structure, not density. Preserve large open regions.
 
 ## Content overflow
 
-If future copy is longer:
+If copy becomes longer:
 
-1. keep shell/frame/identity/navigation fixed,
-2. keep type role within ±2px where possible,
-3. allow internal content wrapping,
-4. only request design review if the canonical bounding box cannot fit at readable size.
+1. preserve stage/deck geometry,
+2. preserve identity/control anchors,
+3. allow controlled wrapping,
+4. request design review before materially shrinking titles or letter body.
 
-Do not shrink headings dramatically to accommodate verbose copy.
+---
 
-# Static fixture transition map
+# Static transition map
 
 ```text
 A2_00
-  BEGIN -> A2_01
+  NEXT -> A2_01
 
 A2_01
   BACK -> A2_00
-  CONTINUE(valid prompt) -> A2_02
+  NEXT(valid prompt) -> A2_02
 
 A2_02
   BACK -> A2_01
-  tone edits -> remain A2_02
-  CONTINUE -> A2_03
+  tone edits / dial edits -> remain A2_02
+  NEXT -> A2_03
 
 A2_03
   BACK -> A2_02
-  REGENERATE -> A2_03 (new fixture variant)
-  CONTINUE -> shared reflection first screen
+  REGENERATE -> A2_03 (new deterministic result variant)
+  NEXT -> shared reflection first screen
 ```
 
-# Screen approval gates
+---
 
-Do not call a screen complete until:
+# Screen approval gate
 
-- 1440×1080 screenshot exists
-- identity anchor matches all other Console 2 screens
-- stage/frame colors match shared tokens
-- type hierarchy matches reference
-- navigation baseline matches
-- there is no Console 1 visual chrome
-- there are no unapproved UI elements
-- the route/state behaviour matches this document.
+A screen is not complete until:
+
+- rendered at exactly 1440×1080
+- stage-only screenshot captured
+- refined reference palette is respected
+- no dominant blue appears
+- `MUSE` identity uses the heavier condensed character
+- control deck divider and hardware geometry match shared tokens
+- no bottom-center MUSE exists
+- red square markers are sparse and consistent
+- no Console 1 pixel chrome appears
+- no duplicate floating Back/Next navigation appears
+- screen-specific content still follows the original four-screen reference
+- tests confirm route/state behavior.
