@@ -4,6 +4,8 @@ Arcade 1 is the human-led path. The visitor starts with their own emotional mate
 
 All screens use the locked MUSE shell unless noted otherwise.
 
+Arcade 1 now also has an approved motion/sound extension and a new human-letter analysis step. Read files `28`–`30` for the current implementation rules.
+
 ## Persistent shell for Arcade 1
 
 - top-left MUSE lockup
@@ -18,6 +20,8 @@ All screens use the locked MUSE shell unless noted otherwise.
 - red / gold dial / red hardware strip
 
 No control instructions appear beneath the hardware.
+
+The shell geometry remains frozen even when motion is added. Motion affects pressed states, content/page transitions, dial steps and approved sprite bobbing; it does not redesign the shell.
 
 ---
 
@@ -40,7 +44,9 @@ Use the canonical centered hero composition. `DISCOVER YOUR` should visually spa
 
 ### Interaction
 
-Either red button may start in the final hardware implementation. Static build also allows click/Enter.
+Either red button may start in the final hardware implementation. Current browser build also allows click/Enter.
+
+Use the shared Arcade 1 button/CTA press feedback and semantic sound event when enabled by file `28`.
 
 ### Do not
 
@@ -75,7 +81,7 @@ The body supports solid rectangular highlight blocks behind selected phrases. Hi
 
 `WRITE A LETTER TO SOMEONE YOU LOVE`
 
-Use the canonical wide magenta CTA.
+Use the canonical wide magenta CTA and the shared CTA press/depth-collapse feedback from file `28`.
 
 ### Layout
 
@@ -139,7 +145,7 @@ Require:
 - selected relationship,
 - non-empty other relationship when `Other` is selected.
 
-Validation should use the same pixel language and should not shake/animate in the static phase.
+Validation should use the same pixel language. Do not add modern shaking/bouncing error motion; file `28` governs permitted interaction feedback.
 
 ---
 
@@ -189,9 +195,9 @@ Visitor gets three capture attempts.
 - explicit `3 PHOTOS` constraint,
 - camera/capture icon if an approved sprite exists.
 
-### Static phase
+### Current prototype phase
 
-No camera permission. CTA advances to the simulated capture screen.
+No camera permission required yet. CTA advances to the simulated capture screen.
 
 ---
 
@@ -216,6 +222,8 @@ Maintain `photoAttempt` in the session.
 
 Pressing capture selects the fixture image and advances to review.
 
+A semantic capture sound may be added only through the shared Arcade 1 audio layer; do not wire audio directly inside this screen.
+
 ---
 
 ## `A1_06` — Photo review
@@ -234,8 +242,108 @@ On attempt 3, `RETAKE` is removed/disabled according to final interaction decisi
 
 ### Branching
 
-- accept → `A1_07`
+- accept → `A1_06A`
 - retake → increment attempt and return `A1_05`
+
+---
+
+## `A1_06A` — Human letter analysis
+
+### Goal
+
+Show a transparent readback of what the machine recognized from the visitor's human-created letter **before AI enhancement begins**.
+
+This is read-only analysis, not a judgment and not the generated result.
+
+### Required four outputs
+
+Exactly:
+
+1. sentiment analysis;
+2. emotions recognized;
+3. character count;
+4. visual meaning.
+
+### Copy direction
+
+Recommended configurable title:
+
+`HERE'S WHAT THE MACHINE PICKED UP`
+
+Recommended helper:
+
+`A quick read of your letter before AI adds anything to it.`
+
+Store copy in config.
+
+### Layout
+
+Use the locked Arcade 1 shell and pixel component language.
+
+Recommended arrangement:
+
+```text
+TITLE / HELPER
+
+[ SENTIMENT ]          [ EMOTIONS RECOGNIZED ]
+[ CHARACTER COUNT ]    [ VISUAL MEANING      ]
+
+CONTINUE CTA
+```
+
+Use compact pixel panels or equivalent Arcade 1 primitives. Do not copy Console 2's minimal analytics cards.
+
+### Sentiment
+
+Display a concise label such as `warm + reflective`, with optional score if later visually approved.
+
+Do not traffic-light color positive/negative sentiment.
+
+### Emotions recognized
+
+Show a small maximum set, recommended 3 visible emotions, for example:
+
+- love
+- nostalgia
+- longing
+
+Use Arcade 1 pixel tags or compact list styling.
+
+### Character count
+
+This is the count of the recognized/extracted **human letter text**, not the note-field counter on `A1_07`.
+
+Example:
+
+```text
+CHARACTERS RECOGNIZED
+384
+```
+
+### Visual meaning
+
+This is the machine's qualified interpretation of visible non-text cues such as hearts, doodles, underlines, cutouts, colors, spacing or emphasis.
+
+Example fixture:
+
+```text
+heart doodles + emphasized phrases appear to reinforce affection and closeness.
+```
+
+Use uncertainty-aware language; do not present visual interpretation as objective psychological fact.
+
+### Interaction
+
+- back → `A1_06` if current semantic navigation supports it;
+- continue → `A1_07`.
+
+The visitor cannot directly edit the analysis. `A1_07` gives them the chance to add or correct context before enhancement.
+
+### Data
+
+Use `HumanLetterAnalysis` / fixture service defined in file `29`.
+
+No production vision/OCR/model call is required in the current pass.
 
 ---
 
@@ -243,7 +351,7 @@ On attempt 3, `RETAKE` is removed/disabled according to final interaction decisi
 
 ### Goal
 
-Allow a short correction/addition before AI enhancement.
+Allow a short correction/addition after the machine readback and before AI enhancement.
 
 ### UI
 
@@ -252,6 +360,8 @@ Allow a short correction/addition before AI enhancement.
 - character counter.
 
 Legacy cap: 120 characters. Keep as configuration so it can change.
+
+Important: this counter measures the optional machine note and is independent from the recognized human-letter character count shown on `A1_06A`.
 
 ### CTA
 
@@ -267,7 +377,9 @@ Let the visitor use AI as an adjustable tool after the human work exists.
 
 ### Interaction
 
-One parameter is active at a time. The gold rotary dial eventually adjusts it. Static build uses arrow keys/click controls but preserves the dial-like visual grammar.
+One parameter is active at a time. The gold rotary dial eventually adjusts it. Current browser build uses arrow keys/click controls while preserving the dial visual grammar.
+
+The shared motion/audio plan now allows discrete dial rotation and tick sound per detent.
 
 ### Legacy parameter set available as a starting fixture
 
@@ -295,9 +407,16 @@ After the final parameter, advance to processing.
 
 Show the system applying AI support to human material.
 
-### Static phase
+### Current motion phase
 
-No real AI call and no animation requirement. Render a completed/static progress state and a continue mechanism or short deterministic timeout only if useful for flow testing.
+File `28` now permits a restrained deterministic pixel-processing animation:
+
+- 2–5 stepped progress states;
+- no long fake wait;
+- no glossy loading spinner;
+- optional semantic processing sound.
+
+No real AI call is required in this build.
 
 ### Copy tone
 
@@ -323,6 +442,8 @@ The letter becomes the dominant content object. Use a readable letter-preview su
 - avoid decorative sprites behind the letter body.
 
 If scroll is unavoidable, use an intentional pixel-scroll region; prefer fitting the content for the exhibition copy length.
+
+A short stepped result reveal and semantic completion cue are permitted after core motion/audio review.
 
 ### CTA
 
@@ -352,6 +473,7 @@ The session now contains:
 - recipient identity,
 - relationship,
 - human letter image fixture,
+- human-letter analysis,
 - machine note,
 - tuning settings,
 - Human + AI result.
