@@ -32,10 +32,13 @@ For Console 2 also read, in order:
 - `docs/implementation/22-ai-only-screen-specifications.md`
 - `docs/implementation/23-ai-only-testing-acceptance.md`
 - `docs/implementation/24-ai-only-codex-build-playbook.md`
+- `docs/implementation/25-ai-only-a2-00-display-title-refinement.md`
 - `docs/reference/ai-only-console2-canonical.jpg`
 - `docs/reference/ai-only-console2-system-refinement-v2.jpg`
 
 For Console 2, the original four-screen image is authoritative for screen-specific content composition. The refinement-v2 image is the higher visual authority for typography character, color emphasis, separators, red markers and lower physical controls.
+
+For `A2_00`, `25-ai-only-a2-00-display-title-refinement.md` is the latest reviewed override. It requires a **separate oversized editorial `MUSE` display title in the main content field in addition to the small persistent top-left identity**. Do not interpret the small identity as satisfying the display-title requirement.
 
 The legacy flow at `docs/reference/muse-experience-flow-legacy.md` is reference material only.
 
@@ -100,7 +103,7 @@ Console 2 current visual language:
 
 **Blue/periwinkle is superseded as the dominant Console 2 accent.** Do not restore it as the default action/slider/icon color.
 
-## Console 2 identity
+## Console 2 identity and display-title distinction
 
 Persistent top-left identity:
 
@@ -118,6 +121,8 @@ Rules:
 - do not add a second `MUSE` wordmark in the bottom-center control deck
 
 The refinement reference's `DIGITAL LOVE LETTER` headline demonstrates typographic weight/character only. Do not copy that phrase into product UI.
+
+On `A2_00`, also render a **separate giant `MUSE` display title** in the main field. This is distinct from the small persistent identity and is the primary visual anchor of the entry screen. Follow file `25` for geometry, hierarchy and stop conditions.
 
 ## Console 2 red marker language
 
@@ -281,7 +286,8 @@ For Console 2 specifically verify:
 - stable grey deck + black separator
 - outlined BACK/NEXT buttons
 - outlined dial with small red indicator
-- heavy condensed `MUSE` identity
+- heavy condensed persistent `MUSE` identity
+- on `A2_00`, separate oversized `MUSE` display title exists and dominates the main field
 - sparse red markers
 
 ## Change discipline
