@@ -51,8 +51,11 @@ For **any `A2_*` task**, read these after `AGENTS.md` and `00-source-of-truth.md
 | A2-7 | `24-ai-only-codex-build-playbook.md` | Exact incremental Codex task sequence. |
 | A2-8 | `25-ai-only-a2-00-display-title-refinement.md` | Adds the separate giant editorial `MUSE` display title and A2_00 title hierarchy. |
 | A2-9 | `26-ai-only-a2-00-visual-calibration.md` | **Latest A2_00 visual calibration** after screenshot review; locks current composition, removes the earlier radial context signal, verifies condensed title font, and defines the gate for moving to A2_01. |
+| A2-10 | `27-ai-only-a2-01-copy-refinement.md` | **Latest A2_01 copy authority**; replaces the generic prompt-question headline with an exhibition-continuation transition from Human + AI to AI-only generation. |
 
 **Important:** for any work on `A2_00`, file `26` is the latest authority. Read `25` for the display-title rationale, then use `26` for the current approved/calibrated composition.
+
+For any work on `A2_01`, file `27` is the latest copy authority. It overrides the older `what would you like AI to focus on?` default in file `22`, while leaving the A2_01 geometry and interaction contract unchanged.
 
 ## Console 2 reference hierarchy
 
@@ -70,6 +73,8 @@ Important exclusions from the refinement reference:
 
 The latest A2_00 review locks a separate oversized `MUSE` display title in the main field, a left-weighted editorial hierarchy, exactly two primary red square markers, one restrained title hairline, and no radial context-transfer graphic. See files `25` and `26`.
 
+The latest A2_01 copy change reframes the prompt screen as an explicit continuation of the exhibit: the visitor has already shaped a love letter with AI, and now sees what AI creates on its own. See file `27`.
+
 ## Other reference files
 
 - `../reference/muse-ui-style-system-v2.md` — Console 1 canonical pixel visual system.
@@ -85,7 +90,7 @@ The 1440×1080 stage, state model, semantic actions and testing utilities can be
 
 Use `codex/muse-static-experience` for the current static implementation and keep tasks small. Before modifying a console, identify the console-specific plan governing the work.
 
-For Console 2, follow `24-ai-only-codex-build-playbook.md`. For `A2_00`, read files `25` and `26`; file `26` is the final current visual calibration. Once its checks pass, proceed only to A2_01.
+For Console 2, follow `24-ai-only-codex-build-playbook.md`. For `A2_00`, read files `25` and `26`; file `26` is the final current visual calibration. For `A2_01`, also read `27-ai-only-a2-01-copy-refinement.md` before implementation.
 
 Codex should run `17-preflight-audit.md` when repository visual assets/references may be incomplete.
 
