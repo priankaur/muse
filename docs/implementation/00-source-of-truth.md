@@ -9,13 +9,13 @@ When sources conflict, use this order:
 1. Explicit latest user instruction in the current implementation task.
 2. `AGENTS.md`.
 3. Console-specific implementation plans in `docs/implementation/`.
-4. Console-specific canonical visual reference screenshots in `docs/reference/`.
+4. Console-specific canonical visual references in `docs/reference/`.
 5. Older design-system docs.
 6. Legacy flow documents and older generations.
 
 A lower-priority source is obsolete where it conflicts with a higher-priority source.
 
-# MUSE now has two intentionally different visual systems
+# MUSE has two intentionally different visual systems
 
 This is a product requirement, not an implementation accident.
 
@@ -39,24 +39,31 @@ Reference: `docs/reference/muse-ui-style-system-v2.md` plus latest approved Cons
 
 ## Console 2 — AI Only
 
-Canonical visual system is the four-screen minimal AI-only reference at:
+Console 2 uses **two complementary references**:
 
-`docs/reference/ai-only-console2-canonical.png`
+1. `docs/reference/ai-only-console2-canonical.jpg` — canonical four-screen content composition / flow reference.
+2. `docs/reference/ai-only-console2-system-refinement-v2.jpg` — latest visual-system/chrome refinement and higher authority for typography, palette, separators, red signal markers and physical-control deck.
 
 Production rules:
 
 - same 4:3 / 1440×1080 stage geometry as Console 1
-- warm off-white / bone canvas
-- near-black typography
-- thin neutral-grey rules and borders
-- periwinkle / muted electric-blue functional accents
-- Swiss / neo-grotesk typography
+- warm off-white main field
+- neutral light-grey lower control deck
+- near-black primary typography
+- muted grey secondary/system typography
+- sparse signal red as the main accent
+- heavy condensed neo-grotesk character for the `MUSE` identity/display role
+- neutral Swiss/neo-grotesk content typography
+- mono/semi-mono technical labels where appropriate
 - high whitespace
-- minimal cards and lines
-- visible text navigation only: back / continue / regenerate where relevant
+- precise horizontal rules and separators
 - persistent top-left identity: `MUSE / AI ONLY / ARCADE CONSOLE 2`
-- remove the tiny screen number visible in the montage
+- remove tiny screen numbers
+- persistent Console 2 control deck with outlined `BACK`, outlined `NEXT`, and outlined intensity dial with a small red pointer
+- **no bottom-center MUSE wordmark**
 - absolutely no Console 1 pixel arcade chrome
+
+The earlier periwinkle/blue accent direction is superseded. Do not restore blue as the dominant default Console 2 accent.
 
 Console 2 must **not** use:
 
@@ -64,12 +71,12 @@ Console 2 must **not** use:
 - purple MuseWindow
 - pixel sprites
 - magenta extrusion
-- 3D arcade-control strip as an on-screen graphic
+- Console 1 glossy red/gold/red control strip
 - pixel fonts
 - arcade button CTAs
 - decorative love-letter UI
 
-The physical cabinet may still use physical controls later. Their visible on-screen representation is intentionally absent in Console 2.
+Console 2's visible controls are intentionally present, but they are a different visual family: monochrome/industrial outlines, off-white faces, grey linework and minimal red signal detail.
 
 # Current experience structure
 
@@ -84,14 +91,12 @@ Arcade 2 does not repeat registration, recipient name or relationship selection.
 
 ## Arcade 2 canonical first four responsibilities
 
-The approved reference establishes this sequence:
-
 - `A2_00` Welcome back / inherited context loaded.
 - `A2_01` Short prompt.
 - `A2_02` Analysis + AI-proposed editable tone controls.
 - `A2_03` Generated letter + insights.
 
-There is no required standalone generating page in the current static visual sequence. A future production AI request may use a temporary local loading state without becoming a new full screen unless explicitly designed.
+There is no required standalone generating page in the current static visual sequence.
 
 After `A2_03`, continue to the shared reflection/comparison flow.
 
@@ -119,27 +124,45 @@ Editable AI-proposed tone controls:
 
 The visitor can adjust tone controls before generation.
 
+## Console 2 control semantics
+
+Persistent visible deck:
+
+- `BACK` = semantic back action where available
+- `NEXT` = semantic begin/continue action where available
+- `INTENSITY DIAL` = may control the currently active tone parameter on `A2_02`; it must not invent a new sixth tone value
+
+If an action is unavailable, keep the hardware visible in a neutral disabled state rather than removing/reflowing the deck.
+
+`REGENERATE` remains a restrained software/system text action on `A2_03` because no fourth physical control has been approved.
+
+Real serial/MIDI/Arduino hardware wiring remains deferred; the on-screen visual representation is current scope.
+
 ## AI-only voice
 
-Keep system copy neutral, restrained and computational. It should be competent and calm, not warm/empathic, and not cartoonishly robotic.
+Keep system copy neutral, restrained and computational. It should be competent and calm, not warm/empathic and not cartoonishly robotic.
 
-## Regeneration recommendation — locked for current build
+The latest refinement reference may influence the style of system-status microcopy, but do not copy unrelated literal phrases or IDs from that reference unless separately approved.
+
+## Regeneration — locked for current build
 
 `regenerate` acts in place on the result screen:
 
 - preserve inherited context
 - preserve short prompt
 - preserve current tone-control values
+- preserve read-only analysis input state
 - generate/select a new letter variant
+- update matching result insights
 - keep the visitor on the result screen
 
-`back` remains available if the visitor wants to retune settings.
+`BACK` remains available if the visitor wants to retune settings.
 
-Static prototype behaviour: cycle through deterministic fixture variants with no API call.
+Static prototype: cycle deterministic fixture variants with no API call.
 
 ## Legacy material that remains useful
 
-The legacy flow can still inform:
+Legacy flow can still inform:
 
 - capture constraints on Console 1
 - typed note behaviour
@@ -157,15 +180,19 @@ Do not restore merely because they exist in older files:
 - `Ex-Love` / `Next Love` naming
 - AI-first Console 1 ordering
 - Console 1 chrome on Console 2
-- `MUSE SYSTEM` text inside the purple title bar
+- old periwinkle/blue-dominant Console 2 accent system
+- floating Back/Continue links duplicated alongside the new control deck
+- bottom-center `MUSE` copied from the refinement reference
+- `DIGITAL LOVE LETTER` copied as product copy
+- reference-only IDs/status strings copied literally
+- `MUSE SYSTEM` text inside Console 1's purple title bar
 - rounded Console 1 main window
 - `HOLD BOTH`
 - `SYSTEM MENU`
-- labelled hardware footer
+- labelled Console 1 hardware footer
 - dense decorative moon/star scenes
-- flat generic arcade controls
 - tiny screen numbers from the AI-only reference montage
 
 ## Copy is not a design token
 
-Copy can change without changing layout primitives. If content length changes, preserve the console-specific grid and type hierarchy before altering chrome or composition.
+Copy can change without changing layout primitives. If content length changes, preserve the console-specific grid, type hierarchy, control deck and visual system before altering chrome or composition.
