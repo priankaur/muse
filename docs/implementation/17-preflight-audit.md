@@ -2,7 +2,7 @@
 
 Before implementing visual work, perform a **PRE-FLIGHT AUDIT** for the specific console being changed.
 
-MUSE now has two intentionally different visual systems. The audit must confirm that Codex is using the correct references and is not blending them.
+MUSE has two intentionally different visual systems. The audit must confirm that Codex is using the correct references and is not blending them.
 
 ## Shared required checks
 
@@ -10,7 +10,7 @@ Verify:
 
 1. `AGENTS.md` exists and has been read.
 2. `docs/implementation/00-source-of-truth.md` exists and has been read.
-3. `docs/implementation/README.md` exists and points to the current console-specific plans.
+3. `docs/implementation/README.md` points to the current console-specific plans.
 4. fixed stage architecture supports `1440 × 1080` / `4:3`.
 5. relevant route/session/navigation code has been inspected before adding duplicates.
 
@@ -42,9 +42,21 @@ For any `A2_*` implementation, verify presence/readability of:
 6. `docs/implementation/23-ai-only-testing-acceptance.md`
 7. `docs/implementation/24-ai-only-codex-build-playbook.md`
 8. `docs/reference/ai-only-console2-canonical.jpg`
-9. typography implementation matching the approved neutral Swiss/neo-grotesk target
+9. `docs/reference/ai-only-console2-system-refinement-v2.jpg`
+10. typography implementation that can support:
+   - heavy condensed neo-grotesk display/identity,
+   - neutral Swiss/neo-grotesk content,
+   - mono/semi-mono system/control labels.
 
-Console 2 visual blockers include a missing canonical image, missing AI-only plan bundle, or an architecture that only supports the Console 1 pixel shell.
+Also inspect the existing Console 2 implementation for obsolete assumptions from the earlier visual direction:
+
+- periwinkle/blue default accent tokens
+- floating `← back` / `continue →` as persistent navigation
+- large rounded outer stage/card treatment
+- absence of the refined lower control deck
+- light/regular `MUSE` identity weight
+
+Console 2 visual blockers include a missing reference, missing plan bundle, or an architecture that only supports the Console 1 pixel shell.
 
 ## Missing-reference policy
 
@@ -79,12 +91,17 @@ Keep it concise and actionable.
 
 ## Visual authority order
 
-1. Latest explicitly approved console-specific screenshot/reference.
+1. Latest explicitly approved console-specific reference.
 2. `AGENTS.md`.
 3. Console-specific implementation bundle.
 4. Older style documents.
 5. Older screenshots.
 6. Legacy flow documents.
+
+For Console 2 specifically:
+
+- original four-screen reference = content composition authority
+- system-refinement-v2 reference = latest visual/chrome authority
 
 Never use a Console 1 screenshot as a visual source for Console 2 or vice versa.
 
@@ -93,10 +110,12 @@ Never use a Console 1 screenshot as a visual source for Console 2 or vice versa.
 Do not assume:
 
 - every MUSE screen uses `MuseWindow`;
-- every MUSE screen has the red/gold/red hardware strip rendered on-screen;
+- Console 2 uses Console 1's glossy red/gold/red hardware strip;
 - Console 2 is a color variant of Console 1;
 - one typography system applies to both consoles;
 - one card/button language applies to both consoles.
+
+Console 2 **does** now contain its own on-screen physical-control deck. That is not cross-console sharing.
 
 ## Foundation validation — Console 1
 
@@ -106,7 +125,7 @@ Validate shared pixel primitives before multiplying screens:
 - `MuseWindow`
 - title bar
 - sprite layer
-- hardware strip
+- Console 1 hardware strip
 
 Capture 1440×1080 screenshot and stop for review.
 
@@ -114,11 +133,14 @@ Capture 1440×1080 screenshot and stop for review.
 
 Follow `24-ai-only-codex-build-playbook.md`:
 
-1. audit existing architecture,
-2. build `AiOnlyShell` + tokens + identity + frame + navigation only,
-3. render 1440×1080,
-4. capture screenshot,
-5. stop for review before multiplying AI-only screens.
+1. audit current Console 2 code,
+2. apply the refined black/grey/off-white/red token system,
+3. implement/refine `AiOnlyShell`, `AiOnlyIdentity`, `SignalMarker`, rules and typography,
+4. implement the persistent `AiControlDeck` with outlined BACK/NEXT buttons and right intensity dial,
+5. confirm no bottom-center MUSE exists,
+6. render exactly 1440×1080,
+7. capture stage-only screenshot,
+8. stop for visual review before multiplying changes across all screens.
 
 ## Core rule
 
