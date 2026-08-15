@@ -1,6 +1,8 @@
 # 20 — Arcade Console 2 / AI Only — Component Architecture
 
-Console 2 must be implemented as a distinct visual system. Reuse application logic where sensible, but do not theme Console 1 components to imitate this design.
+Console 2 is a distinct visual system. Reuse application logic where sensible, but do not theme Console 1 components to imitate this design.
+
+The latest system refinement adds a monochrome lower physical-control deck, red signal markers, strong rules/separators and heavier editorial typography. These are Console 2-specific components, not reused Console 1 hardware.
 
 ## 1. Folder recommendation
 
@@ -28,10 +30,21 @@ src/
     components/
       AiOnlyIdentity.tsx
       AiOnlyIdentity.module.css
+      AiDisplayTitle.tsx
+      SystemStatusLine.tsx
+      SignalMarker.tsx
+      SystemRule.tsx
+
+      AiControlDeck.tsx
+      AiControlDeck.module.css
+      AiArcadeButton.tsx
+      AiArcadeButton.module.css
+      AiRotaryDial.tsx
+      AiRotaryDial.module.css
+      AiRegenerateAction.tsx
+
       AiPromptField.tsx
       AiPromptField.module.css
-      AiNavigation.tsx
-      AiNavigation.module.css
       AnalysisCard.tsx
       AnalysisCard.module.css
       AnalysisStack.tsx
@@ -66,7 +79,7 @@ src/
     ... shared post-console flow
 ```
 
-Names may follow existing repo conventions, but architectural boundaries should remain.
+Names may follow existing repository conventions, but these architectural boundaries should remain.
 
 ## 2. What may be shared across consoles
 
@@ -76,12 +89,12 @@ Safe shared implementation:
 - viewport centering
 - session state/types
 - screen registry/state machine
-- semantic input abstraction
+- semantic action abstraction
 - fixture utilities
 - Playwright helpers
 - route guards
 
-Do not duplicate those purely for visual separation.
+Do not duplicate these purely for visual separation.
 
 ## 3. What must NOT be shared visually
 
@@ -91,60 +104,86 @@ Do not render Console 2 using:
 - `ArcadeBackground`
 - `OuterHud`
 - `FloatingSpriteLayer`
-- `HardwareControlStrip`
+- Console 1 `HardwareControlStrip`
+- Console 1 `ArcadeButton3D`
+- Console 1 `RotaryDial3D`
 - `PrimaryCta`
 - `PixelTextField`
 - `ChoiceTag`
 - Console 1 typography primitives
 
-Do not add `variant="aiOnly"` to a pixel component just to avoid making the correct Console 2 component.
+Do not add `variant="aiOnly"` to a pixel component merely to avoid creating the correct Console 2 component.
 
 ## 4. `AiOnlyShell`
 
 Responsibilities:
 
-- own warm off-white background
-- render subtle inset perimeter frame
+- own warm off-white main background
+- render optional subtle perimeter hairline if retained after calibration
 - render persistent `AiOnlyIdentity`
-- expose a deterministic content coordinate system
+- expose deterministic content coordinates
 - render screen body via `children`
-- render navigation slots if screen configuration requests them
+- render the strong shared horizontal rule above the lower control deck
+- render the persistent `AiControlDeck`
 
 Suggested interface:
 
 ```ts
 type AiOnlyShellProps = {
   children: React.ReactNode;
-  nav?: {
-    back?: () => void;
-    continue?: () => void;
-    regenerate?: () => void;
-    continueDisabled?: boolean;
+  controls: {
+    back?: {
+      enabled: boolean;
+      onPress?: () => void;
+    };
+    next?: {
+      enabled: boolean;
+      onPress?: () => void;
+      label?: string;
+    };
+    dial?: {
+      enabled: boolean;
+      value?: number;
+      min?: number;
+      max?: number;
+      onChange?: (value: number) => void;
+      label?: string;
+    };
   };
 };
 ```
 
-The shell should not know screen-specific copy.
+The shell must not know screen-specific copy.
 
-## 5. Layout primitives
+## 5. Vertical structure
 
-Prefer a small set of structural classes/primitives rather than arbitrary screen CSS.
+Console 2 uses a fixed two-region structure:
 
-Recommended:
+```text
+Main content: y 0–888
+Control deck: y 888–1080
+```
+
+The deck position and height are shared tokens. Individual screens must not move or resize it.
+
+## 6. Layout primitives
+
+Prefer a small set of structural classes/primitives:
 
 - `.aiStageContent`
 - `.aiCenteredHero`
+- `.aiDisplayTitle`
 - `.aiScreenTitle`
-- `.aiSectionLabel`
+- `.aiSystemLabel`
 - `.aiTwoColumn`
 - `.aiResultGrid`
-- `.aiBottomNav`
+- `.aiControlDeck`
 
-Do not create a generic 12-column SaaS grid. The reference uses bespoke editorial alignment.
+Do not create a generic 12-column SaaS grid.
 
-## 6. `AiOnlyIdentity`
+## 7. `AiOnlyIdentity`
 
-Content is fixed by system identity, not screen copy:
+Fixed content:
 
 ```text
 MUSE
@@ -152,47 +191,168 @@ AI ONLY
 ARCADE CONSOLE 2
 ```
 
-No screen number prop.
-No console icon prop.
-No badge variant.
+Rules:
 
-## 7. `AiNavigation`
+- `MUSE` line uses heavy condensed display character
+- top-left only
+- no screen number prop
+- no icon prop
+- no badge variant
+- no bottom-center duplicate
 
-Single component renders the three canonical actions in fixed locations:
+## 8. `AiDisplayTitle`
 
-- back — left
-- regenerate — center
-- continue — right
+Use for large title roles where the screen spec requests strong editorial display hierarchy.
 
-Screens pass only actions/visibility/disabled state.
+Props:
 
-Avoid individual screens manually positioning links.
-
-Keyboard-accessible buttons are preferable semantically, styled to look like text links.
-
-Example:
-
-```tsx
-<button className={styles.textAction} onClick={onContinue}>
-  continue <span aria-hidden>→</span>
-</button>
+```ts
+type AiDisplayTitleProps = {
+  children: React.ReactNode;
+  size?: 'xl' | 'lg' | 'screen';
+  align?: 'left' | 'center';
+};
 ```
 
-Do not use anchors for application state changes.
+It consumes the heavy condensed typography tokens from `19-ai-only-visual-system.md`.
 
-## 8. `AiPromptField`
+Do not hardcode the phrase `DIGITAL LOVE LETTER`; that phrase belongs only to the visual reference.
+
+## 9. `SignalMarker`
+
+Tiny red square used as a micro-accent anchor.
+
+Props:
+
+```ts
+type SignalMarkerProps = {
+  size?: 'micro' | 'small';
+  decorative?: boolean;
+};
+```
+
+Default visual size ~8px.
+
+Do not let each screen create arbitrary red squares with one-off sizes.
+
+## 10. `SystemRule`
+
+Shared line primitive for strong and hairline separators.
+
+```ts
+type SystemRuleProps = {
+  tone?: 'strong' | 'neutral';
+  orientation?: 'horizontal' | 'vertical';
+};
+```
+
+The shell's deck divider uses `strong` and is full-width.
+
+## 11. `AiControlDeck`
+
+Persistent lower Console 2 control region.
+
+Contains:
+
+- `AiArcadeButton` BACK
+- `AiArcadeButton` NEXT
+- `AiRotaryDial` INTENSITY DIAL
+
+It must not render a centered MUSE wordmark.
+
+Responsibilities:
+
+- fixed geometry
+- map semantic actions to visible physical controls
+- display disabled states without removing hardware
+- maintain identical geometry across screens
+
+Static prototype controls are mouse/keyboard accessible.
+
+Future physical hardware integration should dispatch the same semantic actions without redesigning the deck.
+
+## 12. `AiArcadeButton`
+
+This is not the Console 1 3D button.
+
+Visual construction:
+
+- circular off-white face
+- thick black outer ring
+- black inner ring
+- optional subtle grey inner contour
+- no glossy fill
+- no red body
+- no pixel shading
+
+Suggested props:
+
+```ts
+type AiArcadeButtonProps = {
+  label: 'BACK' | 'NEXT';
+  enabled: boolean;
+  onPress?: () => void;
+  ariaLabel: string;
+};
+```
+
+Disabled hardware stays visible but uses muted grey/black state.
+
+## 13. `AiRotaryDial`
+
+Distinct Console 2 rotary representation.
+
+Visual construction:
+
+- off-white circular face
+- black outer ring
+- grey inner contour
+- red pointer/tick
+- no gold
+- no pixel-art extrusion
+
+Suggested props:
+
+```ts
+type AiRotaryDialProps = {
+  label?: string;
+  value?: number;
+  min?: number;
+  max?: number;
+  enabled: boolean;
+  onChange?: (value: number) => void;
+};
+```
+
+Default label:
+
+```text
+INTENSITY DIAL
+```
+
+For the static build, it may mirror/drive the currently focused tone control only when the interaction model has an active adjustable control. It must not create hidden product behavior outside the screen plan.
+
+## 14. Regenerate action
+
+`A2_03` still needs `regenerate`, but the current reference deck has only BACK/NEXT/dial hardware.
+
+Therefore use `AiRegenerateAction` as a restrained software/system text action placed just above the deck or within the result content action row.
+
+It must not be styled as a large button.
+
+Do not invent a fourth hardware control.
+
+## 15. `AiPromptField`
 
 Responsibilities:
 
 - controlled textarea
-- 120-character max by current config
-- display example/placeholder
+- 120-character max
+- example/placeholder
 - character count
-- expose value + change
-- keyboard focus state
-- no domain logic
+- keyboard focus
 
-Suggested props:
+Suggested props remain:
 
 ```ts
 type AiPromptFieldProps = {
@@ -204,7 +364,9 @@ type AiPromptFieldProps = {
 };
 ```
 
-## 9. `AnalysisCard`
+Use refined black/grey/red focus language, not blue.
+
+## 16. `AnalysisCard`
 
 Read-only presentation only.
 
@@ -219,12 +381,9 @@ type AnalysisCardProps = {
 };
 ```
 
-The production AI may later provide confidence/score data. Static fixture values are allowed now.
+Use thin editorial rules and optional shared `SignalMarker`, not blue cards/icons.
 
-Do not make the card editable.
-Do not convert it into a selectable control.
-
-## 10. `ToneControl`
+## 17. `ToneControl`
 
 Editable parameter component.
 
@@ -232,21 +391,17 @@ Editable parameter component.
 type ToneControlProps = {
   id: ToneControlId;
   label: string;
-  value: number;        // 0..100
-  min?: number;         // default 0
-  max?: number;         // default 100
-  step?: number;        // recommended 1 or 5
+  value: number;
+  min?: number;
+  max?: number;
+  step?: number;
   onChange: (value: number) => void;
 };
 ```
 
-Use a native `<input type="range">` where possible for robustness/accessibility, fully visually styled to match reference.
+Use native `<input type="range">` when possible. Fully style the track/thumb using refined monochrome/red tokens.
 
-The visual thumb/track should not rely on browser defaults.
-
-## 11. `ToneControls`
-
-Container owns order, not individual screens.
+## 18. `ToneControls`
 
 Canonical order:
 
@@ -262,33 +417,29 @@ Canonical order:
 
 Do not reorder based on values.
 
-## 12. `ContextSignal`
+## 19. `ContextSignal`
 
-Welcome screen reference includes a restrained central dotted/radial context-loaded signal.
+Welcome screen can retain the restrained transferred-context signal from the original four-screen reference.
 
-Current static implementation can create this with CSS/SVG only.
-
-Rules:
+Update its visual language:
 
 - monochrome neutral dots/lines
-- tiny blue center accent
+- tiny red center/marker instead of blue
 - approximately 160–190px diameter
 - no animation
-- no glowing particles
-- no data labels
-- no scientific chart semantics
+- no glow
+- no scientific labels
 
-It is a visual acknowledgement of context transfer, not an analytical visualization.
+It remains a contextual acknowledgement, not a data visualization.
 
-## 13. `AiLetterDocument`
+## 20. `AiLetterDocument`
 
 Responsibilities:
 
 - typed letter display
-- optional layered outline sheets behind main page
-- scroll handling only if absolutely necessary
-- no editing in current result screen
-- no decorative personalisation in first build
+- optional layered outline sheets
+- no editing
+- no personal decoration in current phase
 
 Props:
 
@@ -300,56 +451,33 @@ type AiLetterDocumentProps = {
 };
 ```
 
-Do not render markdown styling from arbitrary generated output. Convert/normalize output to safe plain paragraphs.
+Normalize generated content to safe plain paragraphs.
 
-## 14. `LetterInsights`
+## 21. `LetterInsights`
 
-Contains exactly four insight sections in current build:
+Contains exactly four insight sections:
 
 1. sentiment
 2. emotion
 3. romance
 4. tone profile
 
-Suggested data:
+All read-only.
 
-```ts
-type LetterInsightsData = {
-  sentiment: InsightMetric;
-  emotion: InsightMetric;
-  romance: InsightMetric;
-  toneProfile: {
-    labels: string[];
-  };
-};
-```
+Use black/grey typography with tiny red signal accents only where needed.
 
-All values are read-only.
-
-## 15. Icon strategy
-
-Create four tiny purpose-built SVG/CSS icons:
-
-- sentiment: simple heart outline
-- emotion: simple face/circle expression glyph
-- romance: simple sparkle/star glyph
-- tone profile: simple waveform/equalizer glyph
-
-Use `currentColor`.
-No icon package.
-No filled emoji.
-No multicolor icons.
-
-## 16. Screen responsibilities
+## 22. Screen responsibilities
 
 ### `AiWelcomeScreen`
 
-Owns only:
+Owns:
 
 - personalized welcome copy
 - inherited-context sentence
 - `ContextSignal`
-- begin action
+- optional system-status line/microcopy
+
+Primary begin action is mapped to the deck `NEXT` button.
 
 ### `AiPromptScreen`
 
@@ -358,18 +486,25 @@ Owns:
 - title
 - subtitle
 - prompt field
-- back/continue
+
+Navigation maps to deck:
+
+- BACK -> previous
+- NEXT -> continue when valid
 
 ### `AiInterpretationScreen`
 
 Owns:
 
 - screen title
-- left analysis column
+- left read-only analysis column
 - right tone-control column
-- back/continue
 
-Analysis and tuning intentionally coexist on the same screen in the canonical reference.
+Deck:
+
+- BACK -> prompt
+- NEXT -> result
+- dial enabled for intensity/tone adjustment according to current focus/selection model
 
 ### `AiLetterResultScreen`
 
@@ -377,42 +512,37 @@ Owns:
 
 - letter document
 - insight rail
-- back/regenerate/continue
+- `AiRegenerateAction`
 
-No additional title is required unless a later reference explicitly adds one.
+Deck:
 
-## 17. State isolation
+- BACK -> interpretation
+- NEXT -> reflection
+- dial may remain visible but neutral/inactive unless a later approved interaction uses it
 
-Components must be deterministic from props/session state. Avoid local duplicate copies of global session values.
+## 23. State isolation
 
-`AiPromptScreen` may use controlled draft state, but commit to session on every change or on continue according to existing architecture.
+Components are deterministic from props/session state. Avoid local duplicate copies of global session values.
 
-`AiInterpretationScreen` writes tone controls to `session.arcade2.toneControls`.
-
-`AiLetterResultScreen` reads the active fixture/result by index.
-
-## 18. Error/empty state strategy for static build
+## 24. Error/empty state strategy
 
 Do not design visible error banners now.
 
-Development guards may render a plain developer-only fallback outside screenshot tests if required.
+Development guards may render plain developer-only fallbacks outside canonical screenshot tests.
 
-Production-facing error treatment should be designed later with AI integration.
-
-## 19. No motion architecture dependency
+## 25. No motion architecture dependency
 
 Do not install an animation library.
 Do not wrap components in motion primitives.
 Do not create timers solely for visual effects.
 
-Keep component APIs motion-agnostic so animation can be layered later.
+## 26. Component completion rule
 
-## 20. Component completion rule
+A component is complete only when:
 
-A component is not complete merely because it is reusable. It is complete only when:
-
-- it visually matches the canonical reference,
-- it consumes shared tokens,
-- it has no Console 1 styling dependency,
+- it matches the current canonical references,
+- it consumes shared Console 2 tokens,
+- it has no Console 1 visual dependency,
+- hardware/deck geometry remains stable,
 - it is keyboard accessible where interactive,
-- it passes screenshot regression in its actual screen composition.
+- it passes screenshot regression in actual screen composition.
