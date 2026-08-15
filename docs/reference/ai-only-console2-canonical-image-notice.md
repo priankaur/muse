@@ -1,0 +1,1 @@
+The canonical AI-only reference image is the user-supplied four-screen montage from 2026-08-15. The implementation plans assume it is present at `docs/reference/ai-only-console2-canonical.jpg`. If the binary image is not yet present in the worktree, do not substitute another visual reference; request/restore the canonical image before visual calibration.
