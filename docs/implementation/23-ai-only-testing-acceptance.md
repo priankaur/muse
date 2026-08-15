@@ -1,6 +1,11 @@
 # 23 — Arcade Console 2 / AI Only — Testing and Acceptance
 
-Console 2 is highly minimal. Small spacing, type and color errors are therefore more visible than they would be in a dense interface. Visual regression is mandatory.
+Console 2 is visually minimal, so small errors in typography, line weight, control geometry and color are highly visible. Visual regression is mandatory.
+
+Current references:
+
+- `docs/reference/ai-only-console2-canonical.jpg` — screen composition.
+- `docs/reference/ai-only-console2-system-refinement-v2.jpg` — latest system/chrome refinement.
 
 ## 1. Test categories
 
@@ -8,27 +13,39 @@ Implement:
 
 1. route/flow tests
 2. state-persistence tests
-3. component interaction tests where valuable
+3. component interaction tests
 4. 1440×1080 screenshot tests
-5. anti-regression checks preventing Console 1 chrome on Console 2
+5. geometry assertions
+6. token/color assertions
+7. anti-Console-1-chrome checks
+8. persistent control-deck checks
 
 ## 2. Deterministic viewport
 
-All canonical screenshots use:
+Canonical visual tests:
 
 ```text
-viewport/stage: 1440 × 1080
-DPR for baseline: 1 where possible
+stage: 1440 × 1080
+DPR: 1 where possible
 animations: disabled
 network-dependent content: none
 fixture session: fixed
 ```
 
-Do not create baselines at arbitrary browser dimensions.
+Capture **only the internal MUSE stage**.
+
+Exclude:
+
+- browser chrome
+- Codex preview chrome
+- toasts
+- debug overlays
+- black host-page space
+- dev status UI
 
 ## 3. Canonical fixture session
 
-Use one named deterministic test fixture, e.g.:
+Use one deterministic fixture, e.g.:
 
 ```ts
 const canonicalAiOnlySession = {
@@ -41,12 +58,23 @@ const canonicalAiOnlySession = {
   },
   arcade2: {
     shortPrompt: '',
-    ...
+    proposedToneControls: {
+      warmth: 72,
+      intimacy: 68,
+      emotionalDepth: 70,
+      playfulness: 40,
+      nostalgia: 55
+    },
+    toneControls: {
+      warmth: 72,
+      intimacy: 68,
+      emotionalDepth: 70,
+      playfulness: 40,
+      nostalgia: 55
+    }
   }
 };
 ```
-
-The exact recipient can remain fixture-only. Visual screenshots should avoid variable random content.
 
 ## 4. Route tests
 
@@ -58,25 +86,24 @@ A2_00 -> A2_01 -> A2_02 -> A2_03 -> reflection
 
 Assertions:
 
-- begin opens prompt
-- prompt back returns welcome
-- empty prompt disables continue
+- NEXT on welcome opens prompt
+- BACK on welcome is disabled
+- prompt BACK returns welcome
+- empty prompt disables NEXT
 - valid prompt opens interpretation screen
-- interpretation back preserves prompt
-- interpretation continue opens result
-- result back preserves tone controls
-- result continue enters shared reflection
+- interpretation BACK preserves prompt
+- interpretation NEXT opens result
+- result BACK preserves tone controls
+- result NEXT enters shared reflection
 
 ## 5. Regenerate tests
 
-At `A2_03`:
-
-Before regenerate, capture:
+At `A2_03`, capture before regenerate:
 
 - short prompt
 - analysis object
 - current tone values
-- active variant index
+- active result variant index
 - visible result body
 
 After regenerate assert:
@@ -84,24 +111,22 @@ After regenerate assert:
 - short prompt unchanged
 - analysis unchanged
 - tone values unchanged
-- active variant index changed
-- visible result body changed
-- matching insight fixture changed where designed
+- result variant index changed
+- visible result changed
+- matching insight fixture changed if designed
 - route remains `A2_03`
-
-Cycle enough times to verify wraparound.
 
 ## 6. Analysis/editability tests
 
-`A2_02` must contain exactly:
+`A2_02` contains exactly:
 
-Read-only analysis:
+Read-only:
 
 - sentiment
 - emotion
 - romance
 
-Editable controls:
+Editable:
 
 - warmth
 - intimacy
@@ -109,11 +134,23 @@ Editable controls:
 - playfulness
 - nostalgia
 
-Assert analysis cards contain no slider/input/select elements.
+Assert analysis cards contain no input/select/range controls.
 
-Assert five range controls exist and values can change.
+Assert exactly five tone range controls exist.
 
-## 7. Inheritance tests
+## 7. Dial interaction tests
+
+If the static prototype maps the visible intensity dial to the currently active tone control:
+
+- dial has no effect when no tone control is active/focused
+- dial updates only the active tone-control value
+- dial does not create a sixth state variable
+- keyboard/mouse range input remains accessible
+- displayed dial indicator tracks the active value when enabled
+
+Do not test unspecified hardware behavior beyond this defined bridge.
+
+## 8. Inheritance tests
 
 Assert Console 2 does not render:
 
@@ -121,24 +158,44 @@ Assert Console 2 does not render:
 - recipient-name input
 - relationship selector
 
-Welcome must use inherited first name.
+Welcome must use inherited visitor first name.
 
-## 8. Anti-chrome tests
+## 9. Anti-Console-1 checks
 
-For all `A2_*` screens assert no DOM elements/classes corresponding to Console 1 shell are mounted, including where applicable:
+For all `A2_*` screens assert no Console 1 shell/chrome is mounted:
 
 - `MuseWindow`
-- `HardwareControlStrip`
-- `FloatingSpriteLayer`
-- pixel-window title bar
-- red arcade button images
-- gold dial image
+- pixel title bar
+- navy grid
+- love-letter sprite layer
+- Console 1 `HardwareControlStrip`
+- glossy/pixel red button assets
+- gold pixel dial asset
+- magenta CTA
 
-Prefer stable `data-testid` or component boundaries rather than brittle CSS text matching.
+Console 2 **does** have its own `AiControlDeck`, which is visually distinct and allowed.
 
-## 9. Screenshot baselines
+## 10. Persistent control-deck tests
 
-Create one canonical screenshot for each screen:
+Every `A2_*` screen must render one `AiControlDeck` with stable geometry.
+
+Assert:
+
+- deck top y position within ±2px
+- deck height within ±2px
+- strong top separator exists
+- BACK button center within ±3px
+- NEXT button center within ±3px
+- dial center within ±3px
+- no bottom-center `MUSE` element exists
+- button labels remain `BACK` / `NEXT`
+- dial label remains the configured system label (`INTENSITY DIAL` by current default)
+
+Only enabled/disabled state may change between screens.
+
+## 11. Screenshot baselines
+
+Create:
 
 ```text
 tests/visual/baselines/ai-only/
@@ -148,163 +205,201 @@ tests/visual/baselines/ai-only/
   A2_03-result.png
 ```
 
-Also capture optional states:
+Optional states:
 
 ```text
 A2_01-prompt-focused.png
 A2_02-tone-edited.png
+A2_02-dial-active.png
 A2_03-regenerated.png
 ```
 
-## 10. Screenshot preparation
+## 12. Screenshot preparation
 
-Before screenshot:
+Before capture:
 
 - use canonical fixture
-- reset focus unless testing focused state
-- disable caret blink if screenshot tool supports it
-- disable transitions/animations globally
-- ensure system font/bundled font has loaded
+- reset focus unless testing focus
+- disable caret blink if possible
+- disable all animations/transitions
+- wait for bundled fonts to load
 - wait for layout stable
+- ensure screenshot is stage-only 1440×1080
 
-## 11. Visual comparison priorities
+## 13. Visual comparison priorities
 
-When calibrating against `docs/reference/ai-only-console2-canonical.jpg`, compare in this order:
+Compare in this order:
 
-1. overall warm-background tone
-2. outer frame inset
-3. persistent identity position
+1. main field tone and deck background split
+2. strong horizontal deck separator
+3. identity position and heavier `MUSE` weight
 4. main content bounding box
-5. title size/line breaks
-6. analysis/result column proportions
-7. bottom navigation baseline
-8. card/input borders and radii
-9. accent blue hue
-10. fine typography details
+5. display/screen title scale and line breaks
+6. physical BACK/NEXT button geometry
+7. right dial geometry and red indicator
+8. red marker size/frequency
+9. internal rules and separators
+10. analysis/result column proportions
+11. form/card line weights
+12. fine typography details
 
-Do not start by tuning tiny icon strokes while the overall geometry is wrong.
+Do not tune tiny icons before the global structure is correct.
 
-## 12. Expected reference adaptation
+## 14. Reference adaptation
 
-The source montage may not itself be 4:3 per individual panel. Product requirement explicitly locks the implementation to 1440×1080.
+The original four-screen montage supplies content composition. The refinement image supplies system/chrome character.
 
-Therefore visual regression should preserve the **reference's relative composition and whitespace language** while using the canonical 4:3 coordinate plan defined in `19` and `22`.
+Do not literally copy unrelated reference content such as:
 
-Do not crop the stage to imitate the montage panel aspect ratio.
+- `DIGITAL LOVE LETTER`
+- reference-only IDs
+- `SYSTEM INITIALIZED` copy unless separately approved
+- bottom-center `MUSE`
 
-## 13. Pixel-diff policy
+Do copy/refine:
 
-Use screenshot tests primarily as a guard, but do not blindly accept large thresholds.
+- heavy condensed display character
+- signal-red square markers
+- strong system rules
+- grey lower deck
+- outlined BACK/NEXT buttons
+- outlined dial with red pointer
 
-Recommended:
+## 15. Geometry assertions
 
-- initial calibration: manual visual review + overlay
-- once approved: low pixel-diff tolerance
-- token/font rendering may require a small anti-aliasing allowance
+Recommended tolerances:
 
-If CI environments produce font rasterization differences, use geometry-focused assertions in addition to screenshots rather than raising screenshot tolerance until the test becomes meaningless.
+- identity x/y: ±2px
+- deck top: ±2px
+- deck height: ±2px
+- deck separator thickness: ±1px
+- button centers: ±3px
+- dial center: ±3px
+- prompt field bounds: ±2px
+- interpretation grid positions: ±3px
 
-## 14. Geometry assertions
+## 16. Color assertions
 
-Where practical, Playwright should measure key elements and assert bounds with narrow tolerance.
+Use computed styles/tokens.
 
-Examples:
+Validate at minimum:
 
-- identity x/y within ±2px
-- outer frame inset within ±1px
-- prompt width/height within ±2px
-- main interpretation two-column positions within ±3px
-- bottom nav baseline within ±2px
+```text
+--ai-bg
+--ai-deck-bg
+--ai-ink
+--ai-ink-muted
+--ai-line-strong
+--ai-line
+--ai-signal
+```
 
-This catches layout drift even if screenshot antialiasing changes.
+Reject dominant blue/periwinkle in Console 2 production styles.
 
-## 15. Color assertions
+Signal red should be close to the current sampled `#EC5B29` token unless deliberately recalibrated globally.
 
-Use computed style assertions for core tokens:
+## 17. Typography acceptance
 
-- stage background
-- primary ink
-- line color
-- accent
+Assert/inspect:
 
-Do not hard-code per-screen colors in tests; validate token application.
+- persistent `MUSE` uses the heavy condensed display stack
+- body text uses neutral sans stack
+- system/control labels use mono/semi-mono stack
+- no screen is entirely monospaced
+- no accidental Inter/Poppins/Montserrat/etc. substitution if the specified bundled fonts exist
 
-## 16. Accessibility acceptance
+## 18. Accessibility acceptance
 
-Interactive visible navigation and controls must:
+Interactive controls must:
 
-- be reachable by keyboard
-- have visible focus treatment consistent with minimal design
-- expose correct role/name/value
+- be keyboard reachable
+- expose correct role/name/state
+- show visible focus without neon glow
 - not rely only on color for disabled state
-- use native range semantics where possible
+- preserve native range semantics for tone controls
 
-The visual reference remains primary, but accessibility should be solved without adding unrelated visible chrome.
+Physical-looking deck controls in the browser must still be semantic `<button>`/input elements.
 
-## 17. Content overflow tests
+## 19. Content overflow tests
 
-At minimum test:
+Test:
 
-- first name up to a reasonable long fixture
-- prompt at exactly 120 characters
-- analysis summary wrapping to two lines
-- tone label `emotional depth`
-- letter body with enough content to occupy the reference page
+- long first name
+- prompt exactly 120 characters
+- analysis summaries wrapping
+- `emotional depth` label
+- letter body filling reference page
 
-If overflow occurs, fix content layout without changing global stage geometry.
+Fix internal layout without changing stage/deck geometry.
 
-## 18. Manual visual acceptance checklist per screen
+## 20. Manual visual checklist
 
 ### All screens
 
-- warm off-white, not pure white
-- identity at same coordinates
+- warm off-white main field
+- light grey bottom deck
+- strong thin deck separator
+- identity fixed top-left
+- `MUSE` line visibly heavy/condensed
 - no screen number
-- no Console 1 styling
-- no extra decorative UI
-- correct neutral font character
+- no bottom-center MUSE
+- no dominant blue
+- sparse red square markers
+- outlined monochrome BACK/NEXT hardware
+- outlined monochrome dial with red indicator
+- no Console 1 pixel assets
 - generous whitespace
-- thin neutral frame
 
 ### A2_00
 
-- hero vertically balanced
-- context signal restrained, not futuristic
-- begin indicator small
+- context signal restrained
+- tiny red central signal, no blue
+- begin instruction uses system microcopy character
+- NEXT performs begin
 
 ### A2_01
 
-- title line break matches reference intent
-- textarea is dominant input, not oversized form card
-- counter aligned cleanly
+- textarea dominates input task
+- field stays rectangular/technical
+- NEXT disabled correctly for empty prompt
 
 ### A2_02
 
-- left/right columns feel balanced but not cramped
-- analysis cards exactly three
-- tone controls exactly five
-- sliders visually thin
+- exactly 3 analysis blocks
+- exactly 5 tone controls
+- sliders thin/monochrome
+- dial may control active tone only
+- layout remains spacious
 
 ### A2_03
 
-- letter reads as document, not dashboard panel
-- insight rail is secondary to letter
-- exactly four insight categories including emotion
-- regenerate sits at bottom center
+- letter dominates insight rail
+- exactly 4 insight categories including emotion
+- regenerate remains a small software action
+- BACK/NEXT remain on deck
 
-## 19. Stop condition
+## 21. Stop condition
 
-If the first Console 2 shell or `A2_00` is visibly off, do not continue implementing the remaining screens.
+If the refined shell/deck/typography is visibly off, do not proceed through all screens.
 
-Calibrate shared tokens/layout first. Otherwise a small mistake gets multiplied across every screen.
+Calibrate shared tokens and control geometry first.
 
-## 20. Definition of visual approval
+## 22. Visual approval definition
 
-Console 2 is visually approved only when a reviewer can place the 1440×1080 implementation beside the canonical reference and recognize the same system immediately without seeing:
+Console 2 is approved only when a reviewer can compare it against both references and recognize:
 
-- borrowed arcade styling
-- generic SaaS components
-- accidental brand additions
-- layout density drift
-- color drift
-- typography personality drift.
+- the original four-screen content system
+- the refinement's editorial machine character
+- black/grey/off-white/red palette
+- heavy typography
+- precise linework
+- minimal physical controls
+
+without seeing:
+
+- Console 1 styling
+- generic SaaS UI
+- accidental decorative additions
+- bottom-center MUSE
+- dominant blue
+- inconsistent deck geometry.
