@@ -4,7 +4,7 @@ This document is the primary product/design contract for Console 2. It overrides
 
 ## Canonical visual reference
 
-`docs/reference/ai-only-console2-canonical.png`
+`docs/reference/ai-only-console2-canonical.jpg`
 
 The reference is canonical, not merely moodboard inspiration.
 
