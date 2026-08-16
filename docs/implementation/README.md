@@ -53,6 +53,7 @@ Read in order:
 6. `43-reflection-r01-visual-calibration.md` — analysis/tag visual calibration, now R_02
 7. `44-reflection-r04-send-choice-dial-interaction.md` — legacy filename, current dial interaction now applies to R_03
 8. `46-reflection-five-screen-merged-letter-choice.md` — **latest flow/state/numbering authority**
+9. `47-reflection-functional-integration.md` — **latest functional wiring/state/routing/testing authority**
 
 `45-reflection-consolidated-current-directive.md` is superseded six-screen context only.
 
@@ -101,6 +102,23 @@ pick up the matching coin
 
 Use `coin`, not `token`, and `bowl`, not `box`.
 
+## Functional integration
+
+Once the static Reflection screens are approved, follow `47-reflection-functional-integration.md` to connect them.
+
+The functional pass must wire:
+
+- `A2_03` entry guard into Reflection;
+- actual session letters into R_01;
+- normalized comparison + persistent tag state in R_02;
+- dial candidate + knob confirmation in R_03;
+- future-approach selection/gating in R_04;
+- dynamic choice confirmation, coin mapping, postcard payload and idempotent printer stub in R_05;
+- Back navigation persistence;
+- pointer/keyboard/physical semantic input parity;
+- reducer/unit tests and Playwright E2E paths;
+- visual regression so functionality does not alter approved static design.
+
 ## Visual-shell rule
 
 Use separate shells:
@@ -124,6 +142,6 @@ Never theme one into another.
 
 - Arcade 1: follow file `30`.
 - Arcade 2: follow file `24` plus current overrides through `37`.
-- Reflection: follow files `38`–`44`, then **file `46` as the latest authority**.
+- Reflection: follow files `38`–`44`, then **file `46` for current product flow** and **file `47` for functional integration**.
 
 When requirements conflict, later explicitly approved numbered overrides win over older generic specs.
