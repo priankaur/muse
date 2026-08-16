@@ -12,17 +12,6 @@ MUSE contains three intentionally distinct visual systems:
 
 Share infrastructure where useful. Never merge the visual languages.
 
-## Core plans
-
-- `00-source-of-truth.md` — global precedence
-- `02-technical-architecture.md` — shared React/stage/state architecture
-- `03-design-system-implementation.md` — Console 1 visual system
-- `07-screen-inventory.md` — screen registry
-- `08-arcade-1-human-ai-screens.md` — Console 1 screens
-- `11-testing-and-visual-regression.md` — global testing discipline
-- `12-accessibility-and-exhibition-mode.md` — kiosk/accessibility constraints
-- `17-preflight-audit.md` — repository/source audit
-
 ## Arcade 1 current enhancement bundle
 
 Read:
@@ -33,7 +22,7 @@ Read:
 
 ## Arcade 2 — AI Only current bundle
 
-Read files `18`–`27`, then the latest overrides:
+Read files `18`–`27`, then current overrides:
 
 - `31-ai-only-a2-01-visual-calibration.md`
 - `32-ai-only-a2-01-contextual-placeholder.md`
@@ -47,9 +36,9 @@ Current Console 2 flow:
 
 ```text
 A2_00 welcome
--> A2_01 contextual prompt
--> A2_02 tone controls only
--> A2_03 generated letter + post-generation analysis
+→ A2_01 contextual prompt
+→ A2_02 tone controls only
+→ A2_03 generated letter + post-generation analysis
 ```
 
 ## Reflection Experience — current canonical bundle
@@ -61,30 +50,30 @@ Read in order:
 3. `40-reflection-screen-specifications.md`
 4. `41-reflection-codex-build-playbook.md`
 5. `42-reflection-foundation-visual-calibration.md`
-6. `43-reflection-r01-visual-calibration.md`
-7. `44-reflection-r04-send-choice-dial-interaction.md`
+6. `43-reflection-r01-visual-calibration.md` — analysis/tag visual calibration, now R_02
+7. `44-reflection-r04-send-choice-dial-interaction.md` — legacy filename, current dial interaction now applies to R_03
+8. `46-reflection-five-screen-merged-letter-choice.md` — **latest flow/state/numbering authority**
 
-Current six-screen Reflection flow:
+`45-reflection-consolidated-current-directive.md` is superseded six-screen context only.
+
+Current five-screen Reflection flow:
 
 ```text
 both final letters exist
--> R_01 read both letters side by side
--> R_02 normalized analysis + experience tags
--> R_03 which letter sounds like you
--> R_04 which letter would you send? — dial-driven pivot-card interaction
--> R_05 future authorship/agency choice
--> R_06 physical token + printed postcard exit
+→ R_01 read both letters side by side
+→ R_02 normalized analysis + experience tags
+→ R_03 merged letter choice: feels most like me + I would actually send it — dial-driven
+→ R_04 future authorship/agency choice
+→ R_05 confirm chosen approach + matching coin + bowl + printed postcard exit
 ```
 
-All progress labels use:
+All Reflection progress labels use:
 
 ```text
-REFLECTION NN / 06
+REFLECTION NN / 05
 ```
 
-### R_04 special interaction
-
-`44` is the latest authority.
+### R_03 special interaction
 
 The visible composition is:
 
@@ -92,13 +81,25 @@ The visible composition is:
 [ HUMAN + AI LETTER ]  [ QUESTION PIVOT CARD ]  [ AI ONLY LETTER ]
 ```
 
-- turn dial left -> candidate Human + AI;
-- turn dial right -> candidate AI Only;
-- center question card rotates subtly toward the candidate;
-- candidate letter gets restrained black-border selection feedback;
-- press rotary knob -> commit `reflection.sendChoice` and advance to R_05;
-- no on-screen hardware/dial graphics inside Reflection;
-- no preselection from `voiceChoice`.
+- turn dial left -> Human + AI candidate;
+- turn dial right -> AI Only candidate;
+- pivot card rotates subtly toward the candidate;
+- candidate letter gets restrained black-border feedback;
+- press rotary knob -> commit `reflection.sendChoice` and advance to R_04;
+- no on-screen hardware/dial graphics;
+- no separate `voiceChoice` answer in the current flow.
+
+### R_05 physical exit
+
+R_05 first displays the selected future-writing approach, then instructs the visitor to:
+
+```text
+pick up the matching coin
+→ drop it into the bowl
+→ collect the printed postcard
+```
+
+Use `coin`, not `token`, and `bowl`, not `box`.
 
 ## Visual-shell rule
 
@@ -121,10 +122,8 @@ Never theme one into another.
 
 ## Codex working model
 
-Keep tasks small and stop at visual review gates.
-
 - Arcade 1: follow file `30`.
-- Arcade 2: follow file `24` plus latest overrides through `37`.
-- Reflection: follow file `41`, then latest calibration/interaction files `42`–`44`.
+- Arcade 2: follow file `24` plus current overrides through `37`.
+- Reflection: follow files `38`–`44`, then **file `46` as the latest authority**.
 
 When requirements conflict, later explicitly approved numbered overrides win over older generic specs.
