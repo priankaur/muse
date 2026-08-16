@@ -1,87 +1,52 @@
-# 44 — MUSE Reflection Experience — R_04 Dial-Driven Send Choice
+# 44 — MUSE Reflection Experience — Dial-Driven Letter Choice Interaction
 
-**Status:** Latest interaction and visual authority for the Reflection screen asking which letter the visitor would actually send.
+**Status:** Detailed dial/pivot interaction reference. **Current screen numbering and merged-question authority are in file `46`.** The interaction previously lived on R_04; it now applies to **R_03 / 05**.
 
-This screen is now `R_04` in the six-screen Reflection flow.
+## Current role
 
-Read together with:
+The old separate questions:
 
-- `39-reflection-visual-system.md`
-- `42-reflection-foundation-visual-calibration.md`
-- `40-reflection-screen-specifications.md`
+```text
+Which letter sounds more like you?
+```
 
-Where this file conflicts with older `R_03` send-choice behavior in file `40`, **this file wins**.
-
-## Intent
-
-Use the physical rotary dial as the primary selection mechanism while keeping the Reflection interface visually minimal and modern.
-
-The interaction is inspired by the provided reference where a central card visually leans toward the left or right option, but the Reflection screen must NOT inherit that reference's bright colors, hearts, decorative graphics, playful framing, or website chrome.
-
-Reflection remains a calm editorial/gallery experience.
-
-## Screen role
-
-Prompt:
+and:
 
 ```text
 Which letter would you actually send?
 ```
 
+are now merged into one binary letter choice.
+
+Current question:
+
+```text
+Which letter feels most like you — and is the one you'd actually send?
+```
+
 Supporting line:
 
 ```text
-Choose the one you would put your name behind.
+Choose the one that feels closest to your voice and that you'd put your name behind.
 ```
 
-This is an independent decision from `voiceChoice` on the previous screen.
+Progress:
 
-Do not carry the previous voice selection into this screen as a default.
+```text
+REFLECTION 03 / 05
+```
 
 ## Composition
 
-At `1440 × 1080`, use a three-object horizontal composition in the main field:
+At `1440 × 1080`:
 
 ```text
-[ HUMAN + AI LETTER ]    [ CENTRAL QUESTION CARD ]    [ AI ONLY LETTER ]
+[ HUMAN + AI LETTER ]    [ CENTRAL QUESTION PIVOT CARD ]    [ AI ONLY LETTER ]
 ```
 
-The two letters remain the primary choice objects.
+Both letters use identical dimensions, paper tint, typography, border treatment and prominence.
 
-The central question card is the interactive selector/needle metaphor.
-
-### Left letter
-
-Label:
-
-```text
-LETTER A
-HUMAN + AI
-```
-
-### Right letter
-
-Label:
-
-```text
-LETTER B
-AI ONLY
-```
-
-Both letter cards must use:
-
-- identical dimensions;
-- identical paper tint;
-- identical typography;
-- identical border treatment;
-- identical elevation;
-- equal horizontal distance from center.
-
-No color coding by source.
-
-## Recommended geometry
-
-Starting values at 1440×1080:
+Recommended starting geometry:
 
 ```text
 left letter:
@@ -103,352 +68,160 @@ right letter:
   height: 500–540
 ```
 
-Keep enough visual separation so the center card is clearly distinct but still spatially relates to both letters.
+Do not heavily overlap the pivot card over the letter text.
 
-Do not overlap the center card heavily over the letter text.
+## Visual treatment
 
-## Letter appearance
-
-Use the approved Reflection letter treatment:
+Letter paper:
 
 ```css
 background: var(--reflection-letter-paper); /* ~#F1EEE8 */
 border: 1px solid var(--reflection-line);
 border-radius: 0–2px;
-box-shadow: none or extremely restrained neutral shadow;
 ```
 
-The same paper tint is mandatory for both choices.
+Pivot card:
 
-Letter text should remain readable but may use controlled clipping if necessary for the canonical composition. Prefer enough card height to show the complete fixture.
-
-## Central question card
-
-Create a dedicated component, e.g.:
-
-```text
-ReflectionChoicePivotCard
-```
-
-It is visually simpler than the two letter documents.
-
-Recommended treatment:
-
-- background: `#FAF9F6` or a barely separated warm neutral such as `#F6F4EF`;
-- 1px near-black or neutral border;
+- warm-white / barely separated neutral surface;
+- 1px neutral or near-black border;
 - 0–2px radius;
 - no colored outline;
-- no decorative hearts;
-- no shadow spectacle;
-- centered text;
-- enough whitespace around the question.
+- no hearts/patterns;
+- no playful styling from the interaction reference;
+- centered question text.
 
-Card copy:
-
-```text
-Which letter would you actually send?
-```
-
-Optional small supporting line inside/below card:
+Optional quiet helper:
 
 ```text
 turn the dial to choose
 press to confirm
 ```
 
-If included, keep this instruction extremely quiet:
-
-- 12–14px;
-- muted grey;
-- no icon;
-- no button illustration.
-
-The instruction may also live just beneath the pivot card rather than inside it.
-
-## Dial interaction model
-
-Use the existing shared semantic rotary input abstraction.
-
-Do NOT render a physical dial graphic on the Reflection screen.
-
-The real/keyboard-emulated dial controls `sendChoiceCandidate`.
-
-State:
+## Candidate state
 
 ```ts
 type SendChoiceCandidate = 'human-ai' | 'ai-only' | null;
 ```
 
-Initial state:
+Initial:
 
 ```text
-sendChoiceCandidate = null
-pivotRotation = 0deg
-```
-
-### Turn left
-
-One or more left detents set:
-
-```text
-sendChoiceCandidate = 'human-ai'
-```
-
-Visual response:
-
-```text
-center card rotation: -5deg to -7deg
-center card x shift: -6px to -12px maximum
-```
-
-The motion should read as the question card leaning toward Letter A.
-
-### Turn right
-
-One or more right detents set:
-
-```text
-sendChoiceCandidate = 'ai-only'
-```
-
-Visual response:
-
-```text
-center card rotation: +5deg to +7deg
-center card x shift: +6px to +12px maximum
-```
-
-The motion should read as the question card leaning toward Letter B.
-
-### Neutral
-
-If the interaction abstraction supports returning to neutral before submission:
-
-```text
-sendChoiceCandidate = null
+candidate = null
 rotation = 0deg
 ```
 
-However, a dedicated neutral detent is not required. A left/right two-choice model is acceptable.
+Turn left:
 
-## Motion character
+```text
+candidate = 'human-ai'
+rotation = -5deg to -7deg
+translateX = -6px to -12px
+```
 
-The pivot motion must stay subtle and editorial.
+Turn right:
+
+```text
+candidate = 'ai-only'
+rotation = +5deg to +7deg
+translateX = +6px to +12px
+```
+
+Do not accumulate unlimited rotation.
+
+## Motion
 
 Recommended:
 
 ```text
-transition duration: 140–190ms
+140–190ms
 transform-origin: 50% 65%
-```
-
-Use a simple restrained ease such as:
-
-```css
 cubic-bezier(0.22, 1, 0.36, 1)
 ```
 
-Do not use:
+No spring, bounce, wobble, continuous spinning, perspective flip, large tilt, or Arcade 1 stepped motion.
 
-- spring bounce;
-- elastic overshoot;
-- continuous spinning;
-- large 15–30° tilts;
-- perspective flips;
-- arcade/pixel stepped motion;
-- wobbling idle animation.
+Respect `prefers-reduced-motion`.
 
-This is the one Reflection interaction allowed to have a clearly perceptible rotational gesture because the physical dial meaningfully maps to it.
+## Candidate feedback
 
-Respect `prefers-reduced-motion`:
-
-- selection must still work;
-- reduce rotation/translation or make state update nearly instant.
-
-## Selected-letter feedback
-
-The center-card lean alone is not sufficient for accessibility.
-
-Also give the candidate letter a restrained selected state.
-
-Preferred:
+Candidate letter:
 
 ```text
-selected letter border: 2px #111111
-unselected letter border: 1px neutral grey
+2px #111111 border
 ```
 
-Optional secondary cue:
-
-- slightly stronger source label weight; or
-- one small black circular/square selection marker in the label area.
-
-Do not:
-
-- change paper color;
-- scale the chosen letter dramatically;
-- dim the unchosen letter below readable contrast;
-- add green checks;
-- use red/blue accents;
-- label it `winner` or `recommended`.
-
-## Knob press / submission
-
-Dial rotation only previews the candidate.
-
-The choice is committed ONLY when the rotary knob is pressed.
-
-Semantic action:
+Other letter:
 
 ```text
-DIAL_CONFIRM
+1px neutral border
 ```
 
-Rules:
+Optional slight source-label weight increase.
+
+Do not alter paper tint, add winner states, color-code, or heavily dim the other letter.
+
+## Confirmation
+
+Dial movement previews only.
+
+Knob press / `DIAL_CONFIRM` commits the current candidate and advances to **R_04**.
 
 ```ts
 if (sendChoiceCandidate === null) {
-  // ignore confirm / do not advance
+  // remain on R_03
 }
 
 if (sendChoiceCandidate) {
   reflection.sendChoice = sendChoiceCandidate;
-  route -> R_05;
+  routeTo('R_04');
 }
 ```
 
-The press must both:
+Do not require a second Continue click.
 
-1. store the selected letter;
-2. submit/advance to the next reflection screen.
+On this screen, do not show an active `CONTINUE →` that bypasses dial confirmation.
 
-Do not require a second on-screen CONTINUE click after knob confirmation.
+BACK routes to `R_02`.
 
-## Navigation chrome on R_04
+## Fallback
 
-Keep the shared Reflection bottom navigation anchors for consistency.
+Clicking either letter may set its candidate but must not auto-submit.
 
-BACK remains available and routes to `R_03`.
+Enter/Space may dispatch `DIAL_CONFIRM`.
 
-For the primary forward action, the physical knob press is the intended interaction.
+Do not change visible design for fallback behavior.
 
-Recommended visible treatment:
+## State simplification
 
-- either hide/disable `CONTINUE →` on this specific screen while using dial confirmation;
-- or keep a muted helper `PRESS KNOB TO CONFIRM` near the center selector instead.
+The old separate durable `reflection.voiceChoice` answer is superseded.
 
-Do NOT present a simultaneously active `CONTINUE →` that bypasses the dial interaction unless required for accessibility/testing fallback.
+Current committed letter answer is only:
 
-If keyboard accessibility is needed, map Enter/Space to the same `DIAL_CONFIRM` semantic action and expose an accessible button target without changing the visible design.
-
-## Mouse/touch fallback
-
-For development/accessibility, the letter cards may be clickable.
-
-Clicking Letter A should set:
-
-```text
-sendChoiceCandidate = 'human-ai'
+```ts
+reflection.sendChoice: 'human-ai' | 'ai-only' | null;
 ```
 
-Clicking Letter B should set:
-
-```text
-sendChoiceCandidate = 'ai-only'
-```
-
-But clicking a letter should NOT immediately advance.
-
-The user still confirms with the same semantic confirm action.
-
-## State separation
-
-Keep:
-
-```text
-reflection.voiceChoice
-```
-
-and:
-
-```text
-reflection.sendChoice
-```
-
-separate.
-
-Add transient state if useful:
-
-```text
-reflection.sendChoiceCandidate
-```
-
-or keep candidate state local to R_04 until confirmation.
-
-Do not preselect from `voiceChoice`.
-
-## Progress
-
-This screen is now:
-
-```text
-REFLECTION 04 / 06
-```
-
-The current six-screen order is:
-
-```text
-R_01 read both letters
-R_02 analysis + feeling tags
-R_03 which sounds like you
-R_04 which would you send
-R_05 future authorship/agency choice
-R_06 token + postcard exit
-```
+The previous `Parts of both` / `Neither` standalone voice options are not part of current R_03.
 
 ## Tests
 
-Add tests for:
+Verify:
 
-- initial candidate is null;
-- left dial detent selects Human + AI candidate;
-- right dial detent selects AI Only candidate;
-- pivot card rotates left/right accordingly;
-- candidate border feedback follows the selected side;
-- dial confirm with null does not advance;
-- dial confirm with Human + AI stores `reflection.sendChoice = 'human-ai'` and routes to R_05;
-- dial confirm with AI Only stores `reflection.sendChoice = 'ai-only'` and routes to R_05;
-- mouse fallback sets candidate but does not auto-submit;
-- `voiceChoice` does not preselect `sendChoiceCandidate`;
-- reduced-motion mode preserves selection semantics;
-- R_01–R_03 visual regressions remain unchanged.
+- initial candidate null;
+- left/right dial selection;
+- pivot rotation direction;
+- candidate border feedback;
+- null confirm does not advance;
+- Human + AI confirm stores `sendChoice = 'human-ai'` and routes to R_04;
+- AI Only confirm stores `sendChoice = 'ai-only'` and routes to R_04;
+- mouse fallback selects but does not auto-submit;
+- reduced-motion preserves semantics;
+- no separate `voiceChoice` answer is required.
 
-## Visual acceptance
+## Latest authority
 
-At 1440×1080 the screen should read as:
+For complete five-screen routing/state/final exit behavior read:
 
 ```text
-quiet Reflection shell
-
-[full letter]     [small question card]     [full letter]
-                        ↙ / ↘
-                   dial chooses side
-
-BACK
+docs/implementation/46-reflection-five-screen-merged-letter-choice.md
 ```
-
-The interaction should feel physical and memorable without making Reflection look like a game.
-
-## Stop gate
-
-Implement `R_04` only after `R_01–R_03` are stable.
-
-Capture:
-
-1. neutral/no-candidate state;
-2. Human + AI candidate state;
-3. AI Only candidate state.
-
-Also verify knob confirmation routing.
-
-STOP for visual review before implementing/finalizing R_05.
