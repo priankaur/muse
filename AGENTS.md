@@ -4,7 +4,7 @@ This repository implements the MUSE physical two-console experience plus a separ
 
 Treat all explicitly approved visual design as **frozen** unless the user requests a change.
 
-MUSE now has **three intentionally distinct visual systems**:
+MUSE has **three intentionally distinct visual systems**:
 
 1. **Arcade Console 1 — Human + AI**
    - retro pixel-love-letter arcade / early-desktop UI
@@ -13,28 +13,18 @@ MUSE now has **three intentionally distinct visual systems**:
 3. **Reflection Experience**
    - independent quiet editorial/gallery UI in warm white, black and grey, with only letter documents on a subtle paper tint
 
-Visual convergence between these three systems is a bug.
+Visual convergence between these systems is a bug.
 
-## Read this first
+## Read first
 
 Before changing production code:
 
 1. read `docs/implementation/README.md`;
 2. read `docs/implementation/00-source-of-truth.md`;
-3. read the latest numbered plan for the experience being changed;
+3. read the latest numbered plan for the active experience;
 4. inspect current implementation before creating replacement components.
 
-## Shared rendering model
-
-All three experiences may reuse the same exhibition-stage infrastructure:
-
-- internal design canvas: `1440 × 1080`;
-- aspect ratio: `4:3`;
-- scale the complete stage proportionally;
-- no independent responsive reflow of major regions;
-- deterministic geometry for screenshot regression.
-
-Shared stage/state infrastructure does **not** imply shared visual chrome.
+All three experiences may share the `1440 × 1080` stage scaler, session state, semantic input abstraction and tests. They must not share visual shells.
 
 ---
 
@@ -49,89 +39,35 @@ Read:
 - `docs/implementation/29-arcade1-human-letter-analysis.md`
 - `docs/implementation/30-arcade1-enhancement-build-playbook.md`
 
-Non-negotiable visual rules:
+Use only the approved pixel-love-letter arcade visual language.
 
-- deep navy grid world;
-- love-letter pixel sprites;
-- top-left `MUSE SYSTEM v1.0 / LOVE LETTERS, REWIRED.`;
-- sharp-cornered MuseWindow;
-- blank purple title bar;
-- yellow menu square left;
-- white X square right;
-- pale textured lavender interior;
-- pixel typography;
-- magenta CTAs;
-- red 3D button — gold dial — red 3D button hardware strip;
-- no old labelled footer.
-
-Current approved enhancements:
-
-- CTA/button/dial feedback motion;
-- short stepped page transitions;
-- semantic interaction sounds;
-- `A1_06A` human-letter analysis with sentiment, emotions recognized, recognized-text character count and qualified visual meaning.
-
-Do not import Console 2 or Reflection components into Console 1.
+Do not import Console 2 or Reflection styling.
 
 ---
 
 # Console 2 — AI Only
 
-Read the current bundle in order:
+Read the current bundle through the latest numbered overrides:
 
-- `docs/implementation/18-ai-only-source-of-truth.md`
-- `docs/implementation/19-ai-only-visual-system.md`
-- `docs/implementation/20-ai-only-component-architecture.md`
-- `docs/implementation/21-ai-only-data-state-interactions.md`
-- `docs/implementation/22-ai-only-screen-specifications.md`
-- `docs/implementation/23-ai-only-testing-acceptance.md`
-- `docs/implementation/24-ai-only-codex-build-playbook.md`
-- `docs/implementation/25-ai-only-a2-00-display-title-refinement.md`
-- `docs/implementation/26-ai-only-a2-00-visual-calibration.md`
-- `docs/implementation/27-ai-only-a2-01-copy-refinement.md`
-- `docs/implementation/31-ai-only-a2-01-visual-calibration.md`
-- `docs/implementation/32-ai-only-a2-01-contextual-placeholder.md`
-- `docs/implementation/33-ai-only-a2-01-contextual-hint-calibration.md`
-- `docs/implementation/34-ai-only-post-generation-analysis-flow.md`
-- `docs/implementation/35-ai-only-a2-02-visual-calibration.md`
-- `docs/implementation/36-ai-only-a2-03-post-generation-result-plan.md`
-- `docs/implementation/37-ai-only-generation-style-guardrails.md`
-- `docs/reference/ai-only-console2-canonical.jpg`
-- `docs/reference/ai-only-console2-system-refinement-v2.jpg`
+- `18-ai-only-source-of-truth.md`
+- `19-ai-only-visual-system.md`
+- `20-ai-only-component-architecture.md`
+- `21-ai-only-data-state-interactions.md`
+- `22-ai-only-screen-specifications.md`
+- `23-ai-only-testing-acceptance.md`
+- `24-ai-only-codex-build-playbook.md`
+- `25-ai-only-a2-00-display-title-refinement.md`
+- `26-ai-only-a2-00-visual-calibration.md`
+- `27-ai-only-a2-01-copy-refinement.md`
+- `31-ai-only-a2-01-visual-calibration.md`
+- `32-ai-only-a2-01-contextual-placeholder.md`
+- `33-ai-only-a2-01-contextual-hint-calibration.md`
+- `34-ai-only-post-generation-analysis-flow.md`
+- `35-ai-only-a2-02-visual-calibration.md`
+- `36-ai-only-a2-03-post-generation-result-plan.md`
+- `37-ai-only-generation-style-guardrails.md`
 
-Current visual language:
-
-- warm off-white main field;
-- light-grey lower control deck;
-- near-black primary text;
-- muted grey secondary/system text;
-- restrained signal red;
-- heavy condensed `MUSE` identity/display role;
-- neutral grotesk content typography;
-- mono/semi-mono system labels;
-- precise rules/separators;
-- outlined BACK/NEXT physical controls;
-- outlined intensity dial with restrained red pointer.
-
-Do not use Console 1 pixel chrome on any `A2_*` route.
-
-Current flow:
-
-```text
-A2_00 welcome/context
--> A2_01 contextual short prompt
--> A2_02 five AI-proposed tone controls only
--> generate
--> A2_03 generated letter + post-generation analysis
-```
-
-Important current rules:
-
-- no sentiment/emotion/romance analysis on A2_02;
-- analysis appears only after generation on A2_03;
-- each generated variant owns matching analysis;
-- AI-only writing remains high-vocabulary, polished and comparatively emotionally restrained even when all tone settings are maximized;
-- tone sliders operate inside that fixed AI-only expressive envelope.
+Console 2 remains high-vocabulary, polished and comparatively emotionally restrained even when tone controls are maximized.
 
 Do not import Reflection UI into Console 2.
 
@@ -139,7 +75,7 @@ Do not import Reflection UI into Console 2.
 
 # Reflection Experience — third visual system
 
-Reflection begins only after **both** console experiences are complete and both final letters exist.
+Reflection begins only after both completed letters exist.
 
 Read in order:
 
@@ -147,23 +83,33 @@ Read in order:
 - `docs/implementation/39-reflection-visual-system.md`
 - `docs/implementation/40-reflection-screen-specifications.md`
 - `docs/implementation/41-reflection-codex-build-playbook.md`
+- `docs/implementation/42-reflection-foundation-visual-calibration.md`
+- `docs/implementation/43-reflection-r01-visual-calibration.md`
+- `docs/implementation/44-reflection-r04-send-choice-dial-interaction.md`
 
-`docs/implementation/10-reflection-choice-exit-screens.md` is now a superseded pointer only.
+`10-reflection-choice-exit-screens.md` is superseded.
 
-Current flow:
+## Current six-screen flow
 
 ```text
 both letters complete
--> R_01 side-by-side normalized analysis + experience tags
--> R_02 which letter sounds like you
--> R_03 which letter would you send
--> R_04 future authorship/agency choice
--> R_05 physical token + postcard exit
+-> R_01 read both letters side by side
+-> R_02 normalized analysis + experience-feeling tags
+-> R_03 which letter sounds like you
+-> R_04 which letter would you send? (dial-driven)
+-> R_05 future authorship/agency choice
+-> R_06 token + postcard exit
+```
+
+All progress indicators use:
+
+```text
+REFLECTION NN / 06
 ```
 
 ## Reflection visual rules
 
-Reflection must use its own `ReflectionShell`.
+Use only `ReflectionShell`.
 
 Use:
 
@@ -174,63 +120,50 @@ Use:
 - neutral contemporary grotesk typography;
 - generous whitespace;
 - equal-weight comparison columns;
-- subtle neutral paper tint for letter documents only;
-- the SAME letter-paper tint for both letters to avoid bias;
-- simple text Back/Continue actions;
-- sequence progress only if useful.
+- same subtle neutral paper tint for both letters;
+- simple Reflection navigation.
 
-Do NOT render:
+Do not render:
 
 - `MuseWindow`;
-- Arcade 1 navy grid/pixel sprites/pixel typography/magenta CTA/hardware strip;
+- Arcade 1 grid/pixel sprites/pixel typography/magenta CTAs/hardware graphics;
 - `AiOnlyShell`;
-- Console 2 persistent identity;
-- Console 2 grey hardware deck;
-- Console 2 arcade buttons or intensity dial;
-- Console 2 red-square system motif as a persistent visual language;
-- winner/better/recommended badges;
-- moralized green/red answer states;
-- game-like scoring.
+- Console 2 identity or hardware deck;
+- Console 2 red-square system motif as persistent Reflection language;
+- winner/recommended/score states.
 
-Reflection must not look like Arcade 1 with colors removed or Arcade 2 with the control deck removed.
+## R_04 dial-driven send choice
 
-It is a separate editorial chapter of the exhibition.
+`44-reflection-r04-send-choice-dial-interaction.md` is the latest authority.
 
-## Reflection comparison neutrality
+R_04 uses a three-object composition:
 
-Both letters must receive identical visual prominence.
+```text
+[ HUMAN + AI LETTER ]  [ CENTRAL QUESTION PIVOT CARD ]  [ AI ONLY LETTER ]
+```
 
-For R_01, use one normalized shared comparison schema rather than placing incompatible Console 1 and Console 2 analysis components side by side.
+The physical rotary dial controls a transient `sendChoiceCandidate`:
 
-Current shared comparison dimensions:
+- left detent -> Human + AI;
+- right detent -> AI Only.
 
-- emotional warmth;
-- personal specificity;
-- vocabulary complexity;
-- affectionate language.
+The central question card rotates subtly toward the candidate side while the corresponding letter receives restrained border feedback.
 
-For R_02 and R_03:
+Pressing the rotary knob commits `reflection.sendChoice` and advances to R_05.
 
-- keep Letter A / Letter B ordering stable;
-- keep card size/background/border identical;
-- store `voiceChoice` and `sendChoice` separately;
-- do not default one based on analysis or prior selection.
+Important:
 
-For R_04 use exactly three equal future-approach choices:
-
-- `I write first. AI helps refine.`
-- `AI drafts first. I choose what stays.`
-- `I write without AI.`
-
-Do not visually privilege one choice.
+- do not render an on-screen hardware deck or dial graphic;
+- the physical dial is a semantic input only;
+- do not preselect from `reflection.voiceChoice`;
+- do not change letter paper colors;
+- mouse/keyboard fallback may use the same semantic actions without changing visible design.
 
 ---
 
-# Architecture rule
+# Architecture
 
-Share only genuinely shared infrastructure.
-
-Recommended separation:
+Share only genuine infrastructure:
 
 ```text
 shared:
@@ -240,40 +173,26 @@ shared:
   semantic input abstraction
   tests
 
-visual systems:
+visual shells:
   ArcadeOneShell
   AiOnlyShell
   ReflectionShell
 ```
 
-Never implement Reflection as a prop/theme of either console shell.
-Never implement Console 2 as a theme of `MuseWindow`.
+Never implement Reflection as a theme/prop of either console shell.
 
-## Copy rule
+## Copy
 
-Copy is editable. Approved visual geometry/component styling is not.
-
-Keep copy and fixtures in content/config/state layers rather than hard-coding them into visual components.
+Copy remains configurable in content/state layers. Approved geometry and component styling remain frozen unless explicitly changed.
 
 ## Visual acceptance
 
-For every approved screen:
+For every screen:
 
-1. render at exactly `1440 × 1080`;
+1. render exactly `1440 × 1080`;
 2. capture stage only;
-3. compare against current approved reference/calibration;
-4. correct through shared tokens/components rather than compensating decoration;
-5. confirm unrelated experiences did not change.
+3. compare against the latest approved calibration;
+4. correct shared tokens/components instead of adding compensating decoration;
+5. confirm unrelated experiences did not regress.
 
-## Change discipline
-
-For every task:
-
-1. name the implementation-plan file governing the work;
-2. identify which of the three visual systems is active;
-3. audit existing components;
-4. make the smallest reversible change;
-5. run typecheck/tests/relevant screenshots;
-6. report changed files and unresolved mismatches.
-
-If something is ambiguous, stop and report it instead of designing through it.
+If a requirement is ambiguous, stop and report it instead of inventing a design decision.
