@@ -1,35 +1,83 @@
 # MUSE — Codex Project Instructions
 
-This repository implements the MUSE physical two-console experience. Treat all approved visual design as **frozen** unless the user explicitly requests a change.
+This repository implements the MUSE physical two-console experience plus a separate post-console reflection experience.
 
-MUSE has **two intentionally different visual systems**. Do not average them together and do not create one shared visual skin.
+Treat all explicitly approved visual design as **frozen** unless the user requests a change.
 
-- **Arcade Console 1 — Human + AI:** retro pixel-love-letter arcade / early-desktop visual language.
-- **Arcade Console 2 — AI Only:** minimal editorial/technical system UI using black, grey, warm off-white and restrained signal red, with its own monochrome physical-control deck.
+MUSE now has **three intentionally distinct visual systems**:
 
-The conceptual contrast is part of the exhibit. Visual convergence is a bug.
+1. **Arcade Console 1 — Human + AI**
+   - retro pixel-love-letter arcade / early-desktop UI
+2. **Arcade Console 2 — AI Only**
+   - minimal editorial/technical UI using black, grey, warm off-white and restrained signal red
+3. **Reflection Experience**
+   - independent quiet editorial/gallery UI in warm white, black and grey, with only letter documents on a subtle paper tint
+
+Visual convergence between these three systems is a bug.
 
 ## Read this first
 
-Before editing production code, read:
+Before changing production code:
 
-1. `docs/implementation/README.md`
-2. `docs/implementation/00-source-of-truth.md`
-3. the implementation plan for the console being changed.
+1. read `docs/implementation/README.md`;
+2. read `docs/implementation/00-source-of-truth.md`;
+3. read the latest numbered plan for the experience being changed;
+4. inspect current implementation before creating replacement components.
 
-For Console 1 also read:
+## Shared rendering model
+
+All three experiences may reuse the same exhibition-stage infrastructure:
+
+- internal design canvas: `1440 × 1080`;
+- aspect ratio: `4:3`;
+- scale the complete stage proportionally;
+- no independent responsive reflow of major regions;
+- deterministic geometry for screenshot regression.
+
+Shared stage/state infrastructure does **not** imply shared visual chrome.
+
+---
+
+# Console 1 — Human + AI
+
+Read:
 
 - `docs/reference/muse-ui-style-system-v2.md`
 - `docs/implementation/03-design-system-implementation.md`
 - `docs/implementation/08-arcade-1-human-ai-screens.md`
-
-For current Console 1 enhancement work, ALSO read:
-
 - `docs/implementation/28-arcade1-motion-audio-interactions.md`
 - `docs/implementation/29-arcade1-human-letter-analysis.md`
 - `docs/implementation/30-arcade1-enhancement-build-playbook.md`
 
-For Console 2 also read, in order:
+Non-negotiable visual rules:
+
+- deep navy grid world;
+- love-letter pixel sprites;
+- top-left `MUSE SYSTEM v1.0 / LOVE LETTERS, REWIRED.`;
+- sharp-cornered MuseWindow;
+- blank purple title bar;
+- yellow menu square left;
+- white X square right;
+- pale textured lavender interior;
+- pixel typography;
+- magenta CTAs;
+- red 3D button — gold dial — red 3D button hardware strip;
+- no old labelled footer.
+
+Current approved enhancements:
+
+- CTA/button/dial feedback motion;
+- short stepped page transitions;
+- semantic interaction sounds;
+- `A1_06A` human-letter analysis with sentiment, emotions recognized, recognized-text character count and qualified visual meaning.
+
+Do not import Console 2 or Reflection components into Console 1.
+
+---
+
+# Console 2 — AI Only
+
+Read the current bundle in order:
 
 - `docs/implementation/18-ai-only-source-of-truth.md`
 - `docs/implementation/19-ai-only-visual-system.md`
@@ -44,346 +92,188 @@ For Console 2 also read, in order:
 - `docs/implementation/31-ai-only-a2-01-visual-calibration.md`
 - `docs/implementation/32-ai-only-a2-01-contextual-placeholder.md`
 - `docs/implementation/33-ai-only-a2-01-contextual-hint-calibration.md`
-- **`docs/implementation/34-ai-only-post-generation-analysis-flow.md`**
+- `docs/implementation/34-ai-only-post-generation-analysis-flow.md`
+- `docs/implementation/35-ai-only-a2-02-visual-calibration.md`
+- `docs/implementation/36-ai-only-a2-03-post-generation-result-plan.md`
+- `docs/implementation/37-ai-only-generation-style-guardrails.md`
 - `docs/reference/ai-only-console2-canonical.jpg`
 - `docs/reference/ai-only-console2-system-refinement-v2.jpg`
 
-**Important:** file `34` is the latest product-flow authority for `A2_02` and `A2_03`. It supersedes conflicting analysis timing in files `18`, `21`, `22`, `23`, and `24`. Do not render sentiment/emotion/romance analysis before the AI-only letter has been generated.
+Current visual language:
 
-The legacy flow at `docs/reference/muse-experience-flow-legacy.md` is reference material only.
+- warm off-white main field;
+- light-grey lower control deck;
+- near-black primary text;
+- muted grey secondary/system text;
+- restrained signal red;
+- heavy condensed `MUSE` identity/display role;
+- neutral grotesk content typography;
+- mono/semi-mono system labels;
+- precise rules/separators;
+- outlined BACK/NEXT physical controls;
+- outlined intensity dial with restrained red pointer.
 
-## Global rendering model
+Do not use Console 1 pixel chrome on any `A2_*` route.
 
-Both consoles use the same exhibition-stage geometry:
-
-- internal design canvas: `1440 × 1080`
-- aspect ratio: `4:3`
-- scale the complete stage proportionally to viewport
-- do not independently reflow/reorder major regions at responsive breakpoints
-- preserve deterministic geometry for visual regression
-
-Shared stage geometry does **not** imply shared visual chrome.
-
-# Console 1 — Human + AI: non-negotiable visual rules
-
-Console 1 uses the approved pixel arcade system only.
-
-- deep navy grid world
-- love-letter pixel sprites
-- top-left `MUSE SYSTEM v1.0 / LOVE LETTERS, REWIRED.` lockup
-- top-right Console 1 label when specified
-- large sharp-cornered desktop window
-- blank purple title bar
-- yellow menu square left, white X square right
-- pale textured lavender interior
-- stepped pixel depth
-- pixel-display + pixel-mono typography
-- magenta primary CTAs
-- separate bottom hardware strip: red 3D button — gold 3D dial — red 3D button
-- never restore old labelled footer (`BUTTON`, `KNOB`, `HOLD BOTH`, `SYSTEM MENU`, etc.)
-
-Do not import Console 2 editorial/technical components into Console 1 unless explicitly instructed.
-
-## Console 1 motion + sound — current approved scope
-
-The earlier blanket deferral of animation/sound is superseded for Arcade 1 by file `28`.
-
-Current approved interaction feedback includes:
-
-- CTA press/depth collapse;
-- red arcade-button press;
-- discrete gold-dial detent rotation/tick;
-- short stepped content/page transitions;
-- semantic click/confirm/dial/page sounds;
-- restrained processing/result reveal after core feedback review;
-- gentle stepped sprite bobbing only after core interaction feedback is stable.
-
-Rules:
-
-- use CSS/keyframes + small semantic state helpers, not Framer Motion;
-- preserve the exact resting geometry of approved components;
-- do not move the entire MuseWindow around during every transition;
-- do not use modern spring/bounce easing;
-- do not add background music;
-- respect `prefers-reduced-motion`;
-- audio must unlock from user gesture and fire from semantic events, never component re-renders;
-- page transitions must not double-commit routes on repeated presses.
-
-## Console 1 human-letter analysis — current approved scope
-
-After accepting the captured human letter, Arcade 1 now includes:
+Current flow:
 
 ```text
-A1_06 -> A1_06A -> A1_07
-```
-
-`A1_06A` is a read-only machine readback **before AI enhancement**.
-
-It must show exactly four primary outputs:
-
-1. sentiment analysis;
-2. emotions recognized;
-3. character count of recognized/extracted human-letter text;
-4. visual meaning / qualified interpretation of visible non-text cues.
-
-Important distinctions:
-
-- `A1_06A` character count is the human letter extraction count;
-- `A1_07` keeps its separate 120-character note counter;
-- analysis is fixture-driven in the current build;
-- production OCR/vision/model calls remain deferred;
-- visual meaning must use uncertainty-aware language and must not be presented as psychological fact;
-- do not copy Console 2 analysis-card styling into Arcade 1;
-- do not renumber A1_07–A1_11 merely to insert this new responsibility.
-
-The visitor sees the machine readback, then can add/correct context in `A1_07`, then tune the enhancement in `A1_08`.
-
-# Console 2 — AI Only: non-negotiable visual rules
-
-Console 2 must contain **none of the Console 1 pixel chrome**:
-
-- no navy grid
-- no purple desktop window
-- no pixel love-letter sprites
-- no magenta extrusion
-- no Console 1 glossy red/gold/red hardware strip
-- no pixel typography
-- no arcade CTA buttons
-- no decorative love-letter environment
-
-Console 2 current visual language:
-
-- warm off-white main field
-- light neutral-grey lower control deck
-- near-black primary text
-- muted grey secondary/system text
-- restrained signal red as micro-accent
-- heavy condensed neo-grotesk character for the `MUSE` identity/display role
-- neutral Swiss/neo-grotesk content typography
-- mono/semi-mono system/control labels
-- precise black/grey rules and separators
-- generous whitespace
-- minimal physical controls rendered in a clean industrial/technical style
-
-**Blue/periwinkle is superseded as the dominant Console 2 accent.** Do not restore it as the default action/slider/icon color.
-
-## Console 2 identity and display-title distinction
-
-Persistent top-left identity:
-
-```text
-MUSE
-AI ONLY
-ARCADE CONSOLE 2
-```
-
-Rules:
-
-- no tiny screen number
-- `MUSE` line is heavier/condensed and assertive
-- no icon/heart/badge
-- do not add a second `MUSE` wordmark in the bottom-center control deck
-
-On `A2_00`, also render a separate giant `MUSE` display title in the main field. File `26` is the current visual calibration.
-
-Latest A2_00 calibration:
-
-- strongly left-weighted editorial composition;
-- exactly two primary red square markers: status + begin instruction;
-- one restrained 1px hairline beneath the large MUSE title;
-- no radial/dotted context-transfer graphic;
-- verify the giant MUSE resolves to the approved condensed display face;
-- keep large whitespace field intentionally empty.
-
-## Console 2 A2_01 exhibition-continuation copy
-
-Current default copy from file `27`:
-
-```text
-you've shaped a love letter with AI.
-now see what AI creates on its own.
-```
-
-Supporting line:
-
-```text
-give it one short direction. it will generate the rest.
-```
-
-The prompt hint must follow files `32` and `33`: use one or two short exact sentences from the visitor/session's Arcade 1 letter context when available, while keeping prompt state empty until the visitor types.
-
-Do not restore the old generic AI-focus question unless explicitly requested.
-
-## Console 2 analysis timing — latest approved flow
-
-File `34` supersedes the older pre-generation analysis model.
-
-The current Console 2 flow is:
-
-```text
-A2_00 welcome / inherited context
--> A2_01 short contextual prompt
--> A2_02 AI-proposed tone controls ONLY
--> generate AI-only letter
+A2_00 welcome/context
+-> A2_01 contextual short prompt
+-> A2_02 five AI-proposed tone controls only
+-> generate
 -> A2_03 generated letter + post-generation analysis
--> shared comparison/reflection
 ```
 
-### A2_02
+Important current rules:
 
-Do **not** render:
+- no sentiment/emotion/romance analysis on A2_02;
+- analysis appears only after generation on A2_03;
+- each generated variant owns matching analysis;
+- AI-only writing remains high-vocabulary, polished and comparatively emotionally restrained even when all tone settings are maximized;
+- tone sliders operate inside that fixed AI-only expressive envelope.
 
-- sentiment analysis;
-- emotion detection;
-- romance detection;
-- analysis cards or analysis heading.
+Do not import Reflection UI into Console 2.
 
-A2_02 shows exactly five editable AI-proposed tone controls:
+---
 
-- warmth
-- intimacy
-- emotional depth
-- playfulness
-- nostalgia
+# Reflection Experience — third visual system
 
-The AI may interpret inherited context + prompt internally to propose these five values, but that machine interpretation is not exposed as analysis before generation.
+Reflection begins only after **both** console experiences are complete and both final letters exist.
 
-Preferred current A2_02 copy:
+Read in order:
+
+- `docs/implementation/38-reflection-source-of-truth.md`
+- `docs/implementation/39-reflection-visual-system.md`
+- `docs/implementation/40-reflection-screen-specifications.md`
+- `docs/implementation/41-reflection-codex-build-playbook.md`
+
+`docs/implementation/10-reflection-choice-exit-screens.md` is now a superseded pointer only.
+
+Current flow:
 
 ```text
-here’s how AI will shape it.
-adjust the tone before it writes.
+both letters complete
+-> R_01 side-by-side normalized analysis + experience tags
+-> R_02 which letter sounds like you
+-> R_03 which letter would you send
+-> R_04 future authorship/agency choice
+-> R_05 physical token + postcard exit
 ```
 
-### A2_03
+## Reflection visual rules
 
-A2_03 is the first place Console 2 displays machine analysis.
-
-The generated letter must remain the visual hero, with secondary post-generation analysis for the **active generated letter variant**:
-
-1. sentiment;
-2. emotion;
-3. romance / romantic intent;
-4. tone profile.
-
-Regenerate must update the letter and all matching analysis together while preserving prompt and current tone-control values.
-
-Do not show stale pre-generation analysis as if it described every generated variant.
-
-## Console 2 red marker language
-
-Use tiny filled red squares as sparse signal anchors.
-
-Current signal token starts at approximately `#EC5B29`.
-
-Do not turn red into a large fill or semantic-color sentiment/emotion/romance.
-
-## Console 2 lower control deck
-
-Console 2 has its own persistent on-screen physical-control representation:
-
-- persistent light-grey region at bottom;
-- strong thin near-black horizontal separator;
-- left: outlined `BACK` button;
-- next: outlined `NEXT` button;
-- right: outlined rotary/intensity dial with restrained red indicator;
-- no bottom-center MUSE label.
-
-It is not Console 1's hardware strip.
-
-`REGENERATE` remains a restrained software/system text action because there is no fourth approved hardware control.
-
-## Console 2 experience rules
-
-Console 2 inherits context and must not repeat registration, recipient name or relationship selection.
-
-After result, continue to shared comparison/reflection.
-
-The visible intensity dial may control only the currently active tone control. It must not create a sixth hidden value.
-
-AI voice remains competent and neutral/computational.
-
-## Current integration scope
-
-Current build may include:
-
-- Arcade 1 scoped motion and interaction audio from file `28`;
-- Arcade 1 fixture-driven human-letter analysis UI/data seam from file `29`;
-- complete static/prototype Console 2 visuals/interactions.
-
-Still deferred unless later activated:
-
-- production AI/model calls;
-- production OCR/vision;
-- live camera integration;
-- printer integration;
-- real serial/MIDI/Arduino hardware input;
-- backend persistence;
-- final production sound mix/assets;
-- Console 2 animation/sound.
-
-## Technology constraints
+Reflection must use its own `ReflectionShell`.
 
 Use:
 
-- React
-- Vite
-- TypeScript
-- plain CSS / CSS Modules / small token layer
-- Playwright for flow and screenshot regression
+- warm-white background;
+- black/near-black typography;
+- muted grey secondary text;
+- thin neutral rules;
+- neutral contemporary grotesk typography;
+- generous whitespace;
+- equal-weight comparison columns;
+- subtle neutral paper tint for letter documents only;
+- the SAME letter-paper tint for both letters to avoid bias;
+- simple text Back/Continue actions;
+- sequence progress only if useful.
 
-Do not introduce without explicit approval:
+Do NOT render:
 
-- Next.js
-- Tailwind
-- Material UI
-- Bootstrap
-- Chakra
-- shadcn
-- Framer Motion
-- Redux
-- generic design-system libraries
+- `MuseWindow`;
+- Arcade 1 navy grid/pixel sprites/pixel typography/magenta CTA/hardware strip;
+- `AiOnlyShell`;
+- Console 2 persistent identity;
+- Console 2 grey hardware deck;
+- Console 2 arcade buttons or intensity dial;
+- Console 2 red-square system motif as a persistent visual language;
+- winner/better/recommended badges;
+- moralized green/red answer states;
+- game-like scoring.
 
-## Architecture rule
+Reflection must not look like Arcade 1 with colors removed or Arcade 2 with the control deck removed.
 
-Share logic where genuinely shared; **do not share visual shells across consoles**.
+It is a separate editorial chapter of the exhibition.
 
-Recommended split:
+## Reflection comparison neutrality
 
-- shared: stage scaler, session state, route/state machine, semantic input abstraction, testing utilities;
-- Console 1: `ArcadeOneShell`, pixel components, Arcade 1 feedback/audio layer, human-letter analysis screen/service seam;
-- Console 2: `AiOnlyShell`, refined editorial components and `AiControlDeck`;
-- reflection: shared reflection shell/components as documented by its own plan.
+Both letters must receive identical visual prominence.
 
-Never make Console 2 a theme prop on `MuseWindow`.
+For R_01, use one normalized shared comparison schema rather than placing incompatible Console 1 and Console 2 analysis components side by side.
+
+Current shared comparison dimensions:
+
+- emotional warmth;
+- personal specificity;
+- vocabulary complexity;
+- affectionate language.
+
+For R_02 and R_03:
+
+- keep Letter A / Letter B ordering stable;
+- keep card size/background/border identical;
+- store `voiceChoice` and `sendChoice` separately;
+- do not default one based on analysis or prior selection.
+
+For R_04 use exactly three equal future-approach choices:
+
+- `I write first. AI helps refine.`
+- `AI drafts first. I choose what stays.`
+- `I write without AI.`
+
+Do not visually privilege one choice.
+
+---
+
+# Architecture rule
+
+Share only genuinely shared infrastructure.
+
+Recommended separation:
+
+```text
+shared:
+  stage scaler
+  session state
+  route/state machine
+  semantic input abstraction
+  tests
+
+visual systems:
+  ArcadeOneShell
+  AiOnlyShell
+  ReflectionShell
+```
+
+Never implement Reflection as a prop/theme of either console shell.
+Never implement Console 2 as a theme of `MuseWindow`.
 
 ## Copy rule
 
-Copy is editable. Visual geometry/component styling is not.
+Copy is editable. Approved visual geometry/component styling is not.
 
-Keep screen copy and fixtures in config/content files. Components consume data via props.
+Keep copy and fixtures in content/config/state layers rather than hard-coding them into visual components.
 
 ## Visual acceptance
 
-When a visual reference exists:
+For every approved screen:
 
 1. render at exactly `1440 × 1080`;
 2. capture stage only;
-3. compare against approved references;
-4. correct via shared tokens/components rather than compensating decoration;
-5. confirm the other console did not change.
-
-For Arcade 1 motion work, also verify the post-animation settled frame is visually identical to the approved static geometry.
+3. compare against current approved reference/calibration;
+4. correct through shared tokens/components rather than compensating decoration;
+5. confirm unrelated experiences did not change.
 
 ## Change discipline
 
 For every task:
 
-1. state which implementation-plan file governs the work;
-2. identify which console visual system is active;
-3. inspect existing console-specific shared components before creating new ones;
+1. name the implementation-plan file governing the work;
+2. identify which of the three visual systems is active;
+3. audit existing components;
 4. make the smallest reversible change;
-5. run typecheck/tests/relevant visual snapshots;
-6. report changed files and unresolved reference mismatches.
+5. run typecheck/tests/relevant screenshots;
+6. report changed files and unresolved mismatches.
 
 If something is ambiguous, stop and report it instead of designing through it.
