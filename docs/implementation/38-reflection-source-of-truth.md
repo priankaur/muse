@@ -1,46 +1,38 @@
 # 38 — MUSE Reflection Experience — Source of Truth
 
-**Status:** Current product-flow authority for all `R_*` reflection screens. Read together with the latest numbered Reflection overrides, especially files `42`–`45`.
+**Status:** Current product-flow authority for all `R_*` Reflection screens. Read together with later numbered Reflection files. **File `46-reflection-five-screen-merged-letter-choice.md` is the latest flow override and wins wherever older Reflection files conflict.**
 
-The reflection experience begins **only after both console experiences are complete and both final letters exist**.
+Reflection begins only after both console experiences are complete and both final letters exist.
 
-It is not part of Arcade Console 1 and it is not part of Arcade Console 2.
-
-It is a third, intentionally separate experience layer that compares the two completed artifacts and asks the visitor to reflect on authorship, agency and personal voice.
-
-Where this file conflicts with the older `10-reflection-choice-exit-screens.md`, this file wins. Where a later Reflection calibration/override conflicts with this file, the later numbered file wins.
+It is a third experience layer, visually separate from Arcade Console 1 and Arcade Console 2.
 
 ## Non-negotiable separation
 
-Reflection must NOT inherit the visual shell of either console.
+Reflection must use its own `ReflectionShell`.
 
 Do not use Console 1:
 
 - navy pixel grid;
 - MuseWindow;
-- purple title bar;
-- pixel sprites;
+- purple/lavender desktop chrome;
+- pixel sprites/type;
 - magenta CTA;
-- pixel typography;
-- red/gold/red hardware strip.
+- visible arcade hardware strip.
 
 Do not use Console 2:
 
-- persistent `MUSE / AI ONLY / ARCADE CONSOLE 2` identity;
-- red-square system language as a dominant motif;
-- grey hardware deck;
-- outlined on-screen BACK/NEXT arcade controls;
-- on-screen intensity dial;
-- technical system-status typography;
-- Console 2 shell geometry.
+- `MUSE / AI ONLY / ARCADE CONSOLE 2` identity;
+- signal-red system motif as persistent Reflection language;
+- grey control deck;
+- visible arcade BACK/NEXT controls;
+- visible intensity dial;
+- machine-status chrome.
 
-Reflection gets its own `ReflectionShell` and component system.
-
-Physical inputs may be mapped to Reflection semantic actions without rendering either console's hardware graphics.
+Physical controls may map to Reflection semantic actions without rendering their hardware graphics on screen.
 
 ## Entry guard
 
-Reflection can begin only when all of the following are available:
+Reflection may begin only when:
 
 ```ts
 arcade1.completed === true
@@ -49,38 +41,30 @@ arcade2.completed === true
 arcade2.activeGeneratedLetter exists
 ```
 
-Do not enter reflection immediately after Console 1.
-Do not enter reflection before the AI-only result exists.
-
-## Canonical six-screen flow
+## Canonical five-screen flow
 
 ```text
 Console 1 complete
 → Console 2 complete
 → R_01 Read both letters side by side
 → R_02 Compare normalized analysis + experience tags
-→ R_03 Which letter sounds like you?
-→ R_04 Which letter would you actually send? — dial-driven choice
-→ R_05 What writing approach would you choose next time?
-→ R_06 Physical token + postcard handoff
+→ R_03 Choose the letter that feels most like you and that you would actually send — dial-driven
+→ R_04 Choose future authorship / agency approach
+→ R_05 Confirm that choice + matching coin + bowl + postcard exit
 → session complete
 ```
 
-All progress labels must use:
+All progress labels use:
 
 ```text
-REFLECTION NN / 06
+REFLECTION NN / 05
 ```
 
-Do not restore the older five-screen or eight-question reflection sequence unless explicitly requested later.
+Do not use `/06` in current Reflection implementation.
 
 ---
 
-# R_01 — Read both letters first
-
-## Purpose
-
-Give the visitor a quiet reading moment before analysis, judgment or choice.
+# R_01 — Read both letters
 
 Heading:
 
@@ -94,56 +78,43 @@ Supporting line:
 Take a moment with each one before comparing how they feel.
 ```
 
-Display both complete final letters with equal visual weight:
+Show both complete final letters with equal visual weight:
 
 ```text
 LETTER A — HUMAN + AI
 LETTER B — AI ONLY
 ```
 
-Both letter cards must use identical dimensions, paper tint, border, typography and prominence.
+No analysis, tags, selection, or source bias.
 
-No analysis.
-No tags.
-No selection.
-
-R_01 CONTINUE routes to R_02.
+`CONTINUE → R_02`.
 
 ---
 
-# R_02 — Compare the two letters + reflect on the experience
+# R_02 — Analysis + experience tags
 
-## Purpose
+Show one normalized comparison of both final letters using exactly:
 
-Show a normalized side-by-side analysis of both completed letters, then ask the visitor how the overall experience felt.
+1. emotional warmth
+2. personal specificity
+3. vocabulary complexity
+4. affectionate language
 
-The analysis is descriptive, not a scorecard and not a winner declaration.
+Do not place raw Console 1 and Console 2 analysis components beside each other.
 
-## Comparison requirement
-
-Both letters must be compared using the same shared dimensions:
-
-1. emotional warmth;
-2. personal specificity;
-3. vocabulary complexity;
-4. affectionate language.
-
-Do not place raw Console 1 analysis components beside raw Console 2 analysis components.
-
-Use one normalized Reflection comparison model.
-
-Preferred deterministic prototype fixture may resolve to:
+Heading:
 
 ```text
-EMOTIONAL WARMTH        high        moderate
-PERSONAL SPECIFICITY    high        medium
-VOCABULARY COMPLEXITY   medium      high
-AFFECTIONATE LANGUAGE   high        restrained
+Two letters. Two ways of getting there.
 ```
 
-Do not label either column `better`, `winner`, or `recommended`.
+Supporting line:
 
-## Experience question
+```text
+Before choosing between them, look at what each one carries.
+```
+
+Question:
 
 ```text
 How did the two experiences feel?
@@ -155,218 +126,121 @@ Helper:
 choose up to 3
 ```
 
-Current tag set:
+Allow `1–3` tags from the approved fixture.
 
-- personal
-- easy
-- surprising
-- thoughtful
-- too polished
-- distant
-- expressive
-- awkward
-- familiar
-- made me think
-
-Allow 1–3 selections.
-
-Selected state may invert black/white; do not color-code emotional meaning.
-
-Store in:
+Store:
 
 ```ts
 reflection.experienceTags
 ```
 
+`CONTINUE → R_03`.
+
 ---
 
-# R_03 — Which letter sounds like you?
+# R_03 — Merged voice + send choice
 
-## Purpose
+The former standalone `Which letter sounds more like you?` and `Which letter would you actually send?` screens are superseded and merged.
 
-Voice identity, not send preference.
-
-Prompt:
+Preferred merged question:
 
 ```text
-Which letter sounds more like you?
+Which letter feels most like you — and is the one you'd actually send?
 ```
 
 Supporting line:
 
 ```text
-Not which one is better — which one feels closer to your voice.
+Choose the one that feels closest to your voice and that you'd put your name behind.
 ```
 
-Show both complete letters side by side with equal visual treatment.
-
-Current options:
-
-- Human + AI
-- AI Only
-- Parts of both
-- Neither
-
-Store independently:
-
-```ts
-reflection.voiceChoice =
-  | 'human-ai'
-  | 'ai-only'
-  | 'parts-of-both'
-  | 'neither'
-  | null;
-```
-
-No default selection.
-
----
-
-# R_04 — Which letter would you actually send?
-
-Detailed current interaction authority: `44-reflection-r04-send-choice-dial-interaction.md`.
-
-## Purpose
-
-Ask for the practical send choice using the physical rotary dial as the primary selector.
-
-Prompt:
+Use the approved three-object dial-driven composition:
 
 ```text
-Which letter would you actually send?
+[ HUMAN + AI LETTER ]  [ CENTRAL QUESTION PIVOT CARD ]  [ AI ONLY LETTER ]
 ```
 
-Supporting line:
+The choice is binary:
 
 ```text
-Choose the one you would put your name behind.
+human-ai
+ai-only
 ```
 
-Use a three-object composition:
+The old `Parts of both` and `Neither` options are no longer part of the current merged question.
 
-```text
-[ HUMAN + AI LETTER ]    [ CENTRAL QUESTION PIVOT CARD ]    [ AI ONLY LETTER ]
-```
+Dial left/right previews a candidate. Knob press confirms and advances.
 
-Both letters remain equal in size, tint and prominence.
-
-Dial left previews Human + AI.
-Dial right previews AI Only.
-The central question card leans subtly toward the candidate.
-The candidate letter receives a restrained stronger border.
-
-Knob press confirms and advances.
-
-Store:
+Store one committed letter choice:
 
 ```ts
 reflection.sendChoice = 'human-ai' | 'ai-only' | null;
 ```
 
-Do not infer or preselect this from `voiceChoice`.
+A separate durable `reflection.voiceChoice` is no longer required.
 
-The interaction reference changes the interaction metaphor only; do not copy its colorful/playful styling into Reflection.
+`DIAL_CONFIRM → R_04` when a candidate exists.
 
 ---
 
-# R_05 — Future authorship / agency stance
+# R_04 — Future authorship / agency approach
 
-## Purpose
-
-After the visitor has decided which letter they would send, ask how they would prefer to approach meaningful writing in the future.
-
-Do not use loaded language such as `give up control` in visible copy.
-
-Preferred question:
+Question:
 
 ```text
 Next time you want to say something that matters,
 how would you rather write it?
 ```
 
-Preferred three choices:
-
-### Choice A
+Use exactly three visually equal choices:
 
 ```text
 I write first. AI helps refine.
-```
-
-```text
-Start with my own words, then use AI to improve or clarify them.
-```
-
-State:
-
-```text
-human-led-ai-refine
-```
-
-### Choice B
-
-```text
 AI drafts first. I choose what stays.
-```
-
-```text
-Begin with an AI-written draft, then edit or keep what feels right.
-```
-
-State:
-
-```text
-ai-led-draft
-```
-
-### Choice C
-
-```text
 I write without AI.
 ```
 
-```text
-Keep meaningful writing entirely in my own words.
+States:
+
+```ts
+'human-led-ai-refine'
+'ai-led-draft'
+'human-only'
 ```
-
-State:
-
-```text
-human-only
-```
-
-All three must use identical card size, typography and selection treatment.
 
 Store:
 
 ```ts
-reflection.futureApproach =
-  | 'human-led-ai-refine'
-  | 'ai-led-draft'
-  | 'human-only'
-  | null;
+reflection.futureApproach
 ```
+
+No default and no privileged styling.
+
+`CONTINUE → R_05`.
 
 ---
 
-# R_06 — Physical handoff / exit ritual
+# R_05 — Confirm choice + physical exit
 
-## Purpose
+The final screen must first tell the visitor which future-writing approach they selected, then translate that same choice into the physical installation ritual.
 
-Move from digital reflection to the physical installation exit.
-
-Preferred headline:
+Recommended heading pattern:
 
 ```text
-One last choice — make it physical.
+You chose:
+[SELECTED APPROACH LABEL]
 ```
 
-Instructions:
+Then instruct:
 
 ```text
-01  Pick up the token that matches your choice.
-02  Drop it into the corresponding box.
+01  Pick up the coin that matches your choice.
+02  Drop that coin into the bowl.
 03  Collect your printed postcard on the way out.
 ```
+
+Use `coin`, not `token`.
+Use `bowl`, not `box`.
 
 Physical mapping:
 
@@ -376,31 +250,21 @@ ai-led-draft       -> AI DRAFTS FIRST
 human-only         -> HUMAN ONLY
 ```
 
-The printed postcard should use `reflection.sendChoice` to determine which selected letter is prepared for takeaway.
+The printed postcard is based on the letter committed in `reflection.sendChoice` on R_03.
 
-Current prototype may invoke only a printer-service stub.
+Use printer stub only in the current build.
 
-No confetti.
-No winner state.
-No gamified score.
-No further survey question.
+No confetti, score, winner language, moralized feedback, or additional survey question.
 
 ---
 
-# Shared reflection state
+# Current Reflection state
 
-Recommended:
+Preferred current contract:
 
 ```ts
 type ReflectionState = {
   experienceTags: string[];
-
-  voiceChoice:
-    | 'human-ai'
-    | 'ai-only'
-    | 'parts-of-both'
-    | 'neither'
-    | null;
 
   sendChoice:
     | 'human-ai'
@@ -417,29 +281,20 @@ type ReflectionState = {
 };
 ```
 
-R_04 may keep a transient/local `sendChoiceCandidate` before confirmation.
+R_03 may use a transient `sendChoiceCandidate` before confirmation.
 
-Keep `voiceChoice`, `sendChoice`, and `futureApproach` distinct.
+The old separate `voiceChoice` product answer is superseded by the merged R_03 question.
 
-## Neutrality rule
+## Neutrality
 
-Reflection should reveal the visitor's own position, not tell them which position is correct.
+Reflection reveals the visitor's own position. Never use winner/recommended labels, moralized red/green states, or unequal treatment of the two letters or three future approaches.
 
-Never use:
+## Latest implementation authority
 
-- winner badges;
-- recommended labels;
-- moralized red/green states;
-- celebratory treatment for one choice only;
-- negative language for AI-led drafting;
-- shame language for no-AI choice.
-
-## Current consolidated directive
-
-For the fastest up-to-date implementation summary, read:
+Read:
 
 ```text
-docs/implementation/45-reflection-consolidated-current-directive.md
+docs/implementation/46-reflection-five-screen-merged-letter-choice.md
 ```
 
-That file captures the latest reviewed R_02 state, the inserted R_01 reading screen, the R_03 voice-choice specification, the R_04 dial interaction, and the current six-screen implementation order.
+for the latest migration, route, state, dial-interaction, final-coin/bowl, and testing details.
