@@ -75,6 +75,7 @@ Read in order:
 6. `docs/implementation/43-reflection-r01-visual-calibration.md` — applies to the analysis/tag composition now indexed as R_02
 7. `docs/implementation/44-reflection-r04-send-choice-dial-interaction.md` — legacy filename; detailed dial interaction now applies to R_03
 8. `docs/implementation/46-reflection-five-screen-merged-letter-choice.md` — **latest current flow/state authority**
+9. `docs/implementation/47-reflection-functional-integration.md` — **latest authority for wiring the static Reflection screens into a functional journey**
 
 `45-reflection-consolidated-current-directive.md` is superseded six-screen context only.
 
@@ -96,6 +97,26 @@ REFLECTION NN / 05
 ```
 
 No `/06` labels remain in current Reflection code.
+
+## Reflection functionalization rule
+
+When converting approved static screens into working screens, follow file `47`.
+
+Functional wiring must:
+
+- preserve approved Reflection geometry/styles;
+- use the central route/state/action model rather than screen-local navigation hacks;
+- enter Reflection from `A2_03` only when both final letters exist;
+- preserve Reflection answers across Back/forward navigation;
+- route pointer, keyboard and physical hardware through the same semantic actions;
+- keep `R_03` dial preview separate from knob-confirmed `reflection.sendChoice`;
+- keep `reflection.sendChoice` separate from `reflection.futureApproach`;
+- use `reflection.sendChoice` for postcard content;
+- use `reflection.futureApproach` for the matching physical coin;
+- keep the printer as an idempotent service stub in the current build;
+- test the full five-screen journey end-to-end.
+
+Do not accept functional wiring that visually changes the approved screens.
 
 ## Reflection visual rules
 
